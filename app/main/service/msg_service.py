@@ -10,3 +10,11 @@ def private_msg(user):
         'data': []
     }
     return response_object
+
+
+def room_msg(user):
+    response_object = {
+        'status': 'success',
+        'data': []
+    }
+    return response_object

@@ -8,8 +8,8 @@ from ..util.decorator import token_required
 api = AuthDto.api
 user_auth = AuthDto.user_auth
 
-parser = api.parser()
-parser.add_argument('Authorization', type=str,
+auth_parser = api.parser()
+auth_parser.add_argument('Authorization', type=str,
                     location='headers',
                     help='Bearer Access Token',
                     required=True)
@@ -34,7 +34,7 @@ class LogoutAPI(Resource):
     User Logout Resource
     """
     @token_required
-    @api.doc('user logout',parser=parser)
+    @api.doc('user logout',parser=auth_parser)
     def post(self):
         """logout user with token"""
         # get auth token
