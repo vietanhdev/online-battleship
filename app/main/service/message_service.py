@@ -6,6 +6,8 @@ from app.main.model.message import Message
 from .user_service import get_a_user
 from .game_service import get_a_room
 
+from sqlalchemy import or_, and_
+
 
 def is_private(public_id):
     # check if user
@@ -18,17 +20,12 @@ def is_private(public_id):
     if room:
         return False
 
-    # if bot not, return None
+    # if both not, return None
     return None
 
 
-def get_private_messages(self_public_id, partner_public_id):
-    messages = Message.query.filter( (Message.sender_public_id==self_id, Message.receiver_public_id==partner_id) | (Message.sender_public_id==partner_id, Message.receiver_public_id==self_id) ).order_by(Message.created_at.desc()).all()
-    return messages
-
-
-def get_room_messages(room_public_id):
-    messages = Message.query.filter(Message.receiver_public_id==room_public_id).order_by(Message.created_at.desc()).all()
+def get_messages(self_public_id, partner_public_id):
+    messages = Message.query.filter( or_( and_(Message.sender_public_id==self_public_id, Message.receiver_public_id==partner_public_id) | and_(Message.sender_public_id==partner_public_id, Message.receiver_public_id==self_public_id) ) ).order_by(Message.created_at.desc()).all()
     return messages
 
 

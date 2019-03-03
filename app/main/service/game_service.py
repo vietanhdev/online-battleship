@@ -106,9 +106,30 @@ def save_new_player(room, user):
     save_changes()
 
 
+def check_player_or_viewer(room, user):
+    a =  RoomUser.query.filter_by(room_id=room.id, user_id=user.id).first()
+    if a is not None:
+        return True
+    return False
+
+
 def save_changes(data=None):
     if data != None:
         db.session.add(data)
         db.session.commit()
     else:
         db.session.commit()
+
+
+# class battle_ship_game:
+#     def __init__(player1_id, player2_id):
+#         self.player1_id = player1_id
+#         self.player2_id = player2_id
+    
+#     def  
+
+
+def get_history(history, dict_id, user_id):
+    # if dict_id['game_id'] == 1:
+    #     battle_ship(user_id = user_id, )
+    return None

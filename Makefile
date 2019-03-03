@@ -8,21 +8,21 @@ system-packages:
 	sudo apt install python-pip -y
 
 python-packages:
-	pip install -r requirements.txt
+	pip3 install -r requirements.txt
 
 install: system-packages python-packages
 
 init_db:
-	python manage.py db init
+	python3 manage.py db init
 
 update_db:
-	python manage.py db migrate --message 'update database migration'
-	python manage.py db upgrade
+	python3 manage.py db migrate --message 'update database migration'
+	python3 manage.py db upgrade
 
 tests:
-	python manage.py test
+	python3 manage.py test
 
 run:
-	python manage.py run
+	python3 manage.py run
 
 all: clean install tests run

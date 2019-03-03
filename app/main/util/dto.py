@@ -48,7 +48,6 @@ class GameDto:
         'num_players': fields.Integer(required=True, description='number of player for one game')
     })
 
-
 # class ApiDto:
 #     def __init__(self, status, message=None, data=None):
 #         if status == True:

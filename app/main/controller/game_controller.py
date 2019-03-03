@@ -4,7 +4,7 @@ from flask_restplus import Resource
 from ..util.dto import GameDto
 from ..util.decorator import admin_token_required, token_required
 
-from ..service.game_service import get_all_rooms, save_new_room, get_all_games, save_new_game, get_a_room, save_new_player
+from ..service.game_service import get_all_rooms, save_new_room, get_all_games, save_new_game, get_a_room, save_new_player, get_history
 
 from flask_socketio import send, emit
 from .. import socketio
@@ -18,10 +18,12 @@ create_game_req = GameDto.create_game_req
 ol_parser = api.parser()
 ol_parser.add_argument('offset', type=int,
                     location='args',
-                    help='offset')
+                    help='offset',
+                    required=True)
 ol_parser.add_argument('limit', type=int,
                     location='args',
-                    help='limit')
+                    help='limit',
+                    required=True)
 
 auth_parser = api.parser()
 auth_parser.add_argument('Authorization', type=str,
@@ -36,8 +38,8 @@ class RoomList(Resource):
     def get(self):
         """List all rooms"""
         # Get offset and limit argument, set to 0 if not invalid
-        offset = request.args.get('offset') or 0
-        limit = request.args.get('limit') or 0
+        offset = request.args.get('offset') or '0'
+        limit = request.args.get('limit') or '0'
         return get_all_rooms(offset=offset, limit=limit)
     
     @token_required
@@ -64,11 +66,18 @@ class RoomWithId(Resource):
         else:
             if room.check_num_player():
                 save_new_player(room, user)
+            
             data = room.get_room_information()
+
+            dict_id = room.get_dict_id()
+            
+            data['history'] = get_history(history = room.history, dict_id = dict_id, user_id = user.id)
+                
             response_object = {
                 'status': 'success',
                 'data': data
             }
+
             return response_object
 
 

@@ -4,8 +4,7 @@ from flask_restplus import Resource
 from ..util.dto import MessageDto
 from ..util.decorator import token_required
 
-from ..service.message_service import is_private, get_private_messages, get_room_messages
-
+from ..service.message_service import get_messages
 from .. import socketio
 
 from flask_socketio import join_room
@@ -27,17 +26,10 @@ class MessageList(Resource):
     def get(self, public_id):
         """List all personal messages"""
         user = g.user
-        private = is_private(public_id)
 
-        if private is None:
-            abort(404)
-
-        data = {'send_messages': [], 'receive_messages': []}
+        data = []
         
-        if private is True:
-            messages = get_private_messages(user.public_id, public_id)
-        else:
-            messages = get_room_messages(public_id)
+        messages = get_messages(user.public_id, public_id)
         
         if messages:
             for message in messages:

@@ -54,37 +54,37 @@ def registerSessionId(request_object):
         disconnect()
 
 
-@socketio.on('request_join_room', namespace='/rooms')
-def joinRoom(request_object):
-    # check authentication session id
-    user_id = get_user_id_by_sid(request.sid)
-    user = get_a_user_by_id(user_id)
-    if not user:
-        response_object = {
-            'status': False,
-            'message': 'Fail authenticate'
-        }
-        emit('response_join_room', response_object, broadcast=False, namespace='/rooms')
-    else:
-        # check if room exist
-        room_public_id = request_object.get('room_public_id')
-        private = is_private(room_public_id)
-        if private is not False:
-            response_object = {
-                'status': False,
-                'message': 'Room not found'
-            }
-            emit('response_join_room', response_object, broadcast=False, namespace='/rooms')
-        else:
-            # join session id in room name is room public id
-            join_room(room=room_public_id, namespace='/rooms')
-            join_room(room=room_public_id, namespace='/messages')
-            # Notify user is authenticate successfully
-            response_object = {
-                'status': True,
-                'message': 'Join room successfully'
-            }
-            emit('response_join_room', response_object, broadcast=False, namespace='/rooms')
+# @socketio.on('request_join_room', namespace='/rooms')
+# def joinRoom(request_object):
+#     # check authentication session id
+#     user_id = get_user_id_by_sid(request.sid)
+#     user = get_a_user_by_id(user_id)
+#     if not user:
+#         response_object = {
+#             'status': False,
+#             'message': 'Fail authenticate'
+#         }
+#         emit('response_join_room', response_object, broadcast=False, namespace='/rooms')
+#     else:
+#         # check if room exist
+#         room_public_id = request_object.get('room_public_id')
+#         private = is_private(room_public_id)
+#         if private is not False:
+#             response_object = {
+#                 'status': False,
+#                 'message': 'Room not found'
+#             }
+#             emit('response_join_room', response_object, broadcast=False, namespace='/rooms')
+#         else:
+#             # join session id in room name is room public id
+#             join_room(room=room_public_id, namespace='/rooms')
+#             join_room(room=room_public_id, namespace='/messages')
+#             # Notify user is authenticate successfully
+#             response_object = {
+#                 'status': True,
+#                 'message': 'Join room successfully'
+#             }
+#             emit('response_join_room', response_object, broadcast=False, namespace='/rooms')
 
 
 @socketio.on('request_message', namespace='/messages')
