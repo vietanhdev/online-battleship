@@ -88,9 +88,16 @@ def get_a_user(public_id):
     return user
 
 
-def save_changes(data):
-    db.session.add(data)
-    db.session.commit()
+def get_a_user_by_id(id):
+    user = User.query.filter_by(id=id).first()
+    return user
+
+def save_changes(data=None):
+    if data != None:
+        db.session.add(data)
+        db.session.commit()
+    else:
+        db.session.commit()
 
 
 def generate_token(user):

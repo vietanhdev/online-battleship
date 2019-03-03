@@ -5,6 +5,7 @@ Ensure that you've already install these following packages:
 * pip3
 * virtualenv
 * MySql
+* Redis
 
 # Install requirement.txt
 

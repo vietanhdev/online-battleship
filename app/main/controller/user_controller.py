@@ -43,19 +43,19 @@ class UserWithId(Resource):
         if not user:
             api.abort(404)
         else:
-            return user.get_user_information()
+            data = user.get_user_information()
+            response_object = {
+                'status': 'success',
+                'data': data
+            }
+            return response_object
 
     @admin_token_required
     @api.doc('update a user', parser=auth_parser, body=update_user_req, validate=True)
     def post(self, public_id):
         """Admin update a user given its identifier"""
-        user = get_a_user(public_id)
-        if not user:
-            api.abort(404)
-        else:
-            # update user's information
-            data = request.json
-            return save_updated_user(public_id=public_id, data=data)
+        data = request.json
+        return save_updated_user(public_id=public_id, data=data)
 
 
 @api.route('/my_account')
@@ -64,23 +64,24 @@ class MyAccount(Resource):
     @api.doc('get your own information', parser=auth_parser)
     def get(self):
         """User get his/her own information"""
-        user = g.user
-        if not user:
-            api.abort(404)
-        else:
-            return user.get_user_information()
+        data = user.get_user_information()
+        response_object = {
+            'status': 'success',
+            'data': data
+        }
+        return response_object
 
     @token_required
     @api.doc('update your own information', parser=auth_parser, body=update_user_req, validate=True)
     def post(self):
         """User update his/her own information"""
-        user = g.user
-        if not user:
-            api.abort(404)
-        else:
-            # update user's information
-            data = request.json
-            return save_updated_user(user=user, data=data)
+        # user = g.user
+        # if not user:
+        #     api.abort(404)
+        # else:
+        # update user's information
+        data = request.json
+        return save_updated_user(user=user, data=data)
 
 
 @api.route('/admin')

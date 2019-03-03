@@ -32,12 +32,30 @@ class AuthDto:
     })
 
 
-class MsgDto:
-    api = Namespace('msg', description='messages related operation')
+class MessageDto:
+    api = Namespace('message', description='messages related operation')
 
 
 class GameDto:
     api = Namespace('game', description='game related operantion')
     create_room_req = api.model('room', {
-        'game_id': fields.Integer(required=True, description='game indentifier')
+        'game_id': fields.String(required=True, description='game indentifier')
     })
+    create_game_req = api.model('game', {
+        'name': fields.String(requrired=True, description='name of game'),
+        'link_game': fields.String(required=True, description='link of game'),
+        'link_image': fields.String(required=True, description='game image link'),
+        'num_players': fields.Integer(required=True, description='number of player for one game')
+    })
+
+
+# class ApiDto:
+#     def __init__(self, status, message=None, data=None):
+#         if status == True:
+#             self.status = 'success'
+#         else:
+#             self.status = 'fail'
+#         if message != None:
+#             self.message = message
+#         if data != None:
+#             self.data = data
