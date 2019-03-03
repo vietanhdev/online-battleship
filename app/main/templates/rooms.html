@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+    
+    <div>
+        <input type='text' id='token' placeholder='Enter token'>
+        <input type='text' id='room_public_id' placeholder="Enter room public id">
+        <button id='send_room_auth'>Send Room Authentication</button>
+    </div>
+
+    <div>
+        <input type='text' id='message' placeholder='Enter room message'>
+        <button id='send_room_message'>Send Room Message</button>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            var address = 'http://127.0.0.1:5000'
+
+            var socket = io.connect(address);
+
+            socket.on('connect', function(){
+                console.log('connected to server on root path')
+            });
+
+            socket.on('disconnect', function(){
+                console.log('disconnected to server on root path')
+            });
+
+            var rooms = io.connect(address + '/rooms');
+
+            $('#send_room_auth').on('click', function(){
+                token = $('#token').val();
+                room_public_id = $('#room_public_id').val();
+                request_object = {
+                    'authorization': token,
+                    'room_public_id': room_public_id
+                };
+                rooms.emit('request_room_auth', request_object);
+                console.log('request_room_auth: ' + JSON.stringify(requestobject));
+            });
+
+            socket.on('response_room_auth', function(response_object){
+                console.log('response_room_auth: ' + JSON.stringify(response_object));
+            });
+
+            $('#send_room_message').on('click', function(){
+                message = $('#message').val();
+                request_object = {
+                    
+                }
+            });
+            
+        });
+    </script>
+</body>
+</html>
