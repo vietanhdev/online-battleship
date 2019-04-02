@@ -52,6 +52,8 @@ $ make run
 # API DOCUMENT
 [Battleship API](https://hackmd.io/s/B1ch__boV)
 
+See ```OnlineGames.postman_collection.json``` for ```Postman``` API examples.
+
 # Reference
 
 Sample project get from [this article](https://medium.freecodecamp.org/structuring-a-flask-restplus-web-service-for-production-builds-c2ec676de563), [github link](https://github.com/cosmic-byte/flask-restplus-boilerplate)
