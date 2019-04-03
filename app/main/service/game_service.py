@@ -7,6 +7,8 @@ from app.main.model.room import Room
 from app.main.model.game import Game
 from app.main.model.room_user import RoomUser
 
+from . import battleship_service
+
 
 def get_all_rooms(offset, limit):
     if offset.isdigit() and limit.isdigit():
@@ -36,17 +38,16 @@ def save_new_room(user, data):
         new_room = Room(
             public_id=str(uuid.uuid4()),
             game_id=game.id,
-            created_at=datetime.datetime.utcnow()
+            created_at=datetime.datetime.utcnow(),
+            history="{}"
         )
         response_object = {
             'status': 'success',
             'message': 'Create room successfully',
             'room_public_id': new_room.public_id,
         }
-        a = RoomUser()
-        a.user = user
-        new_room.users.append(a)
-        save_changes(new_room)
+        
+        save_new_player(new_room, user)
         
         return response_object, 201
     
@@ -113,23 +114,15 @@ def check_player_or_viewer(room, user):
     return False
 
 
+def send_command(user, room, command):
+    if room.game_id == 1:
+        response_command, receive_event = battleship_service.enter_command(user, room, command)
+    return response_command, receive_event
+
+
 def save_changes(data=None):
     if data != None:
         db.session.add(data)
         db.session.commit()
     else:
         db.session.commit()
-
-
-# class battle_ship_game:
-#     def __init__(player1_id, player2_id):
-#         self.player1_id = player1_id
-#         self.player2_id = player2_id
-    
-#     def  
-
-
-def get_history(history, dict_id, user_id):
-    # if dict_id['game_id'] == 1:
-    #     battle_ship(user_id = user_id, )
-    return None
