@@ -92,6 +92,7 @@ def get_a_user_by_id(id):
     user = User.query.filter_by(id=id).first()
     return user
 
+
 def save_changes(data=None):
     if data != None:
         db.session.add(data)

@@ -2,7 +2,7 @@ import os
 
 # uncomment the line below for postgres database url from environment variable
 # postgres_local_base = os.environ['DATABASE_URL']
-mysql_db = 'mysql+pymysql://online_games:Flask#123@localhost/online_games_db?host=localhost?port=8181'
+mysql_db = 'mysql+pymysql://online_games:Flask#123@localhost:8181/online_games_db'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
