@@ -7,7 +7,7 @@ services:
     image: mariadb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: Flask#123
       MYSQL_USER: online_games
       MYSQL_PASSWORD: Flask#123
       MYSQL_DATABASE: online_games_db
