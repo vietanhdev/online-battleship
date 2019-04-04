@@ -1,40 +1,33 @@
-# Prerequites
+# iCT Gaming Zone
 
-Ensure that you've already install these following packages:
-* python 3
-* pip3
-* virtualenv
-* MySql
-* Redis
+## 1. Prerequites
 
-# Install requirement.txt
+- python3
+- pip3
+- docker
+- docker-compose
+
+## 2. Install requirement.txt
 
 First, remember to activate your virtual environment. Then, we will start install all the dependencies inside requirement.txt:
 
 ```
-$ virtualenv -p python3 venv
+$ python3 -m venv venv
 $ source /venv/bin/activate
-$ pip3 install -r requirement.txt
+$ pip install -r requirement.txt
 ```
 
-# Database Setup
+## 3. Database Setup (Using docker-compose)
 
-We'll create the MySQL database. and then log in as the root user:
 
-```
-$ mysql -u root
+- Run development mysql(mariadb) and Redis:
 
-mysql> CREATE USER 'online_games'@'localhost' IDENTIFIED BY 'Flask#123';
-Query OK, 0 rows affected (0.00 sec)
+~~~
+cd mysql_redis_dev
+sudo docker-compose up
+~~~
 
-mysql> CREATE DATABASE online_games_db;
-Query OK, 1 row affected (0.00 sec)
-
-mysql> GRANT ALL PRIVILEGES ON online_games_db . * TO 'online_games'@'localhost';
-Query OK, 0 rows affected (0.00 sec)
-```
-
-# Run Project
+## 4. Run Server
 
 First, you need to initialize the database:
 
@@ -47,6 +40,15 @@ Then you just simply run this command:
 
 ```
 $ make run
+```
+
+
+## 5. Run UI
+
+```
+cd ui
+yarn
+yarn start
 ```
 
 # API DOCUMENT
