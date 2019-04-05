@@ -13,7 +13,9 @@ import NotFound from "./views/NotFound";
 import ComponentsOverview from "./views/ComponentsOverview";
 import Tables from "./views/Tables";
 import BlogPosts from "./views/BlogPosts";
-import Login from './components/login/Login'
+
+import Login from './components/login/Login';
+import Register from './components/login/Register';
 
 import {RouteType} from 'router'
 
@@ -60,6 +62,12 @@ export default [
     type: RouteType.AUTH_ROUTE,
     layout: BareLayout,
     component: Login
+  },
+  {
+    path: "/register",
+    type: RouteType.AUTH_ROUTE,
+    layout: BareLayout,
+    component: Register
   },
   {
     path: "/blog-posts",

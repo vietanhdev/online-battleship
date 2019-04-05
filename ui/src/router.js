@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import {AppContext} from './App'
+import { connect } from 'react-redux'
 
 
 export const RouteType  = {
@@ -9,25 +9,28 @@ export const RouteType  = {
     NORMAL_ROUTE: 3
 }
 
-export const ProtectedRoute = ({ component: Component, ...rest }) => (
-    <AppContext.Consumer>
-        {({ state: { isAuth } }) => (
-        <Route
-            render={(props) => (isAuth ? <Component {...props} /> : <Redirect to="/login" />)}
-            {...rest}
-        />
-        )}
-    </AppContext.Consumer>
+const mapStateToProps = (state) => ({
+  loggedIn: state.authentication.loggedIn
+})
+
+
+const ProtectedRoute = ({ component: Component, loggedIn, ...rest }) => (
+    <Route
+        render={(props) => (loggedIn ? <Component {...props} /> : <Redirect to="/login" />)}
+        {...rest}
+    />
 );
 
-export const AuthRoute = ({ component: Component, ...rest }) => (
-    <AppContext.Consumer>
-        {({ state: { isAuth } }) => (
-        <Route
-            render={(props) => (!isAuth ? <Component {...props} /> : <Redirect to="/" />)}
-            {...rest}
-        />
-        )}
-    </AppContext.Consumer>
+
+const AuthRoute = ({ component: Component, loggedIn, ...rest }) => (
+    <Route
+        render={(props) => (!loggedIn ? <Component {...props} /> : <Redirect to="/" />)}
+        {...rest}
+    />
 );
 
+
+const connectedProtectedRoute = connect(mapStateToProps)(ProtectedRoute);
+const connectedAuthRoute = connect(mapStateToProps)(AuthRoute);
+
+export { connectedProtectedRoute as ProtectedRoute,  connectedAuthRoute as AuthRoute}; 
