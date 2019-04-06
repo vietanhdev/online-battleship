@@ -9,7 +9,6 @@ import BareLayout  from "./layouts/BareLayout";
 import BlogOverview from "./views/BlogOverview";
 import UserProfile from "./views/UserProfile";
 import AddNewPost from "./views/AddNewPost";
-import NotFound from "./views/NotFound";
 import ComponentsOverview from "./views/ComponentsOverview";
 import Tables from "./views/Tables";
 import BlogPosts from "./views/BlogPosts";
