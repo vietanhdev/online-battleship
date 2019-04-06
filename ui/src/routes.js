@@ -6,12 +6,10 @@ import { DefaultLayout } from "./layouts";
 import BareLayout  from "./layouts/BareLayout";
 
 // Route Views
-import BlogOverview from "./views/BlogOverview";
+import Dashboard from "./views/Dashboard";
 import UserProfile from "./views/UserProfile";
-import AddNewPost from "./views/AddNewPost";
 import ComponentsOverview from "./views/ComponentsOverview";
 import Tables from "./views/Tables";
-import BlogPosts from "./views/BlogPosts";
 
 import Login from './components/login/Login';
 import Register from './components/login/Register';
@@ -27,22 +25,16 @@ export default [
     component: () => <Redirect to="/dashboard" />
   },
   {
+    path: "/dashboard",
+    type: RouteType.NORMAL_ROUTE,
+    layout: DefaultLayout,
+    component: Dashboard
+  },
+  {
     path: "/user-profile",
     type: RouteType.NORMAL_ROUTE,
     layout: DefaultLayout,
     component: UserProfile
-  },
-  {
-    path: "/dashboard",
-    type: RouteType.AUTH_ROUTE,
-    layout: DefaultLayout,
-    component: BlogOverview
-  },
-  {
-    path: "/add-new-post",
-    type: RouteType.NORMAL_ROUTE,
-    layout: DefaultLayout,
-    component: AddNewPost
   },
   {
     path: "/components-overview",
@@ -67,11 +59,5 @@ export default [
     type: RouteType.AUTH_ROUTE,
     layout: BareLayout,
     component: Register
-  },
-  {
-    path: "/blog-posts",
-    type: RouteType.NORMAL_ROUTE,
-    layout: DefaultLayout,
-    component: BlogPosts
   }
 ];
