@@ -1,5 +1,4 @@
 import React from 'react';
-import Alert from './Alert';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom'
 
@@ -40,14 +39,6 @@ class Register extends React.Component {
     });
   }
 
-  renderRegisterError() {
-    if (!this.state.error) return null;
-
-    let message = null;
-    message = this.state.error;
-    return <Alert type="danger"><strong>{message}</strong></Alert>;
-  }
-
   render() {
     const signInIconClass = (this.state.loggingIn) ?
       this.props.spinnerIconClass : this.props.buttonIconClass;
@@ -67,12 +58,16 @@ class Register extends React.Component {
           </h2>
         </div>
         <h2>Register</h2>
-        {this.renderRegisterError()}
         <form onSubmit={this.submit.bind(this)} noValidate>
           <div className="form-group">
             <label className="sr-only" htmlFor="email">Email</label>
             <input  style={{border: "1px solid"}} className="form-control" autoCapitalize={false}
               ref="email" placeholder="Email" autoFocus disabled={this.loggingIn}/>
+          </div>
+          <div className="form-group">
+            <label className="sr-only" htmlFor="username">Username</label>
+            <input  style={{border: "1px solid"}} className="form-control" autoCapitalize={false}
+              ref="username" placeholder="Username" autoFocus disabled={this.loggingIn}/>
           </div>
           <div className="form-group">
             <label className="sr-only" htmlFor="password">Password</label>

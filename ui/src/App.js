@@ -22,7 +22,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const { dispatch, dismissAlert } = this.props;
+    const { dismissAlert } = this.props;
     history.listen((location, action) => {
         // clear alert on location change
         dismissAlert();
