@@ -48,7 +48,10 @@
             $('#send_message').on('click', function(){
                 receiver_public_id = $('#receiver_public_id').val();
                 content = $('#content').val();
-                socket.emit('request_private_message', {'receiver_public_id': receiver_public_id, 'content': content});
+                request_object = {
+                    'receiver_public_id': receiver_public_id, 'content': content
+                }
+                socket.emit('request_private_message', request_object);
             });
 
             socket.on('response_private_message', function(response_object){
