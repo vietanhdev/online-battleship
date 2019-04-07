@@ -1,116 +1,89 @@
 import React from 'react';
-import Alert from './Alert';
-import PropTypes from 'prop-types';
-import { withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class Login extends React.Component {
-  
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggingIn: false
-    };
-  }
+    constructor(props) {
+        super(props);
 
-  submit(event) {
-    event.preventDefault();
+        // reset login status
+        // this.props.dispatch(userActions.logout());
 
-    const username = this.refs.username.value;
-    const password = this.refs.password.value;
+        this.state = {
+            username: '',
+            password: '',
+            submitted: false
+        };
 
-    if (username.length === 0 || password.length === 0) {
-      return this.setState({
-        error: 'Missing email or password.'
-      });
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    this.setState({
-      loggingIn: true,
-      error: null
-    });
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+    }
 
-    this.props.onLogin(username, password, (err) => {
-      if (err) {
-        return this.setState({
-          error: err,
-          loggingIn: false
-        });
-      }
+    handleSubmit(e) {
+        e.preventDefault();
 
-    });
-  }
+        this.setState({ submitted: true });
+        const { username, password } = this.state;
+        if (username && password) {
+            
+        }
+    }
 
-  renderLoginError() {
-    if (!this.state.error) return null;
+    render() {
+        return (
 
-    let message = null;
-    message = this.state.error;
-    return <Alert type="danger"><strong>{message}</strong></Alert>;
-  }
+            <div className="login-form" style={{marginTop: "5rem"}}>
+                <div className="d-table m-auto">
+                <img
+                    id="main-logo"
+                    className="d-inline-block align-top mr-1"
+                    style={{ maxWidth: "6rem" }}
+                    src={require("../../images/horse.svg")}
+                    alt="iCT Gaming Zone"
+                />
+                <h2 className="d-md-block ml-1">
+                    iCTGamingZone
+                </h2>
+                </div>
+                <h2>Login</h2>
+                {/* {this.renderLoginError()} */}
+                <form name="form" onSubmit={this.handleSubmit}>
+                    <div className="form-group">
+                        <label className="sr-only" htmlFor="email">Email</label>
+                        <input  style={{border: "1px solid"}} className="form-control" autoCapitalize={false}
+                        ref="email" placeholder="Email" autoFocus disabled={this.loggingIn}/>
+                    </div>
+                    <div className="form-group">
+                        <label className="sr-only" htmlFor="password">Password</label>
+                        <input  style={{border: "1px solid"}} className="form-control" type="password"
+                        ref="password" placeholder="Password" disabled={this.loggingIn}/>
+                    </div>
+                    <div className="form-group">
+                        <button className="btn btn-primary btn-block" type="submit"
+                        disabled={this.state.loggingIn}>
+                        <span>Login</span>
+                        </button>
+                        <Link to="/register">
+                        <button className="btn btn-danger btn-block mt-1" type="button"
+                            disabled={this.state.loggingIn}>
+                            <span>Register  </span>
+                        </button>
+                        </Link>
+                    </div>
+                </form>
+            </div>
 
-  render() {
-    const signInIconClass = (this.state.loggingIn) ?
-      this.props.spinnerIconClass : this.props.buttonIconClass;
-
-    return (
-      <div className="login-form" style={{marginTop: "5rem"}}>
-        <div className="d-table m-auto">
-          <img
-            id="main-logo"
-            className="d-inline-block align-top mr-1"
-            style={{ maxWidth: "6rem" }}
-            src={require("../../images/horse.svg")}
-            alt="iCT Gaming Zone"
-          />
-          <h2 className="d-md-block ml-1">
-            iCTGamingZone
-          </h2>
-        </div>
-        <h2>Login</h2>
-        {this.renderLoginError()}
-        <form onSubmit={this.submit.bind(this)} noValidate>
-          <div className="form-group">
-            <label className="sr-only" htmlFor="email">Email</label>
-            <input  style={{border: "1px solid"}} className="form-control" autoCapitalize={false}
-              ref="email" placeholder="Email" autoFocus disabled={this.loggingIn}/>
-          </div>
-          <div className="form-group">
-            <label className="sr-only" htmlFor="password">Password</label>
-            <input  style={{border: "1px solid"}} className="form-control" type="password"
-              ref="password" placeholder="Password" disabled={this.loggingIn}/>
-          </div>
-          <div className="form-group">
-            <button className="btn btn-primary btn-block" type="submit"
-              disabled={this.state.loggingIn}>
-              <span>Sign-In</span>
-              <i className={signInIconClass} style={{marginLeft: 6}}/>
-            </button>
-            <Link to="/register">
-              <button className="btn btn-danger btn-block  mt-1" type="button"
-                disabled={this.state.loggingIn}>
-                <span>Register</span>
-                <i className={signInIconClass} style={{marginLeft: 6}}/>
-              </button>
-            </Link>
-          </div>
-        </form>
-      </div>
-    );
-  }
+        );
+    }
 }
 
-export default withRouter(Login);
+function mapStateToProps(state) {
+}
 
-Login.defaultProps = {
-  heading: PropTypes.string,
-  spinnerIconClass: 'fa fa-spinner fa-spin',
-  buttonIconClass: 'fa fa-sign-in'
-};
-
-Login.propTypes = {
-  location: PropTypes.object,
-  header: PropTypes.string,
-  spinnerIconClass: PropTypes.string,
-  loginIconClass: PropTypes.string,
-  onLogin: PropTypes.func.isRequired
-};
+const connectedLoginPage = connect(mapStateToProps)(Login);
+export default connectedLoginPage; 

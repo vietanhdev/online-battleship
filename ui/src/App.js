@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import routes from "./routes";
 import withTracker from "./withTracker";
 import NotFound from "./views/NotFound";
-import AuthModal from "./components/login/Login"
+
+import {notifierActions} from "./redux/notifier"
 
 import { connect } from 'react-redux'
 import { history } from './helpers';
-import { alertActions } from './actions';
 
 import {ProtectedRoute, AuthRoute} from 'router'
 import {RouteType} from 'router'
@@ -22,10 +22,10 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const { dispatch } = this.props;
+    const { dismissAlert } = this.props;
     history.listen((location, action) => {
         // clear alert on location change
-        dispatch(alertActions.clear());
+        dismissAlert();
     });
   }
 
@@ -83,13 +83,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  alert: state.alert
-})
 
-const mapDispatchToProps = {
-  
+const mapDispatchToProps  = {
+  dismissAlert: notifierActions.dismissAlert
 }
 
 
-export default connect(mapStateToProps)(App); 
+export default connect(null, mapDispatchToProps)(App); 

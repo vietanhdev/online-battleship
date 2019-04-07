@@ -1,18 +1,18 @@
 import React from "react";
+import { connect } from 'react-redux';
 
-import { Dispatcher, Constants } from "../../../flux";
+import {appActions} from "../../../redux/app/actions"
 
 class NavbarToggle extends React.Component {
   constructor(props) {
     super(props);
-
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
-    Dispatcher.dispatch({
-      actionType: Constants.TOGGLE_SIDEBAR
-    });
+    // Toggle sidebar
+    const {toggleSidebar} = this.props;
+    toggleSidebar();
   }
 
   render() {
@@ -27,4 +27,12 @@ class NavbarToggle extends React.Component {
   }
 }
 
-export default NavbarToggle;
+const mapStateToProps = (state) => ({
+})
+
+const mapDispatchToProps = {
+  toggleSidebar: appActions.toggleSidebar
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarToggle);
