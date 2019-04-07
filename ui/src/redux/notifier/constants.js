@@ -1,5 +1,3 @@
-const notifierConstants = {
-    NOTIFY_SUCCESS: 'NOTIFY_SUCCESS',
-};
+const notifierConstants = {};
 
 export default notifierConstants;

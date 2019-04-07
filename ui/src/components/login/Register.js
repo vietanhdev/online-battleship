@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+import {userActions} from '../../redux/user'
 
 class Register extends React.Component {
   
@@ -16,32 +19,13 @@ class Register extends React.Component {
 
     const username = this.refs.username.value;
     const password = this.refs.password.value;
+    const email = this.refs.email.value;
 
-    if (username.length === 0 || password.length === 0) {
-      return this.setState({
-        error: 'Missing email or password.'
-      });
-    }
+    this.props.register(username, email, password);
 
-    this.setState({
-      loggingIn: true,
-      error: null
-    });
-
-    this.props.onRegister(username, password, (err) => {
-      if (err) {
-        return this.setState({
-          error: err,
-          loggingIn: false
-        });
-      }
-
-    });
   }
 
   render() {
-    const signInIconClass = (this.state.loggingIn) ?
-      this.props.spinnerIconClass : this.props.buttonIconClass;
 
     return (
       <div className="login-form" style={{marginTop: "5rem"}}>
@@ -60,31 +44,29 @@ class Register extends React.Component {
         <h2>Register</h2>
         <form onSubmit={this.submit.bind(this)} noValidate>
           <div className="form-group">
-            <label className="sr-only" htmlFor="email">Email</label>
-            <input  style={{border: "1px solid"}} className="form-control" autoCapitalize={false}
-              ref="email" placeholder="Email" autoFocus disabled={this.loggingIn}/>
+            <label className="sr-only" htmlFor="username">Fullname</label>
+            <input  style={{border: "1px solid"}} className="form-control" 
+              ref="username" placeholder="Fullname" autoFocus/>
           </div>
           <div className="form-group">
-            <label className="sr-only" htmlFor="username">Username</label>
-            <input  style={{border: "1px solid"}} className="form-control" autoCapitalize={false}
-              ref="username" placeholder="Username" autoFocus disabled={this.loggingIn}/>
+            <label className="sr-only" htmlFor="email">Email</label>
+            <input  style={{border: "1px solid"}} className="form-control"
+              ref="email" placeholder="Email"/>
           </div>
           <div className="form-group">
             <label className="sr-only" htmlFor="password">Password</label>
             <input  style={{border: "1px solid"}} className="form-control" type="password"
-              ref="password" placeholder="Password" disabled={this.loggingIn}/>
+              ref="password" placeholder="Password"/>
           </div>
           <div className="form-group">
             <button className="btn btn-primary btn-block" type="submit"
               disabled={this.state.loggingIn}>
               <span>Register</span>
-              <i className={signInIconClass} style={{marginLeft: 6}}/>
             </button>
             <Link to="/login">
               <button className="btn btn-danger btn-block mt-1" type="button"
                 disabled={this.state.loggingIn}>
                 <span>Login</span>
-                <i className={signInIconClass} style={{marginLeft: 6}}/>
               </button>
             </Link>
           </div>
@@ -94,18 +76,12 @@ class Register extends React.Component {
   }
 }
 
-export default withRouter(Register);
+const mapStateToProps = (state) => ({
+  
+})
 
-Register.defaultProps = {
-  heading: PropTypes.string,
-  spinnerIconClass: 'fa fa-spinner fa-spin',
-  buttonIconClass: 'fa fa-sign-in'
-};
+const mapDispatchToProps = {
+  register: userActions.register
+}
 
-Register.propTypes = {
-  location: PropTypes.object,
-  header: PropTypes.string,
-  spinnerIconClass: PropTypes.string,
-  loginIconClass: PropTypes.string,
-  onRegister: PropTypes.func.isRequired
-};
+export default connect(mapStateToProps, mapDispatchToProps)(Register)
