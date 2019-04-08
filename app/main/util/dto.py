@@ -7,16 +7,19 @@ class UserDto:
         'email': fields.String(required=True, description='user email address'),
         'username': fields.String(required=True, description='user username'),
         'password': fields.String(required=True, min_length=8, description='user password'),
+        'bio': fields.String(required=True, description='user bio'),
         'public_id': fields.String(description='user Identifier')
     })
     create_user_req = api.model('create user request', {
         'email': fields.String(required=True, description='user email address'),
         'username': fields.String(required=True, description='user username'),
+        'bio': fields.String(required=True, description='user bio'),
         'password': fields.String(required=True, description='user password')
     })
     update_user_req = api.model('update user request', {
         'email': fields.String(description='user email address'),
         'username': fields.String(description='user username'),
+        'bio': fields.String(required=True, description='user bio'),
         'password': fields.String(description='user password')
     })
     update_admin_req = api.model('update admin request', {

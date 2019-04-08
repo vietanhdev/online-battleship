@@ -14,6 +14,7 @@ class User(db.Model):
     admin = db.Column(db.Boolean, nullable=False, default=False)
     public_id = db.Column(db.String(100), unique=True)
     username = db.Column(db.String(50))
+    bio = db.Column(db.Text)
     password_hash = db.Column(db.String(100))
 
     games = db.relationship('GameUser', back_populates='user')
@@ -25,6 +26,7 @@ class User(db.Model):
         data['email'] = self.email
         data['public_id'] = self.public_id
         data['admin'] = self.admin
+        data['bio'] = self.bio
         return data
 
     @property
