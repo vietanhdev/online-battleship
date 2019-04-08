@@ -6,14 +6,15 @@ import {Provider} from 'react-redux'
 import * as serviceWorker from './serviceWorker';
 
 import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.render(
     <Provider store = {
         configureStore()
     } >
         <div>
-            <App />
             <ToastContainer />
+            <App />
         </div>
     </Provider>,
     document.getElementById('root')

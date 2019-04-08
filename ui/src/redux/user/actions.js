@@ -6,20 +6,27 @@ export const userActions = {
         return function (dispatch){
             httpService.post('/users',
                 {
-                    "name": name,
+                    "username": name,
                     "email": email,
                     "password": password
                 }
             ).then(function (response) {
-                console.log(response);
                 dispatch({
-                    type: userConstants.LOGIN_SUCCESS
+                    type: userConstants.REGISTER_SUCCESS,
+                    token: response.data["Authorization"]
                 });
             })
             .catch(function (error) {
-                dispatch({
-                    type: userConstants.LOGIN_FAIL
-                });
+
+                if (error.response) {
+                    let message = error.response.data.message
+                    dispatch({
+                        type: userConstants.REGISTER_FAIL,
+                        message: message
+                    });
+                    console.log("Dispatch: " + message)
+                }
+                
             });
         }
     }

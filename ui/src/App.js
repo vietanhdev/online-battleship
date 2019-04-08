@@ -7,7 +7,6 @@ import NotFound from "./views/NotFound";
 
 import {notifierActions} from "./redux/notifier"
 
-import { connect } from 'react-redux'
 import { history } from './helpers';
 
 import {ProtectedRoute, AuthRoute} from 'router'
@@ -21,17 +20,15 @@ export const AppContext = React.createContext({});
 class App extends Component {
   constructor(props) {
     super(props);
-
-    const { dismissAlert } = this.props;
     history.listen((location, action) => {
         // clear alert on location change
-        dismissAlert();
+        notifierActions.dismissAlert();
     });
   }
 
   render() {
     return (
-      <Router>
+      <Router history = {history}>
         <Switch>
           {routes.map((route, index) => {
             // route.type = "test"
@@ -84,9 +81,5 @@ class App extends Component {
 }
 
 
-const mapDispatchToProps  = {
-  dismissAlert: notifierActions.dismissAlert
-}
 
-
-export default connect(null, mapDispatchToProps)(App); 
+export default App; 

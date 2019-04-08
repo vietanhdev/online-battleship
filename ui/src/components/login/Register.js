@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 
 import {userActions} from '../../redux/user'
 
+import {notifierActions} from '../../redux/notifier'
+
 class Register extends React.Component {
   
   constructor(props) {
@@ -20,6 +22,8 @@ class Register extends React.Component {
     const username = this.refs.username.value;
     const password = this.refs.password.value;
     const email = this.refs.email.value;
+
+    notifierActions.showInfo("Please wait...")
 
     this.props.register(username, email, password);
 
@@ -60,12 +64,12 @@ class Register extends React.Component {
           </div>
           <div className="form-group">
             <button className="btn btn-primary btn-block" type="submit"
-              disabled={this.state.loggingIn}>
+              >
               <span>Register</span>
             </button>
             <Link to="/login">
               <button className="btn btn-danger btn-block mt-1" type="button"
-                disabled={this.state.loggingIn}>
+                >
                 <span>Login</span>
               </button>
             </Link>

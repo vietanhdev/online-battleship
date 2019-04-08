@@ -1,19 +1,19 @@
 import { toast } from 'react-toastify';
 
 export const notifierActions = {
-    showMessage: (message) => dispatch => {
+    showMessage: (message) => {
         toast.success(message);
     },
-    showError: (message) => dispatch => {
+    showError: (message) => {
         toast.error(message);
     },
-    showInfo: (message) => dispatch => {
+    showInfo: (message) => {
         toast.info(message);
     },
-    showWarning: (message) => dispatch => {
+    showWarning: (message) => {
         toast.info(message);
     },
-    dismissAlert: (message) => dispatch => {
+    dismissAlert: () => {
         toast.dismiss();
     }
 }
