@@ -24,3 +24,11 @@ class AuthDto:
         'email': fields.String(required=True, description='The email address'),
         'password': fields.String(required=True, description='The user password '),
     })
+
+class MsgDto:
+    api = Namespace('msg', description='messages related operation')
+    msg = api.model('message', {
+        'receiver_id': fields.String(required=True, description='receiver id, user id if private, else room id'),
+        'content': fields.String(required=True, description='content of message'), 
+        'is_private': fields.String(required=True, description='is it private message ?')
+    })
