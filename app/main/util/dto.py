@@ -13,7 +13,6 @@ class UserDto:
     create_user_req = api.model('create user request', {
         'email': fields.String(required=True, description='user email address'),
         'username': fields.String(required=True, description='user username'),
-        'bio': fields.String(required=True, description='user bio'),
         'password': fields.String(required=True, description='user password')
     })
     update_user_req = api.model('update user request', {
