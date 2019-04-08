@@ -7,13 +7,24 @@ from app.main.model.user import User
 from ..config import admin_key
 
 def save_new_user(data):
+    password=data.get('password')
+    print("password", password)
+    if password is not None and len(password) == 0 :
+        response_object = {
+            "errors": {
+                "password": "'password' length must not be an empty string"
+            },
+            "message": "Input payload validation failed"
+        }
+        return response_object, 400
+    
     user = User.query.filter_by(email=data.get('email')).first()
     if not user:
         new_user = User(
             public_id=str(uuid.uuid4()),
             email=data.get('email'),
             username=data.get('username'),
-            password=data.get('password'),
+            password=password,
             registered_on=datetime.datetime.utcnow()
         )
         save_changes(new_user)

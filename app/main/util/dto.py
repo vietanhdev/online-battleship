@@ -6,7 +6,7 @@ class UserDto:
     user = api.model('user', {
         'email': fields.String(required=True, description='user email address'),
         'username': fields.String(required=True, description='user username'),
-        'password': fields.String(required=True, description='user password'),
+        'password': fields.String(required=True, min_length=8, description='user password'),
         'public_id': fields.String(description='user Identifier')
     })
     create_user_req = api.model('create user request', {
