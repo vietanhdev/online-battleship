@@ -10,21 +10,21 @@ export const RouteType  = {
 }
 
 const mapStateToProps = (state) => ({
-
+    isLoggedIn: state.userReducer.isLoggedIn
 })
 
 
-const ProtectedRoute = ({ component: Component, loggedIn, ...rest }) => (
+const ProtectedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
     <Route
-        render={(props) => (loggedIn ? <Component {...props} /> : <Redirect to="/login" />)}
+        render={(props) => (isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />)}
         {...rest}
     />
 );
 
 
-const AuthRoute = ({ component: Component, loggedIn, ...rest }) => (
+const AuthRoute = ({ component: Component, isLoggedIn, ...rest }) => (
     <Route
-        render={(props) => (!loggedIn ? <Component {...props} /> : <Redirect to="/" />)}
+        render={(props) => (!isLoggedIn ? <Component {...props} /> : <Redirect to="/" />)}
         {...rest}
     />
 );
