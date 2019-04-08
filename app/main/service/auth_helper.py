@@ -18,9 +18,9 @@ class Auth:
                         'data': {
                             'email': user.email,
                             'username': user.username,
-                            'bio': user.bio
-                        },
-                        'Authorization': auth_token.decode()
+                            'bio': user.bio,
+                            'token': auth_token.decode()
+                        } 
                     }
                     return response_object, 200
             else:
