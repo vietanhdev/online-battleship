@@ -12,12 +12,12 @@ export const userActions = {
                     bio: ""
                 }
             )
-            .onSuccess(function (response) {
+            .then(function (response) {
                 dispatch({
                     type: userConstants.REGISTER_SUCCESS
                 });
             })
-            .onError(function (error) {
+            .catch(function (error) {
                 dispatch({
                     type: userConstants.REGISTER_FAIL,
                     payload: error
@@ -32,7 +32,7 @@ export const userActions = {
                 "email": email,
                 "password": password
             }
-        ).onSuccess(function (response) {
+        ).then(function (response) {
             console.log(response)
             dispatch({
                 type: userConstants.LOGIN_SUCCESS,
@@ -45,26 +45,28 @@ export const userActions = {
             });
             history.push("/")
         })
-        .onError(function (error) {
+        .catch(function (error) {
             dispatch({
                 type: userConstants.LOGIN_FAIL,
                 payload: error
             });
         })
     },
-    logout: ()  => dispatch => {
+    logout: (history)  => dispatch => {
         request('post', '/auth', null, true
-        ).onSuccess(function (response) {
+        ).then(function (response) {
             console.log(response)
             dispatch({
                 type: userConstants.LOGOUT_SUCCESS
             });
+            history.push("/login")
         })
-        .onError(function (error) {
+        .catch(function (error) {
             dispatch({
                 type: userConstants.LOGOUT_FAIL,
                 payload: error
             });
+            history.push("/login")
         })
     }
 }
