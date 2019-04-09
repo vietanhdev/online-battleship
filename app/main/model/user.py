@@ -19,7 +19,7 @@ class User(db.Model):
 
     games = db.relationship('GameUser', back_populates='user')
     rooms = db.relationship('RoomUser', back_populates='user')
-
+    
     def get_user_information(self):
         data = {}
         data['username'] = self.username
