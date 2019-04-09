@@ -4,7 +4,7 @@ import userConstants from './constants'
 export const userActions = {
     register: (name, email, password)  => {
         return function (dispatch){
-            request('post', '/users',
+            request.post('/users',
                 {
                     username: name,
                     email: email,
@@ -27,7 +27,7 @@ export const userActions = {
         }
     },
     login: (email, password, history)  => dispatch => {
-        request('post', '/auth',
+        request.post('/auth',
             {
                 "email": email,
                 "password": password
@@ -53,7 +53,7 @@ export const userActions = {
         })
     },
     logout: (history)  => dispatch => {
-        request('post', '/auth', null, true
+        request.post('/logout', null, true
         ).then(function (response) {
             console.log(response)
             dispatch({
