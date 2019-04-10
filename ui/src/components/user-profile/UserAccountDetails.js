@@ -1,5 +1,4 @@
 
-import PropTypes from "prop-types";
 import {
   Card,
   CardHeader,
@@ -18,10 +17,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 export class UserAccountDetails extends Component {
-  static propTypes = {
-    prop: PropTypes
-  }
-
   render() {
     const {fullname, email, bio} = this.props.user;
     return (
@@ -41,7 +36,7 @@ export class UserAccountDetails extends Component {
                       <FormInput
                         id="feFirstName"
                         placeholder="First Name"
-                        value={fullname}
+                        defaultValue={fullname}
                       />
                     </Col>
                   </Row>
@@ -53,7 +48,7 @@ export class UserAccountDetails extends Component {
                         type="email"
                         id="feEmail"
                         placeholder="Email Address"
-                        value={email}
+                        defaultValue={email}
                         onChange={() => {}}
                         autoComplete="email"
                       />
