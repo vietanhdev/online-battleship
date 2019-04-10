@@ -82,12 +82,21 @@ class GameList(Resource):
         """List of games"""
         return get_all_games()
     
-    @admin_token_required
-    @api.doc('create a new game', parser=auth_parser, body=create_game_req, validate=True)
+    # @admin_token_required
+    # @api.doc('create a new game', parser=auth_parser, body=create_game_req, validate=True)
+    # def post(self):
+    #     """Create a new Game"""
+    #     data = request.json
+    #     return save_new_game(data=data)
+
     def post(self):
-        """Create a new Game"""
-        data = request.json
-        return save_new_game(data=data)
+        """Create new games"""
+        data = {
+            'name': 'battle ship',
+            'num_players': 2
+        }
+        return save_new_game(data)
+        
         
 
 @api.route('/test')
