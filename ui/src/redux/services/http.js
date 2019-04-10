@@ -7,10 +7,7 @@ const requestStatus = {
 
 function getToken() {
   let token = ""
-  try {
-    token = JSON.parse(localStorage.getItem("user")).token;
-  } catch (e) {
-  }
+  token = JSON.parse(localStorage.getItem("user")).token;
   return token;
 }
 
@@ -34,6 +31,16 @@ var request = axios.create({
     return data;
   }]
 });
+
+request.interceptors.request.use(
+  config => {
+    config.headers['Authorization'] = 'Bearer ' + getToken()
+    return config
+  },
+  error => {
+    Promise.reject(error)
+  }
+)
 
 
 export default request;
