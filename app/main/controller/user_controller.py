@@ -79,7 +79,7 @@ class MyAccount(Resource):
 
     @token_required
     @api.doc('update your own information', parser=auth_parser, body=update_user_req, validate=True)
-    def post(self):
+    def put(self):
         """User update his/her own information"""
         user = g.user
         data = request.json
