@@ -75,7 +75,7 @@ export class UserAccountDetails extends Component {
                     {/* Description */}
                     <Col md="12" className="form-group">
                       <label htmlFor="feDescription">Bio</label>
-                      <FormTextarea id="feDescription" rows="5" />
+                      <FormTextarea id="feDescription" rows="5" defaultValue={bio} />
                     </Col>
                   </Row>
                   <Button theme="accent">Update Account</Button>
