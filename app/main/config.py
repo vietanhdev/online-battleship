@@ -10,6 +10,7 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious_secret_key')
     ADMIN_KEY = os.getenv('ADMIN_SECRET_KEY', 'admin_precious_secret_key')
     DEBUG = False
+    CORS_ENABLED = False
 
 
 class DevelopmentConfig(Config):

@@ -45,8 +45,6 @@ class GameDto:
     })
     create_game_req = api.model('game', {
         'name': fields.String(requrired=True, description='name of game'),
-        'link_game': fields.String(required=True, description='link of game'),
-        'link_image': fields.String(required=True, description='game image link'),
         'num_players': fields.Integer(required=True, description='number of player for one game')
     })
 
