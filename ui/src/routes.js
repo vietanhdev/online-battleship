@@ -26,7 +26,7 @@ export default [
   },
   {
     path: "/dashboard",
-    type: RouteType.NORMAL_ROUTE,
+    type: RouteType.PROTECTED_ROUTE,
     layout: DefaultLayout,
     component: Dashboard
   },

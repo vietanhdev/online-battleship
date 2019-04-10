@@ -7,7 +7,6 @@ import NotFound from "./views/NotFound";
 
 import {notifierActions} from "./redux/notifier"
 
-import { history } from './helpers';
 
 import {ProtectedRoute, AuthRoute} from 'router'
 import {RouteType} from 'router'
@@ -18,17 +17,14 @@ import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
 export const AppContext = React.createContext({});
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    history.listen((location, action) => {
-        // clear alert on location change
-        notifierActions.dismissAlert();
-    });
+
+  handleHistoryChange() {
+    notifierActions.dismissAlert();
   }
 
   render() {
     return (
-      <Router history = {history}>
+      <Router onChange={this.handleHistoryChange}>
         <Switch>
           {routes.map((route, index) => {
             // route.type = "test"
@@ -81,5 +77,4 @@ class App extends Component {
 }
 
 
-
-export default App; 
+export default App;

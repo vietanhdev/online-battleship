@@ -1,9 +1,40 @@
 import axios from 'axios';
 
-var httpService = axios.create({
+const requestStatus = {
+  SUCCESS: "success",
+  FAIL: "fail"
+}
+
+function getToken() {
+  let token = ""
+  try {
+    token = JSON.parse(localStorage.getItem("user")).token;
+  } catch (e) {
+  }
+  return token;
+}
+
+var request = axios.create({
   baseURL: 'http://127.0.0.1:5000/api/',
-  timeout: 3000
+  timeout: 10000,
+  headers: {'Authorization':  getToken()},
+  validateStatus: function (status) {
+    return status >= 200 && status < 300; // default
+  },
+  // `transformResponse` allows changes to the response data to be made before
+  // it is passed to then/catch
+  transformResponse: [function (data) {
+    data = JSON.parse(data)
+    if (data.status !== requestStatus.SUCCESS) {
+      if (typeof data.message === "undefined") {
+        data.message = "Unknown error";
+      }
+      data.status = requestStatus.FAIL;
+    }
+    return data;
+  }]
 });
 
 
-export default httpService;
+export default request;
+export {requestStatus}

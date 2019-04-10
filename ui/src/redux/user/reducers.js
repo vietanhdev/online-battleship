@@ -1,24 +1,74 @@
 import userConstants from './constants'
 import {notifierActions} from '../notifier/actions'
 
-const initState = {
-    fullname: "",
-    email: "",
-    bio: "The best gamer on the Earth.",
-    isLoggedIn: false,
-    authKey: ""
+
+function getUserFromSessStorage() {
+    let user = localStorage.getItem("user");
+    try {
+        user = JSON.parse(user); 
+    } catch(e) {}
+    if (user == null) {
+        user = {
+            fullname: "",
+            email: "",
+            bio: "The best gamer on the Earth.",
+            isLoggedIn: false,
+            token: ""
+        }
+    }
+    return user;
 }
 
-export const userReducer = (state = initState, action) => dispatch => {
+const initState = getUserFromSessStorage();
+
+export const userReducer = (state = initState, action) =>  {
+    let user = {};
     switch (action.type) {
+        case userConstants.REGISTER_FAIL:
+            notifierActions.dismissAlert();
+            notifierActions.showError(action.payload);
+            return state;
         case userConstants.REGISTER_SUCCESS:
             notifierActions.dismissAlert();
             notifierActions.showMessage("Successfully registered!");
             return state;
-        case userConstants.REGISTER_FAIL:
+        case userConstants.LOGIN_FAIL:
             notifierActions.dismissAlert();
-            notifierActions.showError(action.message);
+            notifierActions.showError(action.payload);
             return state;
+        case userConstants.LOGIN_SUCCESS:
+            notifierActions.dismissAlert();
+            notifierActions.showMessage("Successfully logged in!");
+
+            user = {
+                fullname: action.payload.fullname,
+                bio: action.payload.bio,
+                email: action.payload.email,
+                token: action.payload.token,
+                isLoggedIn: true
+            }
+            
+            // Save info in session storage
+            localStorage.setItem("user", JSON.stringify(user));
+
+            return Object.assign({}, state, user)
+        case userConstants.LOGOUT_FAIL:
+        case userConstants.LOGOUT_SUCCESS:
+            notifierActions.dismissAlert();
+            notifierActions.showMessage("Successfully logged out! Please login again to continue.");
+
+            user = {
+                fullname: "",
+                bio: "",
+                email: "",
+                token: "",
+                isLoggedIn: false
+            }
+            
+            // Save info in session storage
+            localStorage.setItem("user", JSON.stringify(user));
+
+            return Object.assign({}, state, user)
         default:
             return state
     }
