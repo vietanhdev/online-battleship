@@ -40,14 +40,18 @@ def save_new_user(data):
 
 def save_updated_user(user, data):
     if 'email' in data.keys():
-        check_email = User.query.filter_by(email=data['email']).first()
-        if check_email:
-            response_object = {
-                'status': 'fail',
-                'message': 'Email address has been taken.',
-            }
-            return response_object, 409
-        user.email = data['email']
+        email = data.['email']
+        if email == user.email:
+            pass
+        else:
+            check_email = User.query.filter_by(email=email).first()
+            if check_email :
+                response_object = {
+                    'status': 'fail',
+                    'message': 'Email address has been taken.',
+                }
+                return response_object, 409
+            user.email = email
 
     if 'username' in data.keys():
         user.username = data['username']
