@@ -5,6 +5,8 @@ const userConstants = {
     REGISTER_FAIL: 'REGISTER_FAIL',
     LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
     LOGOUT_FAIL: 'LOGOUT_FAIL',
+    UPDATE_SUCCESS: 'UPDATE_SUCCESS',
+    UPDATE_FAIL: 'UPDATE_FAIL',
 };
 
 export default userConstants;
