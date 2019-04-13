@@ -1,4 +1,3 @@
-
 import uuid
 import datetime
 
@@ -8,13 +7,13 @@ from app.main.model.user import User
 from ..config import admin_key
 
 def save_new_user(data):
-    user = User.query.filter_by(email=data['email']).first()
+    user = User.query.filter_by(email=data.get('email')).first()
     if not user:
         new_user = User(
             public_id=str(uuid.uuid4()),
-            email=data['email'],
-            username=data['username'],
-            password=data['password'],
+            email=data.get('email'),
+            username=data.get('username'),
+            password=data.get('password'),
             registered_on=datetime.datetime.utcnow()
         )
         save_changes(new_user)
@@ -71,11 +70,22 @@ def update_admin_user(user, key):
 
 
 def get_all_users():
-    return User.query.all()
+    list_user =  User.query.all()
+    data = []
+    for user in list_user:
+        data.append(user.get_user_information())
+    
+    response_object = {
+        'status': 'success',
+        'data': data
+    }
+
+    return response_object, 200
 
 
 def get_a_user(public_id):
-    return User.query.filter_by(public_id=public_id).first()
+    user = User.query.filter_by(public_id=public_id).first()
+    return user
 
 
 def save_changes(data):

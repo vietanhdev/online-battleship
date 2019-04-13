@@ -16,6 +16,17 @@ class User(db.Model):
     username = db.Column(db.String(50))
     password_hash = db.Column(db.String(100))
 
+    games = db.relationship('GameUser', back_populates='user')
+    rooms = db.relationship('RoomUser', back_populates='user')
+
+    def get_user_information(self):
+        data = {}
+        data['username'] = self.username
+        data['email'] = self.email
+        data['public_id'] = self.public_id
+        data['admin'] = self.admin
+        return data
+
     @property
     def password(self):
         raise AttributeError('password: write-only field')
