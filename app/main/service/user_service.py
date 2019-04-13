@@ -40,14 +40,18 @@ def save_new_user(data):
 
 def save_updated_user(user, data):
     if 'email' in data.keys():
-        check_email = User.query.filter_by(email=data['email']).first()
-        if check_email:
-            response_object = {
-                'status': 'fail',
-                'message': 'Email address has been taken.',
-            }
-            return response_object, 409
-        user.email = data['email']
+        email = data.['email']
+        if email == user.email:
+            pass
+        else:
+            check_email = User.query.filter_by(email=email).first()
+            if check_email :
+                response_object = {
+                    'status': 'fail',
+                    'message': 'Email address has been taken.',
+                }
+                return response_object, 409
+            user.email = email
 
     if 'username' in data.keys():
         user.username = data['username']
@@ -63,9 +67,14 @@ def save_updated_user(user, data):
     return response_object, 200
 
 
-def save_new_password(user, new_password):
-    # if 'new_password'
-    pass
+def save_updated_password(user, new_password):
+    user.password = new_password
+    save_changes(user)
+    response_object = {
+        'status': 'success',
+        'message': 'Successfully update new password.'
+    }
+    return response_object, 200
 
 
 def update_admin_user(user, key):

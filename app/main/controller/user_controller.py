@@ -1,15 +1,17 @@
 from flask import request, g
 from flask_restplus import Resource, abort
 
+from app.main.service.auth_helper import Auth
 from ..util.dto import UserDto
 from ..util.decorator import token_required, admin_token_required
 
-from ..service.user_service import save_new_user, get_all_users, get_a_user, save_updated_user, update_admin_user, save_new_follower, delete_follower, get_all_followers, get_all_followings
+from ..service.user_service import save_new_user, get_all_users, get_a_user, save_updated_user, save_updated_password, update_admin_user, save_new_follower, delete_follower, get_all_followers, get_all_followings
 
 api = UserDto.api
 _user = UserDto.user
 create_user_req = UserDto.create_user_req
 update_user_req = UserDto.update_user_req
+update_password_req = UserDto.update_password_req
 update_admin_req = UserDto.update_admin_req
 update_admin_req = UserDto.update_admin_req
 
@@ -84,6 +86,33 @@ class MyAccount(Resource):
         user = g.user
         data = request.json
         return save_updated_user(user=user, data=data)
+
+
+@api.route('/my_account/new_password', '/my_account/new_password/')
+class update_password(Resource):
+    @token_required
+    @api.doc('update new password', parser=auth_parser, body=update_password_req, validate=True)
+    def put(self):
+        """User update new password"""
+        user = g.user
+
+        data = request.json
+        old_password = data.get('old_password')
+        new_password = data.get('new_password')
+
+        data = {
+            'email': user.email,
+            'password': old_password
+        }
+        res, status = Auth.login_user(data=data)
+        if status != 200:
+            response_object = {
+                'status': 'fail',
+                'message': 'wrong old password'
+            }
+            return response_object, 401
+        return save_updated_password(user, new_password)
+        
 
 
 @api.route('/admin', '/admin/')
