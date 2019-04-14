@@ -29,23 +29,33 @@ export class UserAccountDetails extends Component {
       email: email,
       bio: bio,
       old_password: "",
-      new_password: ""
+      new_password: "",
+      new_password_again: "",
+      change_password: false
     }
-
-    console.log(this.props.user);
   }
 
-  
+  changePasswordToggle = () => {
+    this.setState({
+      ...this.state,
+      change_password: !this.state.change_password
+    })
+  }
 
   updateUserInfo(event) {
     event.preventDefault();
-
     const user = this.state;
 
-    console.log(user)
+    if (!user.change_password) {
+      delete user.new_password;
+      delete user.new_password_again;
+      delete user.old_password;
+    } else if (user.new_password !== user.new_password_again) {
+      notifierActions.showError("Password confirmation is different from new password.");
+      return;
+    }
     
     notifierActions.showInfo("Please wait...")
-
     this.props.updateUser(user);
   }
 
@@ -94,22 +104,34 @@ export class UserAccountDetails extends Component {
                         />
                       </Col>
                       {/* Password */}
-                      <Col md="6" className="form-group">
-                        <label htmlFor="fePassword1">Old Password</label>
+                      <Col md="2" className="form-group">
+                        <Button theme="info" onClick={this.changePasswordToggle}>Change password</Button>
+                      </Col>
+                      <Col md="3" className="form-group" style={{display: this.state.change_password ? 'block' : 'none' }}>
+                        <label>Old password</label>
                         <FormInput
                           type="password"
-                          placeholder="Password"
+                          placeholder=""
                           name="old_password"
                           value={this.state.old_password} onChange={this.handleChange} 
                         />
                       </Col>
-                      <Col md="6" className="form-group">
-                        <label htmlFor="fePassword2">New Password</label>
+                      <Col md="3" className="form-group" style={{display: this.state.change_password ? 'block' : 'none' }}>
+                        <label>New password</label>
                         <FormInput
                           type="password"
-                          placeholder="New password"
+                          placeholder=""
                           name="new_password"
                           value={this.state.new_password} onChange={this.handleChange} 
+                        />
+                      </Col>
+                      <Col md="3" className="form-group" style={{display: this.state.change_password ? 'block' : 'none' }}>
+                        <label>Confirm new password</label>
+                        <FormInput
+                          type="password"
+                          placeholder=""
+                          name="new_password_again"
+                          value={this.state.new_password_again} onChange={this.handleChange} 
                         />
                       </Col>
                     </Row>
