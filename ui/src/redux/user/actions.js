@@ -66,5 +66,28 @@ export const userActions = {
             });
             history.push("/login")
         })
+    },
+    update: (user)  => dispatch => {
+        if (user.new_password === "" || user.old_password === "") {
+            delete user.new_password;
+            delete user.old_password;
+        }
+
+        // Fix field name
+        user.username = user.fullname;
+
+        request.put('/users/my_account', user
+        ).then(function (response) {
+            dispatch({
+                type: userConstants.UPDATE_SUCCESS,
+                payload: user
+            });
+        })
+        .catch(function (error) {
+            dispatch({
+                type: userConstants.UPDATE_FAIL,
+                payload: error
+            });
+        })
     }
 }
