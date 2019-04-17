@@ -38,7 +38,7 @@ class Auth:
         # get the auth token
         data = new_request.headers.get('Authorization')
         if data:
-            auth_token = data.split(" ")[1]
+            auth_token = data.split(" ")[-1]
         else:
             auth_token = ''
         if auth_token:
@@ -65,7 +65,7 @@ class Auth:
         # get the auth token
         data = new_request.headers.get('Authorization') 
         if data:
-            auth_token = data.split(" ")[1]
+            auth_token = data.split(" ")[-1]
         else:
             auth_token = ''
         if auth_token:
@@ -89,3 +89,23 @@ class Auth:
                 'message': 'Provide a valid auth token.'
             }
             return response_object, 403
+    
+
+    @staticmethod
+    def socket_logged_in_user(request_object):
+        data = request_object.get('authorization')
+        if data:
+            auth_token = data.split(" ")[-1]
+        else:
+            auth_token = ''
+
+        if auth_token:
+            resp = User.decode_auth_token(auth_token)
+            if not isinstance(resp, str):
+                id = resp[0]
+                remain_sec = resp[1]
+                user = User.query.filter_by(id=id).first()
+                
+                return user, remain_sec
+
+        return None, None
