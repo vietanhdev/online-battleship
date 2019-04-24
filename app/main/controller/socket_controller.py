@@ -13,31 +13,20 @@ from flask_socketio import disconnect, join_room, leave_room, emit
 
 @socketio.on('connect')
 def connectClient():
-    print(">>>>>>>>> Client Connected on root path " + request.sid)
+    print(">>>>>>>>> Client Connected on rooth path with session id " + request.sid)
 
 
-@socketio.on('disconnect')
-def disconnectClient():
-    print(">>>>>>>>> Client Disconnected on root path " + request.sid)
-
-
-@socketio.on('connect', namespace='/messages')
-def connectClientMessages():
-    print(">>>>>>>>> Client Connected on path /messages " + request.sid)
-
-
-@socketio.on('disconnect', namespace='/messages')
+@socketio.on('disconnect', namespace='/')
 def deleteSessionId():
     user_id = get_user_id_by_sid(request.sid)
     user = get_a_user_by_id(user_id)
 
     if user:
-        # leave_room(room=user.public_id, namespace='/messages')
         delete_session(session_id=request.sid)
         print('User ' + str(user.id) + 'leave room')
 
 
-@socketio.on('request_login', namespace='/messages')
+@socketio.on('request_login', namespace='/')
 def registerSessionId(request_object):
     user, remain_sec = Auth.socket_logged_in_user(request_object)
     if user:
@@ -59,13 +48,13 @@ def registerSessionId(request_object):
             'status': True,
             'message': 'Authenticate successfully'
         }
-        emit('response_login', response_object, broadcast=False, namespace='/messages')
+        emit('response_login', response_object, broadcast=False, namespace='/')
     else:
-        print('>>>>>>>>> Disconnect to Client on path /messages')
+        print('>>>>>>>>> Disconnect to Client on rooth path (Authenticate fail)')
         disconnect()
 
 
-@socketio.on('request_join_room', namespace='/messages')
+@socketio.on('request_join_room', namespace='/rooms')
 def joinRoom(request_object):
     # check authentication session id
     user_id = get_user_id_by_sid(request.sid)
@@ -75,7 +64,7 @@ def joinRoom(request_object):
             'status': False,
             'message': 'Fail authenticate'
         }
-        emit('response_join_room', response_object, broadcast=False, namespace='/messages')
+        emit('response_join_room', response_object, broadcast=False, namespace='/rooms')
     else:
         # check if room exist
         room_public_id = request_object.get('room_public_id')
@@ -85,16 +74,17 @@ def joinRoom(request_object):
                 'status': False,
                 'message': 'Room not found'
             }
-            emit('response_join_room', response_object, broadcast=False, namespace='/messages')
+            emit('response_join_room', response_object, broadcast=False, namespace='/rooms')
         else:
             # join session id in room name is room public id
+            join_room(room=room_public_id, namespace='/rooms')
             join_room(room=room_public_id, namespace='/messages')
             # Notify user is authenticate successfully
             response_object = {
                 'status': True,
                 'message': 'Join room successfully'
             }
-            emit('response_join_room', response_object, broadcast=False, namespace='/messages')
+            emit('response_join_room', response_object, broadcast=False, namespace='/rooms')
 
 
 @socketio.on('request_message', namespace='/messages')

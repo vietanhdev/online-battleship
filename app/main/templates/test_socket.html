@@ -30,24 +30,24 @@
                 console.log('disconnected to server on root');
             });
 
-            var socket_login = io.connect(address + '/socket_login');
+            // var socket_login = io.connect(address + '/socket_login');
 
-            socket_login.on('connect', function(){
-                console.log('connected to server on path socket_login');
-            });
+            // socket_login.on('connect', function(){
+            //     console.log('connected to server on path socket_login');
+            // });
 
-            socket_login.on('disconnect', function(){
-                console.log('disconnected to server on path socket_login');
-            });
+            // socket_login.on('disconnect', function(){
+            //     console.log('disconnected to server on path socket_login');
+            // });
             
-            $('#send_token').on('click', function(){
-                token = $('#token').val();
-                socket_login.emit('req_login', {'authorization': token});
-            });
+            // $('#send_token').on('click', function(){
+            //     token = $('#token').val();
+            //     socket_login.emit('req_login', {'authorization': token});
+            // });
 
-            socket_login.on('res_login', function(response){
-                console.log(response);
-            })
+            // socket_login.on('res_login', function(response){
+            //     console.log(response);
+            // })
 
         });
     </script>
