@@ -30,7 +30,7 @@ def get_all_rooms(offset, limit):
 
 
 def save_new_room(user, data):
-    game_public_id = data.get('game_id')
+    game_public_id = data.get('game_public_id')
     game = Game.query.filter_by(public_id=game_public_id).first()
     if game:
         new_room = Room(
@@ -41,14 +41,14 @@ def save_new_room(user, data):
         response_object = {
             'status': 'success',
             'message': 'Create room successfully',
-            'public_id': new_room.public_id,
+            'room_public_id': new_room.public_id,
         }
         a = RoomUser()
         a.user = user
         new_room.users.append(a)
         save_changes(new_room)
         
-        return response_object, 200
+        return response_object, 201
     
     response_object = {
         'status': 'fail',
@@ -90,7 +90,7 @@ def save_new_game(data):
             'public_id': new_game.public_id,
             'message': 'Create game successfully'
         }
-        return response_object, 200
+        return response_object, 201
 
     response_object = {
         'status': 'fail',

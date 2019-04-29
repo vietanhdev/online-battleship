@@ -39,7 +39,7 @@ class MessageDto:
 class GameDto:
     api = Namespace('game', description='game related operantion')
     create_room_req = api.model('room', {
-        'game_id': fields.String(required=True, description='game indentifier')
+        'game_public_id': fields.String(required=True, description='game indentifier')
     })
     create_game_req = api.model('game', {
         'name': fields.String(requrired=True, description='name of game'),

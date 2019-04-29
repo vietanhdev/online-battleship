@@ -69,9 +69,9 @@ class RoomWithId(Resource):
             
             data = room.get_room_information()
 
-            dict_id = room.get_dict_id()
+            # dict_id = room.get_dict_id()
             
-            data['history'] = get_history(history = room.history, dict_id = dict_id, user_id = user.id)
+            # data['history'] = get_history(history = room.history, dict_id = dict_id, user_id = user.id)
                 
             response_object = {
                 'status': 'success',

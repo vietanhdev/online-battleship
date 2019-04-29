@@ -28,6 +28,7 @@ class Room(db.Model):
         data = {}
         data['game_id'] = self.game.id
         data['players'] = []
+        room_users = self.users
         for room_user in room_users:
             user = room_user.user
             data['players'].append(user.id)
