@@ -17,13 +17,20 @@ class Room(db.Model):
         data = {}
         data['room_public_id'] = self.public_id
         data['game_public_id'] = self.game.public_id
-        data['history'] = self.history
         data['players'] = []
         room_users = self.users
         for room_user in room_users:
             user = room_user.user
             data['players'].append(user.get_user_information())
         return data
+    
+    def get_dict_id(self):
+        data = {}
+        data['game_id'] = self.game.id
+        data['players'] = []
+        for room_user in room_users:
+            user = room_user.user
+            data['players'].append(user.id)
 
     def check_num_player(self):
         print(type(self.game.num_players))

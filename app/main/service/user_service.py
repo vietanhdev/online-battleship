@@ -46,7 +46,7 @@ def save_updated_user(user, data):
     save_changes(user)
     response_object = {
         'status': 'success',
-        'message': 'Successfully updated.'
+        'message': 'Successfully update profile.'
     }
     return response_object, 200
 
@@ -58,7 +58,7 @@ def update_admin_user(user, key):
         save_changes(user)
         response_object = {
             'status': 'success',
-            'message': 'Successfully updated.'
+            'message': 'Successfully update to admin account.'
         }
         return response_object, 200
 

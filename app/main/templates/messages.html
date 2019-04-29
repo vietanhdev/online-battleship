@@ -19,11 +19,12 @@
             <input type="text" id="content" placeholder="message content">
             <button id="send_message">Send message</button>
         </div>
-        <div>
+        <!-- <div>
             <input type="text" id="room_public_id" placeholder="Enter room public id">
             <button id="join_room">Join room</button>
-        </div>
+        </div> -->
         <div>
+            <input type="text" id='room_public_id' placeholder="Enter room public id">
             <input type="text" id="room_command" placeholder="Enter room command">
             <button id="send_command">Send Command</button>
         </div>
@@ -81,17 +82,26 @@
 
             var rooms = io.connect(address + '/rooms');
 
-            $('#join_room').on('click', function(){
-                room_public_id = $('#room_public_id').val();
-                rooms.emit('request_join_room', {'room_public_id': room_public_id});
+            // $('#join_room').on('click', function(){
+            //     room_public_id = $('#room_public_id').val();
+            //     rooms.emit('request_join_room', {'room_public_id': room_public_id});
+            // });
+
+            // rooms.on('response_join_room', function(response_object){
+            //     msg = JSON.stringify(response_object);
+            //     console.log('response_join_room: ' + msg);
+            // });
+
+            $('#send_command').on('click', function(){
+                room_public_id = $('#room_pulic_id').val();
+                room_command = $('#room_commnand').val();
+                rooms.emit('request_room_command', {'room_public_id': room_public_id, 'room_command': room_command});
             });
 
-            rooms.on('response_join_room', function(response_object){
+            rooms.on('response_room_command', function(response_object){
                 msg = JSON.stringify(response_object);
-                console.log('response_join_room: ' + msg);
+                console.log('response_room_command: ' + msg);
             });
-
-            $('#send_command')
         });
     </script>
 </body>

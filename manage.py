@@ -1,6 +1,8 @@
 import os
 import unittest
 
+from flask import jsonify
+
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
@@ -9,6 +11,19 @@ from app.main import create_app, db, socketio
 from app.main.model import user, message, game, room, game_user, room_user
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    response_object = {
+        'status': 'fail',
+        'message': 'page not found'
+    }
+    return jsonify(response_object), 404
+
+
+app.register_error_handler(400, page_not_found)
+
 app.register_blueprint(blueprint)
 
 app.app_context().push()

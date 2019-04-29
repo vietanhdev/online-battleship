@@ -1,5 +1,10 @@
 from .. import r_db, db
 import datetime
+import json
+
+def default(o):
+    if isinstance(o, (datetime.date, datetime.datetime)):
+        return o.timestamp()
 
 class Message(db.Model):
     """ Message Model for storing messages related details """
@@ -14,7 +19,9 @@ class Message(db.Model):
     def get_message_information(self):
         data = {}
         data['content'] = self.content
-        data['sender_public_id'] = self.content
+        data['sender_public_id'] = self.sender_public_id
+        print(json.dumps(self.created_at, default = default))
+        data['timestamp'] = json.dumps(self.created_at, default = default)
         return data
     
     def __repr__(self):
