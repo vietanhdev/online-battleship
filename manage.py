@@ -38,13 +38,10 @@ manager = Manager(app)
 
 migrate = Migrate(app, db)
 
-# socketio = SocketIO(app)
-
 manager.add_command('db', MigrateCommand)
 
 @manager.command
 def run():
-    # app.run()
     socketio.run(app,
                 host='127.0.0.1',
                 port=5000,
