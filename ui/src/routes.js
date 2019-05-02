@@ -6,7 +6,7 @@ import { DefaultLayout } from "./layouts";
 
 // Route Views
 import BlogOverview from "./views/BlogOverview";
-import UserProfileLite from "./views/UserProfileLite";
+import UserProfile from "./views/UserProfile";
 import AddNewPost from "./views/AddNewPost";
 import Errors from "./views/Errors";
 import ComponentsOverview from "./views/ComponentsOverview";
@@ -21,14 +21,14 @@ export default [
     component: () => <Redirect to="/blog-overview" />
   },
   {
+    path: "/user-profile",
+    layout: DefaultLayout,
+    component: UserProfile
+  },
+  {
     path: "/blog-overview",
     layout: DefaultLayout,
     component: BlogOverview
-  },
-  {
-    path: "/user-profile-lite",
-    layout: DefaultLayout,
-    component: UserProfileLite
   },
   {
     path: "/add-new-post",

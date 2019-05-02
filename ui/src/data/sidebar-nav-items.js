@@ -29,7 +29,7 @@ export default function() {
     {
       title: "User Profile",
       htmlBefore: '<i class="material-icons">person</i>',
-      to: "/user-profile-lite",
+      to: "/user-profile",
     },
     {
       title: "Errors",
