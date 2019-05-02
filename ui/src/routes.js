@@ -1,48 +1,58 @@
-import Dashboard from "views/Dashboard.jsx";
-import Icons from "views/Icons.jsx";
-import Notifications from "views/Notifications.jsx";
-import UserProfile from "views/UserProfile.jsx";
+import React from "react";
+import { Redirect } from "react-router-dom";
 
-var routes = [
+// Layout Types
+import { DefaultLayout } from "./layouts";
+
+// Route Views
+import BlogOverview from "./views/BlogOverview";
+import UserProfileLite from "./views/UserProfileLite";
+import AddNewPost from "./views/AddNewPost";
+import Errors from "./views/Errors";
+import ComponentsOverview from "./views/ComponentsOverview";
+import Tables from "./views/Tables";
+import BlogPosts from "./views/BlogPosts";
+
+export default [
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    rtlName: "Dashboard",
-    icon: "tim-icons icon-spaceship",
-    component: Dashboard,
-    layout: "/admin"
+    path: "/",
+    exact: true,
+    layout: DefaultLayout,
+    component: () => <Redirect to="/blog-overview" />
   },
   {
-    path: "/chat",
-    name: "Chat",
-    rtlName: "Chat",
-    icon: "tim-icons icon-chat-33",
-    component: Notifications,
-    layout: "/admin"
+    path: "/blog-overview",
+    layout: DefaultLayout,
+    component: BlogOverview
   },
   {
-    path: "/user-profile",
-    name: "User Profile",
-    rtlName: "Profile",
-    icon: "tim-icons icon-single-02",
-    component: UserProfile,
-    layout: "/admin"
+    path: "/user-profile-lite",
+    layout: DefaultLayout,
+    component: UserProfileLite
   },
   {
-    path: "/icons",
-    name: "Icons",
-    rtlName: "Icons",
-    icon: "tim-icons icon-atom",
-    component: Icons,
-    layout: "/admin"
+    path: "/add-new-post",
+    layout: DefaultLayout,
+    component: AddNewPost
   },
   {
-    path: "/notifications",
-    name: "Notifications",
-    rtlName: "notifications",
-    icon: "tim-icons icon-bell-55",
-    component: Notifications,
-    layout: "/admin"
+    path: "/errors",
+    layout: DefaultLayout,
+    component: Errors
   },
+  {
+    path: "/components-overview",
+    layout: DefaultLayout,
+    component: ComponentsOverview
+  },
+  {
+    path: "/tables",
+    layout: DefaultLayout,
+    component: Tables
+  },
+  {
+    path: "/blog-posts",
+    layout: DefaultLayout,
+    component: BlogPosts
+  }
 ];
-export default routes;
