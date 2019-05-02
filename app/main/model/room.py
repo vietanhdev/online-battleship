@@ -20,8 +20,11 @@ class Room(db.Model):
         data['players'] = []
         room_users = self.users
         for room_user in room_users:
+            # print("id ", room_user.id)
             user = room_user.user
-            data['players'].append(user.get_user_information())
+            user_infor = user.get_user_information()
+            user_infor['creator'] = room_user.creator
+            data['players'].append(user_infor)
         return data
     
     def get_dict_id(self):
@@ -34,17 +37,19 @@ class Room(db.Model):
             data['players'].append(user.id)
 
     def check_num_player(self):
-        print(type(self.game.num_players))
-        print(self.game.num_players)
-        print(len(self.users))
         if len(self.users) < self.game.num_players:
             return True
         return False
+    
+    def get_num_player(self):
+        return len(self.users)
 
     def get_players(self):
         room_users = self.users
         list_players = []
+        # creator = False
         for room_user in room_users:
+            # print("id ", room_user.id)
             player = room_user.user
             list_players.append(player)
         return list_players
