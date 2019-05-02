@@ -21,13 +21,23 @@ def save_new_user(data):
     user = User.query.filter_by(email=data.get('email')).first()
     if not user:
         new_user = User(
-            public_id=str(uuid.uuid4()),
+            public_id="",
             email=data.get('email'),
             username=data.get('username'),
             password=password,
             registered_on=datetime.datetime.utcnow()
         )
-        save_changes(new_user)
+
+        # Get new user id
+        db.session.add(new_user)
+        db.session.flush()
+
+        # Create user public id
+        new_user.public_id = str(10000 + new_user.id)
+
+        # Commit changes
+        db.session.commit()
+
         return generate_token(new_user)
         
     response_object = {
