@@ -1,6 +1,8 @@
 import os
 import unittest
 
+import datetime
+
 from flask import jsonify
 
 from flask_migrate import Migrate, MigrateCommand
@@ -10,6 +12,7 @@ from app import blueprint
 from app.main import create_app, db, socketio
 from app.main.model import user, message, game, room, game_user, room_user, follower_user
 from app.main.model.game import Game
+from app.main.model.user import User
 
 
 from flask_cors import CORS
@@ -39,6 +42,21 @@ def init_db():
             num_players=2
         )
         db.session.add(battle_ship)
+        db.session.commit()
+    
+    # create admin account when run app
+    admin = User.query.filter_by(public_id="admin").first()
+
+    if admin is None:
+        admin = User(
+            public_id="admin",
+            username="admin",
+            email="admin@email.com",
+            password="admin",
+            admin=True,
+            registered_on=datetime.datetime.utcnow()
+        )
+        db.session.add(admin)
         db.session.commit()
 
 
