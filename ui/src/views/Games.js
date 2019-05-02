@@ -1,13 +1,12 @@
 
 import { Container, Row, Col, Card, CardHeader, CardBody, ListItem, Button } from "shards-react";
-
 import PageTitle from "../components/common/PageTitle";
+import {Friends} from "../components/friends/Friends"
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { gameAction, gameActions } from '../redux/games/actions'
+import { gameActions } from '../redux/games/actions'
 
 export class Games extends Component {
 
@@ -30,15 +29,15 @@ export class Games extends Component {
         </Row>
 
         <Row>
-          <Col md="8">
+          <Col md="9">
             <Row>
               <Col>
                 <Card small className="mb-4">
                   <CardHeader className="border-bottom">
                     <h6 className="m-0">Current Matches</h6>
                     <div style={{display: "flex", flexDirection: "row-reverse"}}>
-                      <Button theme="accent" className="ml-2"><i class="material-icons">add_location</i> New Game</Button>
-                      <Button theme="accent" className="ml-2" outline><i class="material-icons">compare_arrows</i> Quick match</Button>
+                      <Button theme="accent" className="ml-2"><i className="material-icons">add_location</i> New Game</Button>
+                      <Button theme="accent" className="ml-2" outline><i className="material-icons">compare_arrows</i> Quick match</Button>
                     </div>
                   </CardHeader>
                   <CardBody className="p-0 pb-3">
@@ -49,54 +48,54 @@ export class Games extends Component {
                             #
                           </th>
                           <th scope="col" className="border-0">
-                            First Name
+                            Game
                           </th>
                           <th scope="col" className="border-0">
-                            Last Name
+                            # of players
                           </th>
                           <th scope="col" className="border-0">
-                            Country
+                            Creator
                           </th>
                           <th scope="col" className="border-0">
-                            City
+                            Created time
                           </th>
                           <th scope="col" className="border-0">
-                            Phone
+                            Action
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>1</td>
-                          <td>Ali</td>
-                          <td>Kerry</td>
-                          <td>Russian Federation</td>
-                          <td>Gdańsk</td>
-                          <td>107-0339</td>
-                        </tr>
-                        <tr>
+                          <td>Battle Ship</td>
                           <td>2</td>
-                          <td>Clark</td>
-                          <td>Angela</td>
-                          <td>Estonia</td>
-                          <td>Borghetto di Vara</td>
-                          <td>1-660-850-1647</td>
+                          <td>Viet Anh</td>
+                          <td>9 minutes ago</td>
+                          <td><Button theme="success" size="sm">Join</Button></td>
                         </tr>
                         <tr>
-                          <td>3</td>
-                          <td>Jerry</td>
-                          <td>Nathan</td>
-                          <td>Cyprus</td>
-                          <td>Braunau am Inn</td>
-                          <td>214-4225</td>
+                          <td>1</td>
+                          <td>Battle Ship</td>
+                          <td>2</td>
+                          <td>Viet Anh</td>
+                          <td>9 minutes ago</td>
+                          <td><Button theme="success" size="sm">Join</Button></td>
                         </tr>
                         <tr>
-                          <td>4</td>
-                          <td>Colt</td>
-                          <td>Angela</td>
-                          <td>Liberia</td>
-                          <td>Bad Hersfeld</td>
-                          <td>1-848-473-7416</td>
+                          <td>1</td>
+                          <td>Battle Ship</td>
+                          <td>2</td>
+                          <td>Viet Anh</td>
+                          <td>9 minutes ago</td>
+                          <td><Button theme="success" size="sm">Join</Button></td>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>Battle Ship</td>
+                          <td>2</td>
+                          <td>Viet Anh</td>
+                          <td>9 minutes ago</td>
+                          <td><Button theme="success" size="sm">Join</Button></td>
                         </tr>
                       </tbody>
                     </table>
@@ -134,15 +133,8 @@ export class Games extends Component {
               </Col>
             </Row>
           </Col>
-          <Col md="4">
-            <Card small className="mb-4">
-              <CardHeader className="border-bottom">
-                <h6 className="m-0">Active Users</h6>
-              </CardHeader>
-              <CardBody className="p-0 pb-3">
-                
-              </CardBody>
-            </Card>
+          <Col md="3">
+            <Friends></Friends>
           </Col>
         </Row>
 
