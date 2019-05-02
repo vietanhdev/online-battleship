@@ -2,29 +2,26 @@ import request from '../services/http'
 import userConstants from './constants'
 
 export const userActions = {
-    register: (name, email, password)  => {
-        return function (dispatch){
-            request.post('/users',
-                {
-                    username: name,
-                    email: email,
-                    password: password,
-                    bio: ""
-                }
-            )
-            .then(function (response) {
-                dispatch({
-                    type: userConstants.REGISTER_SUCCESS
-                });
-            })
-            .catch(function (error) {
-                dispatch({
-                    type: userConstants.REGISTER_FAIL,
-                    payload: error
-                });
-            })
-            
-        }
+    register: (name, email, password)  => dispatch => {
+        request.post('/users',
+            {
+                username: name,
+                email: email,
+                password: password,
+                bio: ""
+            }
+        )
+        .then(function (response) {
+            dispatch({
+                type: userConstants.REGISTER_SUCCESS
+            });
+        })
+        .catch(function (error) {
+            dispatch({
+                type: userConstants.REGISTER_FAIL,
+                payload: error
+            });
+        })
     },
     login: (email, password, history)  => dispatch => {
         request.post('/auth',
