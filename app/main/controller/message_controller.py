@@ -43,7 +43,7 @@ class MessageList(Resource):
         return response_object
 
 
-@api.route('/test')
+@api.route('/test', '/test/')
 class Test(Resource):
     def get(self):
         headers = {'Content-Type': 'text/html'}

@@ -11,6 +11,9 @@ services:
       MYSQL_USER: online_games
       MYSQL_PASSWORD: Flask#123
       MYSQL_DATABASE: online_games_db
+    volumes:
+      - ./conf/mariadb-conf.d:/etc/mysql/mariadb.conf.d
+      - ./conf/conf.d:/etc/mysql/conf.d/
     ports:
       - "8181:3306"
 
