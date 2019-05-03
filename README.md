@@ -13,8 +13,8 @@ First, remember to activate your virtual environment. Then, we will start instal
 
 ```
 $ python3 -m venv venv
-$ source /venv/bin/activate
-$ pip install -r requirement.txt
+$ source venv/bin/activate
+$ pip install -r requirements.txt
 ```
 
 ## 3. Database Setup (Using docker-compose)

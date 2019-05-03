@@ -8,7 +8,7 @@ class Room(db.Model):
     public_id = db.Column(db.String(100), unique=True)
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
     game = db.relationship("Game")
-    history = db.Column(db.String(255))
+    history = db.Column(db.Text)
     created_at = db.Column(db.DateTime, nullable=False)
 
     users = db.relationship('RoomUser', back_populates='room')
@@ -40,3 +40,29 @@ class Room(db.Model):
         if len(self.users) < self.game.num_players:
             return True
         return False
+
+    def get_players(self):
+        room_users = self.users
+        list_players = []
+        for room_user in room_users:
+            player = room_user.user
+            list_players.append(player)
+        return list_players
+    
+    def check_exist_player(self, user):
+        room_users = self.users
+        for room_user in room_users:
+            player = room_user.user
+            if user == player:
+                return True
+        return False
+
+    def get_rival(self, user):
+        room_users = self.users
+        if self.check_exist_player:
+            for room_user in room_users:
+                player = room_user.user
+                if user != player:
+                    return player
+        else:
+            return None
