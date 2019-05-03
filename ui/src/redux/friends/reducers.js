@@ -4,7 +4,7 @@ import {notifierActions} from '../notifier/actions'
 const initState = {
     friends: [
         {
-            name: "Viet Anh",
+            name: "Viet Anh Nguyen",
             image: require('../../images/avatars/king.png'),
             online: true
         },

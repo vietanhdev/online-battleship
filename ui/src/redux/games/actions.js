@@ -31,6 +31,11 @@ export const gameActions = {
         //     type: gameConstants.FETCH_GAMES_SUCCESS,
         //     payload: games
         // });
+    },
+
+
+    createRoom: (gameId)  => dispatch => {
+        
     }
 
 }
