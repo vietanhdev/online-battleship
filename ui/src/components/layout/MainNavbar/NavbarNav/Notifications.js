@@ -28,7 +28,7 @@ export default class Notifications extends React.Component {
           <div className="nav-link-icon__wrapper">
             <i className="material-icons">&#xE7F4;</i>
             <Badge pill theme="danger">
-              2
+              1
             </Badge>
           </div>
         </NavLink>
@@ -43,31 +43,18 @@ export default class Notifications extends React.Component {
               </div>
             </div>
             <div className="notification__content">
-              <span className="notification__category">Analytics</span>
+              <span className="notification__category">Welcome Message</span>
               <p>
-                Your website’s active users count increased by{" "}
-                <span className="text-success text-semibold">28%</span> in the
-                last week. Great job!
+                Welcome to iCT Gaming Zone. A product of {" "}
+                <span className="text-success text-semibold">ICT Class.</span>
               </p>
-            </div>
-          </DropdownItem>
-          <DropdownItem>
-            <div className="notification__icon-wrapper">
-              <div className="notification__icon">
-                <i className="material-icons">&#xE8D1;</i>
-              </div>
-            </div>
-            <div className="notification__content">
-              <span className="notification__category">Sales</span>
               <p>
-                Last week your store’s sales count decreased by{" "}
-                <span className="text-danger text-semibold">5.52%</span>. It
-                could have been worse!
+                Enjoy playing here!
               </p>
             </div>
           </DropdownItem>
           <DropdownItem className="notification__all text-center">
-            View all Notifications
+            * * *
           </DropdownItem>
         </Collapse>
       </NavItem>
