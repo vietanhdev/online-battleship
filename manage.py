@@ -19,9 +19,6 @@ from flask_cors import CORS
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 
-# Allow all CORS for /api/* endpoints
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly

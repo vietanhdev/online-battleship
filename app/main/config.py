@@ -12,6 +12,7 @@ class Config:
     ADMIN_KEY = os.getenv('ADMIN_SECRET_KEY', 'admin_precious_secret_key')
     DEBUG = False
     CORS_ENABLED = False
+    CORS_HEADERS = 'Content-Type'
     SQLALCHEMY_POOL_RECYCLE = 499
     SQLALCHEMY_POOL_TIMEOUT = 20
     MYSQL_DATABASE_CHARSET = 'utf8mb4'
