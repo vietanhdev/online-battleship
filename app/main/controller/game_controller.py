@@ -37,8 +37,8 @@ class RoomList(Resource):
     def get(self):
         """List all rooms"""
         # Get offset and limit argument, set to 0 if not invalid
-        offset = request.args.get('offset') or 0
-        limit = request.args.get('limit') or 0
+        offset = request.args.get('offset') or '0'
+        limit = request.args.get('limit') or '0'
         return get_all_rooms(offset=offset, limit=limit)
     
     @token_required
