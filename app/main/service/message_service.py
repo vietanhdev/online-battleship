@@ -3,25 +3,7 @@ import datetime
 from app.main import db
 from app.main.model.message import Message
 
-from .user_service import get_a_user
-from .game_service import get_a_room
-
 from sqlalchemy import or_, and_
-
-
-def is_private(public_id):
-    # check if user
-    user = get_a_user(public_id)
-    if user:
-        return True
-
-    # if not user, check if room
-    room = get_a_room(public_id)
-    if room:
-        return False
-
-    # if both not, return None
-    return None
 
 
 def get_messages(self_public_id, partner_public_id):

@@ -15,18 +15,9 @@
             <button id="send_token">Submit token</button>
         </div>
         <div>
-            <input type="text" id="room_public_id" placeholder="Enter room public id">
-            <button id="join_room">Join room</button>
-        </div>
-        <div>
             <input type="text" id="receiver_public_id" placeholder="Enter receiver public id">
             <input type="text" id="content" placeholder="message content">
             <button id="send_message">Send message</button>
-        </div>
-        <div>
-            <input type="text" id="room_pulbic_id" placeholder="Enter room_pulic_id">
-            <input type="text" id="command" placeholder="Enter your command">
-            <button id="send_command">Send command</button>
         </div>
     </div>
 
@@ -53,59 +44,21 @@
                 msg = JSON.stringify(response_object)
                 console.log('response_login : ' + msg);
             })
-
-            var messages = io.connect(address + '/messages');
-
-            messages.on('connect', function(){
-                console.log('connected to server on path /messages');
-            });
-
-            socket.on('disconnect', function(){
-                console.log('disconnected to server on path /messages');
-            });
             
             $('#send_message').on('click', function(){
                 receiver_public_id = $('#receiver_public_id').val();
                 content = $('#content').val();
-                messages.emit('request_message', {'receiver_public_id': receiver_public_id, 'content': content});
+                socket.emit('request_private_message', {'receiver_public_id': receiver_public_id, 'content': content});
             });
 
-            messages.on('response_message', function(response_object){
+            socket.on('response_private_message', function(response_object){
                 msg = JSON.stringify(response_object);
-                console.log('response_message : ' + msg);
+                console.log('response_private_message : ' + msg);
             });
 
-            messages.on('receive_message', function(response_object){
+            socket.on('receive_message', function(response_object){
                 msg = JSON.stringify(response_object);
                 console.log('receive_message : ' + msg);
-            });
-
-            var rooms = io.connect(address + '/rooms');
-
-            $('#join_room').on('click', function(){
-                room_public_id = $('#room_public_id').val();
-                rooms.emit('request_join_room', {'room_public_id': room_public_id});
-            });
-
-            rooms.on('response_join_room', function(response_object){
-                msg = JSON.stringify(response_object);
-                console.log('response_join_room: ' + msg);
-            });
-
-            $('#send_command').on('click', function(){
-                room_public_id = $('#room_public_id').val();
-                command = $('#command').val();
-                rooms.emit('request_command', {'room_public_id': room_public_id, 'command': command});
-            });
-
-            rooms.on('response_command', function(response_object){
-                msg = JSON.stringify(response_object);
-                console.log('response_command: ' + msg);
-            });
-
-            rooms.on('receive_event', function(response_object){
-                msg = JSON.stringify(response_object);
-                console.log('receive_event: ' + msg);
             });
         });
     </script>

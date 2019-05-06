@@ -76,6 +76,11 @@ def get_a_room(room_public_id):
     return room
 
 
+def get_a_room_by_id(room_id):
+    room = Room.query.filter_by(id=room_id).first()
+    return room
+
+
 def save_new_game(data):
     if str(data.get('num_players')).isdigit():
         new_game = Game(
