@@ -21,13 +21,13 @@ export default class Login extends React.Component {
 
     if (username.length === 0 || password.length === 0) {
       return this.setState({
-        errorCode: 'missingUsernameOrPassword'
+        error: 'Missing email or password.'
       });
     }
 
     this.setState({
       loggingIn: true,
-      errorCode: null
+      error: null
     });
 
     this.props.onLogin(username, password, (err) => {
@@ -38,11 +38,13 @@ export default class Login extends React.Component {
         });
       }
 
-      if (this.props.location.state && this.props.location.state.nextPathname) {
-        window.location.href = this.props.location.state.nextPathname;
-      } else {
-        window.location.href = '/';
-      }
+      
+
+      // if (this.props.location.state && this.props.location.state.nextPathname) {
+      //   window.location.href = this.props.location.state.nextPathname;
+      // } else {
+      //   window.location.href = '/';
+      // }
 
       // if (this.props.history) {
       //   // Redirect to whatever URL the user was originally trying to access
@@ -59,18 +61,7 @@ export default class Login extends React.Component {
     if (!this.state.error) return null;
 
     let message = null;
-    switch (this.state.error.code) {
-    case 'invalidCredentials':
-      message = 'Invalid credentials';
-      break;
-    case 'missingUsernameOrPassword':
-      message = 'Please enter your username and password';
-      break;
-    default:
-      message = 'Unknown sign-in error';
-      break;
-    }
-
+    message = this.state.error;
     return <Alert type="danger"><strong>{message}</strong></Alert>;
   }
 
