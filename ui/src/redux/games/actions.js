@@ -5,6 +5,7 @@ import {appActions} from '../app/actions'
 import {notifierActions} from '../notifier/actions'
 
 export const gameActions = {
+    
 
     fetchGameList: ()  => dispatch => {
         request.get('/games/')
@@ -56,6 +57,13 @@ export const gameActions = {
 
     },
 
+    
+    enterRoomFailed: (history) => {
+        notifierActions.showError("Error on joining room: Could not authenticate with given token. Please try again.");
+
+        // Return to Games page
+        history.push("/games")
+    },
 
     enterRoom: (roomId, history)  => dispatch => {
 
@@ -67,8 +75,6 @@ export const gameActions = {
         .then(function (response) {
 
             let roomInfo = response.data.data;
-
-            console.log(roomInfo);
 
             dispatch({
                 type: gameConstants.ENTER_ROOM_SUCCESS,
