@@ -1,5 +1,5 @@
 
-import { Container, Row, Col, Card, CardHeader, CardBody, ListItem, Button } from "shards-react";
+import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import {Friends} from "../components/friends/Friends"
 

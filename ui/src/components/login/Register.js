@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import {userActions} from '../../redux/users'
-
 import {notifierActions} from '../../redux/notifier'
+
+import { withRouter } from "react-router";
 
 class Register extends React.Component {
   
@@ -25,7 +26,7 @@ class Register extends React.Component {
 
     notifierActions.showInfo("Please wait...")
 
-    this.props.register(username, email, password);
+    this.props.register(username, email, password, this.props.history);
 
   }
 
@@ -90,4 +91,4 @@ const mapDispatchToProps = {
   register: userActions.register
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Register))

@@ -1,5 +1,4 @@
 import gameConstants from './constants'
-import {notifierActions} from '../notifier/actions'
 
 const initState = {
     gameList : []

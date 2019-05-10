@@ -25,8 +25,6 @@ class App extends Component {
 
   render() {
 
-    const {isLoading} = this.props;
-
     return (
       <Router onChange={this.handleHistoryChange}>
         <Switch>
@@ -81,7 +79,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isLoading: state.appReducer.isLoading
+
 })
 
 const mapDispatchToProps = {

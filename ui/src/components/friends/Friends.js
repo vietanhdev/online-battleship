@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card, CardHeader, CardBody, ListItem, Button } from "shards-react";
+import { Card, CardHeader, CardBody} from "shards-react";
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
