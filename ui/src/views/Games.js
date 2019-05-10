@@ -7,6 +7,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { gameActions } from '../redux/games/actions'
+import { appActions } from '../redux/app/actions'
 
 export class Games extends Component {
 
@@ -36,7 +37,7 @@ export class Games extends Component {
                   <CardHeader className="border-bottom">
                     <h6 className="m-0">Current Matches</h6>
                     <div style={{display: "flex", flexDirection: "row-reverse"}}>
-                      <Button theme="accent" className="ml-2"><i className="material-icons">add_location</i> New Game</Button>
+                      <Button onClick={this.props.openLoadingScreen} theme="accent" className="ml-2"><i className="material-icons">add_location</i> New Game</Button>
                       <Button theme="accent" className="ml-2" outline><i className="material-icons">compare_arrows</i> Quick match</Button>
                     </div>
                   </CardHeader>
@@ -148,7 +149,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  fetchGameList: gameActions.fetchGameList
+  fetchGameList: gameActions.fetchGameList,
+  openLoadingScreen: appActions.openLoadingScreen,
+  closeLoadingScreen: appActions.closeLoadingScreen
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Games)

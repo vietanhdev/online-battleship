@@ -3,7 +3,8 @@ import {appConstants} from "./contants"
 
 const initState = {
     menuVisible: false,
-    navItems: getSidebarNavItems()
+    navItems: getSidebarNavItems(),
+    isLoading: false
 }
 
 export const appReducer = (state = initState, action) => {
@@ -12,6 +13,11 @@ export const appReducer = (state = initState, action) => {
             return Object.assign({}, state, {
                 menuVisible: !state.menuVisible
             })
+        case appConstants.SET_LOADING:
+            return {
+                ...state,
+                isLoading: action.payload
+            }
         default:
             return state
     }

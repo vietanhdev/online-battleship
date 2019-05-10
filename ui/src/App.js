@@ -1,12 +1,12 @@
 import React, {Component} from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from 'react-redux'
 
 import routes from "./routes";
 import withTracker from "./withTracker";
 import NotFound from "./views/NotFound";
 
 import {notifierActions} from "./redux/notifier"
-
 
 import {ProtectedRoute, AuthRoute} from 'router'
 import {RouteType} from 'router'
@@ -21,8 +21,12 @@ class App extends Component {
   handleHistoryChange() {
     notifierActions.dismissAlert();
   }
+  
 
   render() {
+
+    const {isLoading} = this.props;
+
     return (
       <Router onChange={this.handleHistoryChange}>
         <Switch>
@@ -76,5 +80,12 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  isLoading: state.appReducer.isLoading
+})
 
-export default App;
+const mapDispatchToProps = {
+  
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
