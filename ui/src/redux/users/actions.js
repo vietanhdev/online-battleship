@@ -30,15 +30,14 @@ export const userActions = {
             }
         ).then(function (response) {
 
+            notifierActions.dismissAlert();
+
             let user = {
                 fullname: response.data["data"]["username"],
                 bio: response.data["data"]["bio"],
                 email: response.data["data"]["email"],
                 token:  response.data["data"]["token"]
             }
-
-            // Save info in session storage
-            localStorage.setItem("user", JSON.stringify(user));
 
             dispatch({
                 type: userConstants.LOGIN_SUCCESS,

@@ -44,6 +44,9 @@ export const userReducer = (state = initState, action) =>  {
                 isLoggedIn: true
             }
 
+            // Save info in session storage
+            localStorage.setItem("user", JSON.stringify(user));
+
             return Object.assign({}, state, user)
 
         case userConstants.LOGOUT_FAIL:
