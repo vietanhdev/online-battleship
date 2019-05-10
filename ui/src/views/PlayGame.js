@@ -16,6 +16,8 @@ import Config from '../config'
 
 import socketIOClient from "socket.io-client";
 
+import { BattleShipGame } from '../components/games/battle_ship/BattleShipGame'
+
 export class PlayGame extends Component {
 
   constructor (props) {
@@ -74,6 +76,8 @@ export class PlayGame extends Component {
         <Row noGutters className="page-header py-4">
           <PageTitle sm="4" title={roomInfo.game.name} subtitle="Let's play" className="text-sm-left" />
         </Row>
+
+        <BattleShipGame room={this.state.room_id} history={this.props.history}></BattleShipGame>
 
       </Container>
     )
