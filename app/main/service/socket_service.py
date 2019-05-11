@@ -1,42 +1,69 @@
+from .user_service import get_a_user, get_a_user_by_id
+from .game_service import send_command, get_a_room, get_a_room_by_id
+
+from app.main.service.auth_helper import Auth
+
 from app.main import r_db
-import json
 
-# def save_user_with_session(session_id, user_id, remain_sec):
-#     r_db.set(session_id, user_id)
-#     r_db.expire(session_id, int(remain_sec))
+online_dict = {}
 
+def login_room_socket(request_object):
+    user = Auth.socket_logged_in_user(request_object)
+    room_public_id = request_object.get('room_public_id')
+    room = get_a_room(room_public_id)
 
-# def get_uid_by_sid(session_id):
-#     return r_db.lindex(session_id, )
+    if user is None:
+        response_object = {
+            'status': 'fail',
+            'message': 'Fail to authenticate'
+        }
+        return None, None, response_object
 
-
-# def get_user_id_by_sid(session_id):
-#     return r_db.get(session_id)
-
-
-def save_user_id_room_id_with_sid(session_id, user_id, remain_sec, room_id=None):
-    user_room = {
-        'user_id': user_id,
-        'room_id': room_id
+    if room is None:
+        response_object = {
+            'status': 'fail',
+            'message': 'Room not found'
+        }
+        return None, None, response_object
+    
+    response_object = {
+        'status': 'success',
+        'message': 'Authenticate successfully'
     }
-    return r_db.set(name=session_id, value=json.dumps(user_room), ex=int(remain_sec))
+    return user, room, response_object
 
 
-def get_user_id_by_sid(session_id):
-    user_room = r_db.get(session_id)
-    if user_room is None:
-        return None
-    user_room = json.loads(user_room)
-    return user_room.get('user_id')
+def get_list_users_in_room(room):
+    set_users = r_db.smembers(room.id)
+    list_users = []
+    for user_id in set_users:
+        user = get_a_user_by_id(user_id)
+        if user is not None:
+            list_users.append(user.get_user_information())
+    return list_users
 
 
-def get_room_id_by_sid(session_id):
-    user_room = r_db.get(session_id)
-    if user_room is None:
-        return None
-    user_room = json.loads(user_room)
-    return user_room.get('room_id')
+def user_get_in_room(user, room):
+    r_db.sadd(room.id, user.id)
+    return get_list_users_in_room(room)
 
 
-def delete_session(session_id):
-    r_db.delete(session_id)
+def user_get_out_room(user, room):
+    r_db.srem(room.id, user.id)
+    return get_list_users_in_room(room)
+
+
+def get_user_and_room(list_user_id, list_room_id):
+    if len(list_user_id) == 0:
+        return None, None
+    
+    if len(list_room_id) == 0:
+        return None, None
+        
+    user_id = list_user_id[-1]
+    user = get_a_user_by_id(user_id)
+
+    room_id = list_room_id[-1]
+    room = get_a_room_by_id(room_id)
+
+    return user, room

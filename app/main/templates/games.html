@@ -72,6 +72,11 @@
                 console.log('receive_message : ' + msg);
             });
 
+            rooms.on('users_in_room', function(response_object){
+                msg = JSON.stringify(response_object);
+                console.log('users_in_room : ' + msg);
+            });
+
             $('#send_command').on('click', function(){
                 command = $('#command').val();
                 request_object = {
