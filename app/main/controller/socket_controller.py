@@ -195,13 +195,10 @@ def newRoomMessage(request_object):
         }
     else:
         # Save new message to database
-        save_new_message(sender_public_id=user.public_id, receiver_public_id=room.public_id, content=content)
+        new_message = save_new_message(sender_public_id=user.public_id, receiver_public_id=room.public_id, content=content)
 
         # Send new message to all receiver in that room
-        receive_object = {
-            'sender_public_id': user.public_id,
-            'content': content
-        }
+        receive_object = new_message.get_message_information()
         emit('receive_message', receive_object, room=room.public_id, namespace='/rooms')
 
         # Notify sender that message is saved and sent successful

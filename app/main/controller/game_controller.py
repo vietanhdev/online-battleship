@@ -72,8 +72,13 @@ class RoomWithId(Resource):
             
             data['joined'] = joined
             data['is_my_room'] = room.check_exist_player(user)
+            data['create_ship'] = False
 
-            data['history'] = battleship_get_history(user, room)
+            if room.game_id == 1:
+                data['history'] = battleship_get_history(user, room)
+            
+            # if data['history'].get('payload')
+
             response_object = {
                 'status': 'success',
                 'data': data
