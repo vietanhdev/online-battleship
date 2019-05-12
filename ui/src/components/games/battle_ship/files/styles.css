@@ -285,7 +285,7 @@ select:not([size]).input {
   cursor: default;
 }
 .game_grid-cell {
-  background: #61bb69;
+  background: #00b6c6;
 }
 .ship-1:before,
 .ship-2:before,

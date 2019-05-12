@@ -6,12 +6,41 @@ import { Button } from 'shards-react'
 
 
 import Images from './Images'
+import Constants from './constants';
 
 export class BattleShipGame extends Component {
 
 
-    constructor() {
-        
+    constructor(props) {
+
+        super(props);
+
+        this.state = {
+
+            ship_arrangement: {
+                rotate_ship: false,
+                selected_ship_type: Constants.SHIP_SIZE.GIGANT
+            }
+
+        }
+
+    }
+
+
+    toggleRotateShip = () =>  {
+
+        let newState = Object.assign({}, this.state);
+        newState.ship_arrangement.rotate_ship = !this.state.ship_arrangement.rotate_ship;
+
+        this.setState(newState);
+    }
+
+
+    selectShipSize = (size) => {
+        let newState = Object.assign({}, this.state);
+        newState.ship_arrangement.selected_ship_type = size;
+
+        this.setState(newState);
     }
 
     render() {
@@ -43,6 +72,14 @@ export class BattleShipGame extends Component {
                     <div className="game_grid-nav">I</div>
                     <div className="game_grid-nav">J</div>
                     </div>
+
+                    { () => {
+                        for (let i = 0; i < 10; ++i) {
+
+                        }
+                    }
+                    }
+
                     <div className="game_grid-row">
                     <div className="game_grid-nav">1</div>
                     <div className="game_grid-cell" id="c0_0"></div>
@@ -325,34 +362,33 @@ export class BattleShipGame extends Component {
                             <div className="game_grid-cell" id="o9_9"></div>
                         </div>
                     </div>
-                    <div className="prepare_field">
+                    <div className={ this.state.ship_arrangement.rotate_ship ? "prepare_field--rotate" : "prepare_field"}>
 
                         <div className="prepare_cell-wrapper">
-                            <div className="prepare_cell">
+                            <div className={"prepare_cell" + (this.state.ship_arrangement.selected_ship_type === Constants.SHIP_SIZE.SMALL ? " prepare_cell--active" : "")} onClick={() => {this.selectShipSize(Constants.SHIP_SIZE.SMALL)}}>
                                 <div className="prepare_cell-counter">x4</div>
                                 <img src={Images.ship_1_player} alt=""
                                 className="prepare_cell-ship"></img>
                             </div>
 
-                            <div className="prepare_cell prepare_cell--active">
+                            <div className={"prepare_cell" + (this.state.ship_arrangement.selected_ship_type === Constants.SHIP_SIZE.MID ? " prepare_cell--active" : "")} onClick={() => {this.selectShipSize(Constants.SHIP_SIZE.MID)}}>
                                 <div className="prepare_cell-counter">x3</div>
                                 <img src={Images.ship_2_player} alt=""
                                 className="prepare_cell-ship"></img>
                             </div>
 
-                            <div className="prepare_cell">
-                                <div className="prepare_cell-counter">x2</div>
-                                <img src={Images.ship_3_player} alt=""
-                                className="prepare_cell-ship"></img>
+                            <div className={"prepare_cell" + (this.state.ship_arrangement.selected_ship_type === Constants.SHIP_SIZE.LARGE ? " prepare_cell--active" : "")} onClick={() => {this.selectShipSize(Constants.SHIP_SIZE.LARGE)}}>
+                            <div className="prepare_cell-counter">x2</div>
+                                <img src={Images.ship_3_player} alt="" className="prepare_cell-ship"></img>
                             </div>
 
-                            <div className="prepare_cell">
-                                <div className="prepare_cell-counter">x1</div>
+                            <div className={"prepare_cell" + (this.state.ship_arrangement.selected_ship_type === Constants.SHIP_SIZE.GIGANT ? " prepare_cell--active" : "")} onClick={() => {this.selectShipSize(Constants.SHIP_SIZE.GIGANT)}}>
+                            <div className="prepare_cell-counter">x1</div>
                                 <img src={Images.ship_4_player} alt=""
                                 className="prepare_cell-ship"></img>
                             </div>
 
-                            <button className="prepare_field-rotate_btn"></button>
+                            <button className="prepare_field-rotate_btn" onClick={this.toggleRotateShip}></button>
                         </div>
 
                         <div className="prepare_overlay">
