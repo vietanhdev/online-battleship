@@ -153,7 +153,7 @@ class GetAllFollowings(Resource):
 class FollowUser(Resource):
     @token_required
     @api.doc('follow user')
-    def get(self, public_id):
+    def post(self, public_id):
         """Follow user with id"""
         follower = g.user
         user = get_a_user(public_id)

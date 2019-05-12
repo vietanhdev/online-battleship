@@ -19,7 +19,8 @@ class Auth:
                             'email': user.email,
                             'username': user.username,
                             'bio': user.bio,
-                            'token': auth_token.decode()
+                            'token': auth_token.decode(),
+                            'public_id': user.public_id
                         } 
                     }
                     return response_object, 200
