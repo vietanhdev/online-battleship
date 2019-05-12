@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import loading_icon from '../../images/loading_ship.svg'
-import styles from './Loading.scss';
+import './Loading.scss'
 
 export class Loading extends Component {
   render() {
