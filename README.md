@@ -1,4 +1,4 @@
-# ICT Gaming Zone
+# iCT Gaming Zone
 
 ## 1. Prerequites
 

@@ -3,7 +3,7 @@ import Alert from './Alert';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom'
 
-class Login extends React.Component {
+class Register extends React.Component {
   
   constructor(props) {
     super(props);
@@ -29,7 +29,7 @@ class Login extends React.Component {
       error: null
     });
 
-    this.props.onLogin(username, password, (err) => {
+    this.props.onRegister(username, password, (err) => {
       if (err) {
         return this.setState({
           error: err,
@@ -40,7 +40,7 @@ class Login extends React.Component {
     });
   }
 
-  renderLoginError() {
+  renderRegisterError() {
     if (!this.state.error) return null;
 
     let message = null;
@@ -66,8 +66,8 @@ class Login extends React.Component {
             iCTGamingZone
           </h2>
         </div>
-        <h2>Login</h2>
-        {this.renderLoginError()}
+        <h2>Register</h2>
+        {this.renderRegisterError()}
         <form onSubmit={this.submit.bind(this)} noValidate>
           <div className="form-group">
             <label className="sr-only" htmlFor="email">Email</label>
@@ -82,13 +82,13 @@ class Login extends React.Component {
           <div className="form-group">
             <button className="btn btn-primary btn-block" type="submit"
               disabled={this.state.loggingIn}>
-              <span>Sign-In</span>
+              <span>Register</span>
               <i className={signInIconClass} style={{marginLeft: 6}}/>
             </button>
-            <Link to="/register">
-              <button className="btn btn-danger btn-block  mt-1" type="button"
+            <Link to="/login">
+              <button className="btn btn-danger btn-block mt-1" type="button"
                 disabled={this.state.loggingIn}>
-                <span>Register</span>
+                <span>Login</span>
                 <i className={signInIconClass} style={{marginLeft: 6}}/>
               </button>
             </Link>
@@ -99,18 +99,18 @@ class Login extends React.Component {
   }
 }
 
-export default withRouter(Login);
+export default withRouter(Register);
 
-Login.defaultProps = {
+Register.defaultProps = {
   heading: PropTypes.string,
   spinnerIconClass: 'fa fa-spinner fa-spin',
   buttonIconClass: 'fa fa-sign-in'
 };
 
-Login.propTypes = {
+Register.propTypes = {
   location: PropTypes.object,
   header: PropTypes.string,
   spinnerIconClass: PropTypes.string,
   loginIconClass: PropTypes.string,
-  onLogin: PropTypes.func.isRequired
+  onRegister: PropTypes.func.isRequired
 };
