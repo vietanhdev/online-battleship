@@ -45,8 +45,8 @@ class Room(db.Model):
             user = room_user.user
             data['players'].append(user.id)
 
-    def check_num_player(self):
-        if len(self.users) < self.game.num_players:
+    def is_enough_players(self):
+        if len(self.users) == self.game.num_players:
             return True
         return False
     

@@ -5,7 +5,6 @@ from ..util.dto import GameDto
 from ..util.decorator import admin_token_required, token_required
 
 from ..service.game_service import get_all_rooms, save_new_room, get_all_games, get_a_room, save_new_player
-from ..service.battleship_service import battleship_get_history
 
 from flask_socketio import send, emit
 from .. import socketio
@@ -64,7 +63,7 @@ class RoomWithId(Resource):
         else:
             # Add user until game room have enough players
             joined = False
-            if room.check_num_player():
+            if room.is_enough_players() == False:
                 if room.check_exist_player(user) ==  False:
                     save_new_player(room, user)
                     joined = True
