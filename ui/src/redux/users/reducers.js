@@ -11,7 +11,8 @@ function getUserFromSessStorage() {
             email: "",
             bio: "The best gamer on the Earth.",
             isLoggedIn: false,
-            token: ""
+            token: "",
+            public_id: ""
         }
     }
     return user;
@@ -41,6 +42,7 @@ export const userReducer = (state = initState, action) =>  {
                 bio: action.payload.bio,
                 email: action.payload.email,
                 token: action.payload.token,
+                public_id: action.payload.public_id,
                 isLoggedIn: true
             }
 
@@ -57,6 +59,7 @@ export const userReducer = (state = initState, action) =>  {
                 bio: "",
                 email: "",
                 token: "",
+                public_id: "",
                 isLoggedIn: false
             }
 

@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import Friend from './Friend'
 
-import { Friend } from './Friend'
+
+import  { friendActions } from '../../redux/friends/actions'
 
 export class FriendList extends Component {
+
+
+  componentWillMount = () => {
+    this.props.fetchFriendList();
+  }
+
   render = () => {
     const friends = this.props.friends;
     return (
@@ -22,7 +30,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  
+  fetchFriendList: friendActions.fetchFriendList
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendList)
