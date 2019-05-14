@@ -2,12 +2,13 @@ import React from 'react';
 import { withRouter } from "react-router";
 
 import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react";
-import { Friends } from "../../components/friends/Friends"
+import Friends from "../../components/friends/Friends"
 import { connect } from 'react-redux'
 
 import './styles.css';
 
 class Messages extends React.Component {
+  
    
     render () {
 
