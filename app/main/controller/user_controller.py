@@ -175,6 +175,6 @@ class FollowUser(Resource):
         follower = g.user 
         user = get_a_user(public_id)
         if not user:
-            abort(404, 'page not found', status='fail')
+            abort(404, 'User ID not found!')
         return delete_follower(follower, user)
         
