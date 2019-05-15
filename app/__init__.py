@@ -17,7 +17,7 @@ api = Api(blueprint,
           description='flask restplus web service'
           )
 
-api.add_namespace(user_ns, path='/users')
-api.add_namespace(auth_ns)
-api.add_namespace(message_ns, path='/messages')
-api.add_namespace(game_ns, path='/games')
+api.add_namespace(user_ns, path='/api/users')
+api.add_namespace(auth_ns, path='/api/auth')
+api.add_namespace(message_ns, path='/api/messages')
+api.add_namespace(game_ns, path='/api/games')
