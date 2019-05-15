@@ -1,5 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { connect } from 'react-redux';
+
 import classNames from "classnames";
 import { Col } from "shards-react";
 
@@ -7,42 +8,16 @@ import SidebarMainNavbar from "./SidebarMainNavbar";
 import SidebarSearch from "./SidebarSearch";
 import SidebarNavItems from "./SidebarNavItems";
 
-import { Store } from "../../../flux";
 
 class MainSidebar extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      menuVisible: false,
-      sidebarNavItems: Store.getSidebarItems()
-    };
-
-    this.onChange = this.onChange.bind(this);
-  }
-
-  componentWillMount() {
-    Store.addChangeListener(this.onChange);
-  }
-
-  componentWillUnmount() {
-    Store.removeChangeListener(this.onChange);
-  }
-
-  onChange() {
-    this.setState({
-      ...this.state,
-      menuVisible: Store.getMenuState(),
-      sidebarNavItems: Store.getSidebarItems()
-    });
-  }
 
   render() {
     const classes = classNames(
       "main-sidebar",
       "px-0",
       "col-12",
-      this.state.menuVisible && "open"
+      this.props.menuVisible && "open"
     );
 
     return (
@@ -60,15 +35,14 @@ class MainSidebar extends React.Component {
   }
 }
 
-MainSidebar.propTypes = {
-  /**
-   * Whether to hide the logo text, or not.
-   */
-  hideLogoText: PropTypes.bool
-};
+const mapStateToProps = (state) => ({
+  menuVisible: state.appReducer.menuVisible,
+  sidebarNavItems: state.appReducer.navItems
+})
 
-MainSidebar.defaultProps = {
-  hideLogoText: false
-};
+const mapDispatchToProps = {
+  
+}
 
-export default MainSidebar;
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainSidebar);
