@@ -35,8 +35,6 @@ class Login extends React.Component {
     }
 
     render() {
-        
-        const { username, password, submitted } = this.state;
         return (
 
             <div className="login-form" style={{marginTop: "5rem"}}>
@@ -57,16 +55,13 @@ class Login extends React.Component {
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label className="sr-only" htmlFor="email">Email</label>
-                        <input type="text" className="form-control" name="username" value={username} onChange={this.handleChange} />
-                        {submitted && !username &&
-                            <div className="help-block">Username is required</div>
-                        }
+                        <input  style={{border: "1px solid"}} className="form-control" autoCapitalize={false}
+                        ref="email" placeholder="Email" autoFocus disabled={this.loggingIn}/>
                     </div>
-                    <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
-                        <input type="password" className="form-control" name="password" value={password} onChange={this.handleChange} />
-                        {submitted && !password &&
-                            <div className="help-block">Password is required</div>
-                        }
+                    <div className="form-group">
+                        <label className="sr-only" htmlFor="password">Password</label>
+                        <input  style={{border: "1px solid"}} className="form-control" type="password"
+                        ref="password" placeholder="Password" disabled={this.loggingIn}/>
                     </div>
                     <div className="form-group">
                         <button className="btn btn-primary btn-block" type="submit"
