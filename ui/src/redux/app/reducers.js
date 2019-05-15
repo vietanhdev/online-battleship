@@ -1,4 +1,5 @@
 import getSidebarNavItems from "../../data/sidebar-nav-items";
+import {appConstants} from "./contants"
 
 const initState = {
     menuVisible: false,
@@ -7,10 +8,10 @@ const initState = {
 
 export const appReducer = (state = initState, action) => {
     switch (action.type) {
-        case 'TOGGLE':
-            return {
-                message: action.payload
-            }
+        case appConstants.TOGGLE_SIDEBAR:
+            return Object.assign({}, state, {
+                menuVisible: !state.menuVisible
+            })
         default:
             return state
     }
