@@ -24,6 +24,7 @@ def save_new_user(data):
             public_id=str(uuid.uuid4()),
             email=data.get('email'),
             username=data.get('username'),
+            bio=data.get('bio'),
             password=password,
             registered_on=datetime.datetime.utcnow()
         )
@@ -53,6 +54,9 @@ def save_updated_user(user, data):
 
     if 'password' in data.keys():
         user.password = data['password']
+    
+    if 'bio' in data.keys():
+        user.bio = data['bio']
 
     save_changes(user)
     response_object = {
