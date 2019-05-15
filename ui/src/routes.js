@@ -24,35 +24,35 @@ export default [
     exact: true,
     layout: DefaultLayout,
     type: RouteType.NORMAL_ROUTE,
-    component: () => <Redirect to="/blog-overview" />
+    component: () => <Redirect to="/dashboard" />
   },
   {
     path: "/user-profile",
-    type: RouteType.PROTECTED_ROUTE,
+    type: RouteType.NORMAL_ROUTE,
     layout: DefaultLayout,
     component: UserProfile
   },
   {
-    path: "/blog-overview",
+    path: "/dashboard",
     type: RouteType.AUTH_ROUTE,
     layout: DefaultLayout,
     component: BlogOverview
   },
   {
     path: "/add-new-post",
-    type: RouteType.PROTECTED_ROUTE,
+    type: RouteType.NORMAL_ROUTE,
     layout: DefaultLayout,
     component: AddNewPost
   },
   {
     path: "/components-overview",
-    type: RouteType.PROTECTED_ROUTE,
+    type: RouteType.NORMAL_ROUTE,
     layout: DefaultLayout,
     component: ComponentsOverview
   },
   {
     path: "/tables",
-    type: RouteType.PROTECTED_ROUTE,
+    type: RouteType.NORMAL_ROUTE,
     layout: DefaultLayout,
     component: Tables
   },
@@ -70,7 +70,7 @@ export default [
   },
   {
     path: "/blog-posts",
-    type: RouteType.PROTECTED_ROUTE,
+    type: RouteType.NORMAL_ROUTE,
     layout: DefaultLayout,
     component: BlogPosts
   }
