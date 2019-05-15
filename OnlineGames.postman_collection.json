@@ -22,16 +22,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"user1@email.com\",\n\t\"password\": \"string\"\n}"
+							"raw": "{\n\t\"email\": \"user3@email.com\",\n\t\"password\": \"string\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/auth",
+							"raw": "http://localhost:5000/api/auth",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"auth"
 							]
 						}
@@ -54,13 +55,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5000/auth/",
+							"raw": "http://localhost:5000/api/auth/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"auth",
 								""
 							],
@@ -94,16 +96,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"user5@email.com\",\n  \"username\": \"user5\",\n  \"password\": \"string\"\n}"
+							"raw": "{\n  \"email\": \"user3@email.com\",\n  \"username\": \"user3\",\n  \"password\": \"string\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/users",
+							"raw": "http://localhost:5000/api/users",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"users"
 							]
 						}
@@ -120,13 +123,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5000/users/",
+							"raw": "http://localhost:5000/api/users/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"users",
 								""
 							]
@@ -141,7 +145,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTY1MjUxNjksImlhdCI6MTU1NjQzODc2NCwic3ViIjoxfQ.uS92qHff8IREPYA0xFbQQhejJpDwDAXO-JFzYZvuwHc",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTcwNjQyNDcsImlhdCI6MTU1Njk3Nzg0Miwic3ViIjoxfQ.OIzgPir4X4RcfgXEjX3U7DSAjl3uySspt4zHaz5FAmQ",
 								"type": "text"
 							},
 							{
@@ -156,13 +160,14 @@
 							"raw": "{\n\t\"admin_secret_key\": \"admin_precious_secret_key\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/users/admin",
+							"raw": "http://localhost:5000/api/users/admin",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"users",
 								"admin"
 							]
@@ -177,7 +182,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTY1MjUxNjksImlhdCI6MTU1NjQzODc2NCwic3ViIjoxfQ.uS92qHff8IREPYA0xFbQQhejJpDwDAXO-JFzYZvuwHc",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTY4OTYxNjgsImlhdCI6MTU1NjgwOTc2Mywic3ViIjoxfQ.-EorHKZsJ4xc4eRAe3wg24WhBru8MnlFmWb_b_J-Z8k",
 								"type": "text"
 							}
 						],
@@ -186,13 +191,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5000/users/my_account",
+							"raw": "http://localhost:5000/api/users/my_account",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"users",
 								"my_account"
 							],
@@ -229,13 +235,14 @@
 							"raw": "{\n\t\"email\": \"user1@email.com\",\n\t\"username\": \"user1\",\n\t\"password\": \"string\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/users/my_account",
+							"raw": "http://localhost:5000/api/users/my_account",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"users",
 								"my_account"
 							],
@@ -260,13 +267,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5000/users/45f86c52-3c02-4ee3-96a5-9c702e833ca1",
+							"raw": "http://localhost:5000/api/users/45f86c52-3c02-4ee3-96a5-9c702e833ca1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"users",
 								"45f86c52-3c02-4ee3-96a5-9c702e833ca1"
 							],
@@ -303,13 +311,14 @@
 							"raw": "{\n\t\"email\": \"user2@gmail.com\",\n\t\"username\": \"user2\",\n\t\"password\": \"string\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/users/57371633-6eab-4818-8a25-cb58a064605f",
+							"raw": "http://localhost:5000/api/users/57371633-6eab-4818-8a25-cb58a064605f",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"users",
 								"57371633-6eab-4818-8a25-cb58a064605f"
 							],
@@ -319,41 +328,6 @@
 									"value": "",
 									"disabled": true
 								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Messages related operations",
-			"item": [
-				{
-					"name": "Get personal messages with given user/room public id",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTY1NDUyMzYsImlhdCI6MTU1NjQ1ODgzMSwic3ViIjoxfQ.Y8cYHP2Z_fqnj9P9TPoGScBhwEAWZNczbsTIOhebMUQ"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:5000/messages/57371633-6eab-4818-8a25-cb58a064605f",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"messages",
-								"57371633-6eab-4818-8a25-cb58a064605f"
 							]
 						}
 					},
@@ -374,13 +348,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5000/games/rooms?offset=0&limit=5",
+							"raw": "http://localhost:5000/api/games/rooms?offset=0&limit=4",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"games",
 								"rooms"
 							],
@@ -391,7 +366,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "5"
+									"value": "4"
 								}
 							]
 						}
@@ -408,13 +383,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5000/games",
+							"raw": "http://localhost:5000/api/games",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"games"
 							]
 						}
@@ -434,22 +410,23 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTY1NDUyMzYsImlhdCI6MTU1NjQ1ODgzMSwic3ViIjoxfQ.Y8cYHP2Z_fqnj9P9TPoGScBhwEAWZNczbsTIOhebMUQ",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTcwNjQyNDcsImlhdCI6MTU1Njk3Nzg0Miwic3ViIjoxfQ.OIzgPir4X4RcfgXEjX3U7DSAjl3uySspt4zHaz5FAmQ",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"game_public_id\": \"6611ed5d-e11b-4ace-bea3-c9bd1432acb\"\n}"
+							"raw": "{\n\t\"game_public_id\": \"579e0c5b-da7a-4ce2-af02-b410d5e76609\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/games/rooms",
+							"raw": "http://localhost:5000/api/games/rooms",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"games",
 								"rooms"
 							]
@@ -464,7 +441,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTY1NDUyMzYsImlhdCI6MTU1NjQ1ODgzMSwic3ViIjoxfQ.Y8cYHP2Z_fqnj9P9TPoGScBhwEAWZNczbsTIOhebMUQ",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTcyNDQwMzMsImlhdCI6MTU1NzE1NzYyOCwic3ViIjoxfQ.P86vlSH43qAnJX67SR0b1lIIz3v3fFOIEoo_rzJDp8A",
 								"type": "text"
 							}
 						],
@@ -473,16 +450,100 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5000/games/rooms/ac9d901f-54b3-4ae6-99d4-2ebc0c524dce",
+							"raw": "http://localhost:5000/api/games/rooms/3991f2b3-23ae-473c-ab0e-ae4d05935563",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
+								"api",
 								"games",
 								"rooms",
-								"ac9d901f-54b3-4ae6-99d4-2ebc0c524dce"
+								"3991f2b3-23ae-473c-ab0e-ae4d05935563"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new game",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTcwNjQyNDcsImlhdCI6MTU1Njk3Nzg0Miwic3ViIjoxfQ.OIzgPir4X4RcfgXEjX3U7DSAjl3uySspt4zHaz5FAmQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"battleship\",\n\t\"link_game\": \"string\",\n\t\"link_image\": \"string\",\n\t\"num_players\": 2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/games/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"games",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Messages related operations",
+			"item": [
+				{
+					"name": "Get personal messages with given user/room public id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTcyNDQwMzMsImlhdCI6MTU1NzE1NzYyOCwic3ViIjoxfQ.P86vlSH43qAnJX67SR0b1lIIz3v3fFOIEoo_rzJDp8A"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/messages/15812914-a1aa-4fec-ad62-e8a08459f937?offset=0&limit=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"messages",
+								"15812914-a1aa-4fec-ad62-e8a08459f937"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
 							]
 						}
 					},
