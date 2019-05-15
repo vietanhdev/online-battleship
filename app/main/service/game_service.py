@@ -87,8 +87,6 @@ def save_new_game(data):
         new_game = Game(
             public_id=str(uuid.uuid4()),
             name=data.get('name'),
-            link_image=data.get('link_image'),
-            link_game=data.get('link_game'),
             num_players=data.get('num_players')
         )
         save_changes(new_game)
