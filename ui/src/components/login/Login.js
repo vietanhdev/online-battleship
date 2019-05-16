@@ -6,6 +6,8 @@ import {userActions} from '../../redux/user'
 
 import {notifierActions} from '../../redux/notifier'
 
+import { withRouter } from "react-router";
+
 class Login extends React.Component {
   
 
@@ -17,24 +19,25 @@ class Login extends React.Component {
     
     notifierActions.showInfo("Please wait...")
 
-    this.props.login(email, password);
+    this.props.login(email, password, this.props.history);
   }
 
   render() {
-
     return (
       <div className="login-form" style={{marginTop: "5rem"}}>
         <div className="d-table m-auto">
-          <img
-            id="main-logo"
-            className="d-inline-block align-top mr-1"
-            style={{ maxWidth: "6rem" }}
-            src={require("../../images/horse.svg")}
-            alt="iCT Gaming Zone"
-          />
-          <h2 className="d-md-block ml-1">
-            iCTGamingZone
-          </h2>
+          <Link to="/">
+            <img
+              id="main-logo"
+              className="d-inline-block align-top mr-1"
+              style={{ maxWidth: "6rem" }}
+              src={require("../../images/horse.svg")}
+              alt="iCT Gaming Zone"
+            />
+            <h2 className="d-md-block ml-1">
+              iCTGamingZone
+            </h2>
+          </Link>
         </div>
         <h2>Login</h2>
         <form onSubmit={this.submit.bind(this)} noValidate>
@@ -73,4 +76,4 @@ const mapDispatchToProps = {
     login: userActions.login
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login))

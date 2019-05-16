@@ -34,16 +34,18 @@ class Register extends React.Component {
     return (
       <div className="login-form" style={{marginTop: "5rem"}}>
         <div className="d-table m-auto">
-          <img
-            id="main-logo"
-            className="d-inline-block align-top mr-1"
-            style={{ maxWidth: "6rem" }}
-            src={require("../../images/horse.svg")}
-            alt="iCT Gaming Zone"
-          />
-          <h2 className="d-md-block ml-1">
-            iCTGamingZone
-          </h2>
+          <Link to="/">
+            <img
+              id="main-logo"
+              className="d-inline-block align-top mr-1"
+              style={{ maxWidth: "6rem" }}
+              src={require("../../images/horse.svg")}
+              alt="iCT Gaming Zone"
+            />
+            <h2 className="d-md-block ml-1">
+              iCTGamingZone
+            </h2>
+          </Link>
         </div>
         <h2>Register</h2>
         <form onSubmit={this.submit.bind(this)} noValidate>
