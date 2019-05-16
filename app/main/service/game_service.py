@@ -45,7 +45,7 @@ def save_new_room(user, data):
         response_object = {
             'status': 'success',
             'message': 'Create room successfully',
-            'room_public_id': new_room.public_id,
+            'room_public_id': new_room.public_id
         }
         
         save_new_player(new_room, user)

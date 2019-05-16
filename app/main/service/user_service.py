@@ -216,7 +216,6 @@ def get_all_followers(user):
 def get_all_followings(user):
     list_association = FollowerUser.query.filter_by(follower_id=user.id).all()
     data = []
-    print(list_association)
     if list_association is not None:
         for association in list_association:
             user_id = association.user_id
@@ -228,3 +227,15 @@ def get_all_followings(user):
         'data': data
     }
     return response_object, 200
+
+
+def get_list_followings(user):
+    list_association = FollowerUser.query.filter_by(follower_id=user.id).all()
+    data = []
+    if list_association is not None:
+        for association in list_association:
+            user_id = association.user_id
+            user = get_a_user_by_id(user_id)
+            if user:
+                data.append(user)
+    return data

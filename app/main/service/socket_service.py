@@ -1,4 +1,4 @@
-from .user_service import get_a_user, get_a_user_by_id
+from .user_service import get_a_user, get_a_user_by_id, get_list_followings
 from .game_service import send_command, get_a_room, get_a_room_by_id
 
 from app.main.service.auth_helper import Auth
@@ -6,6 +6,14 @@ from app.main.service.auth_helper import Auth
 from app.main import r_db
 
 online_dict = {}
+
+def get_online_followings(list_online, user):
+    list_followings = get_list_followings(user)
+    for following in list_followings:
+        online_followings.append(following.get_user_information())
+    print('online_followings ', online_followings)
+    return online_followings
+
 
 def login_socket(request_object):
     user = Auth.socket_logged_in_user(request_object)
@@ -50,6 +58,26 @@ def login_room_socket(request_object):
     return user, room, response_object
 
 
+def get_list_online():
+    set_users = r_db.smembers('online')
+    list_users = []
+    for user_id in set_users:
+        user = get_a_user_by_id(user_id)
+        if user is not None:
+            list_users.append(user.get_user_information())
+    return list_users
+
+
+def user_online(user):
+    r_db.sadd('online', user.id)
+    return get_list_online()
+
+
+def user_offline(user):
+    r_db.srem('online', user.id)
+    return get_list_online()
+
+
 def get_list_users_in_room(room):
     set_users = r_db.smembers(room.id)
     list_users = []
@@ -82,17 +110,17 @@ def get_user_and_receiver(list_user_id, receiver_public_id):
     return user, receiver
 
 
-def get_user_and_room(list_user_id, list_room_id):
+def get_user_by_sid(list_user_id):
     if len(list_user_id) == 0:
-        return None, None
-    
-    if len(list_room_id) == 0:
-        return None, None
-        
+        return None
     user_id = list_user_id[-1]
     user = get_a_user_by_id(user_id)
+    return user
 
+
+def get_room_by_sid(list_room_id):
+    if len(list_room_id) == 0:
+        return None
     room_id = list_room_id[-1]
     room = get_a_room_by_id(room_id)
-
-    return user, room
+    return room

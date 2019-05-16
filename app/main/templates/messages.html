@@ -63,6 +63,11 @@
                 msg = JSON.stringify(response_object);
                 console.log('receive_message : ' + msg);
             });
+
+            socket.on('online_followings', function(response_object){
+                msg = JSON.stringify(response_object);
+                console.log('online_followings : ' + msg);
+            });
         });
     </script>
 </body>
