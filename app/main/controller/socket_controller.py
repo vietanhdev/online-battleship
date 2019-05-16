@@ -21,9 +21,7 @@ def update_list_users_in_room(list_users_in_room, room):
 	emit('users_in_room', response_object, room=room.id, namespace='/rooms')
 
 
-def update_list_online_followings(list_online, user):
-	online_followings = get_online_followings(list_online, user)
-	
+def update_list_online_followings(list_online_followings):
 	response_object = {
 		'online_followings': online_followings
 	}
@@ -47,8 +45,8 @@ def disconnectClient():
 
 	# Check with user
 	if user is not None:
-		list_online = user_offline(user)
-		update_list_online_followings(list_online, user)
+		list_online_followings = user_offline(user)
+		update_list_online_followings(list_online_following)
 
 
 @socketio.on('request_login', namespace='/')
@@ -63,8 +61,8 @@ def registerUserId(request_object):
 		# join room to get message
 		join_room(room=user.id, namespace='/')
 
-		list_online = user_online(user)
-		update_list_online_followings(list_online, user)
+		list_online_followings = user_online(user)
+		update_list_online_followings(list_online_following)
 
 
 @socketio.on('request_login_with_room', namespace='/rooms')
