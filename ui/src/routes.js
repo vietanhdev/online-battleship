@@ -6,6 +6,7 @@ import { DefaultLayout } from "./layouts";
 import BareLayout  from "./layouts/BareLayout";
 
 // Route Views
+import RootMessages from "./views/messages/RootMessages";
 import Messages from "./views/messages/Messages";
 import UserProfile from "./views/UserProfile";
 import ComponentsOverview from "./views/ComponentsOverview";
@@ -44,16 +45,16 @@ export default [
     component: Messages
   },
   {
+    path: "/messages",
+    type: RouteType.NORMAL_ROUTE,
+    layout: DefaultLayout,
+    component: RootMessages
+  },
+  {
     path: "/user-profile",
     type: RouteType.NORMAL_ROUTE,
     layout: DefaultLayout,
     component: UserProfile
-  },
-  {
-    path: "/components-overview",
-    type: RouteType.NORMAL_ROUTE,
-    layout: DefaultLayout,
-    component: ComponentsOverview
   },
   {
     path: "/login",

@@ -26,9 +26,6 @@ export class UserDetails extends Component {
           </div>
           <h4 className="mb-0">{fullname}</h4>
           <p>Your ID is: <span style={{fontWeight: "bold"}}>{public_id}</span></p>
-          <Button pill outline size="sm" className="mb-2">
-            <i className="material-icons mr-1">person_add</i> Follow
-          </Button>
         </CardHeader>
         <ListGroup flush>
           <ListGroupItem className="p-4">
