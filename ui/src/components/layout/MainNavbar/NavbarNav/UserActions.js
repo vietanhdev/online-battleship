@@ -9,9 +9,9 @@ import {
   NavItem,
   NavLink
 } from "shards-react";
+import {userActions} from '../../../../redux/user'
 
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { connect } from 'react-redux'
 
 class UserActions extends React.Component {
@@ -47,7 +47,7 @@ class UserActions extends React.Component {
             <i className="material-icons">&#xE7FD;</i> Profile
           </DropdownItem>
           <DropdownItem divider />
-          <DropdownItem tag={Link} to="/" className="text-danger">
+          <DropdownItem onClick={this.props.logout} className="text-danger">
             <i className="material-icons text-danger">&#xE879;</i> Logout
           </DropdownItem>
         </Collapse>
@@ -61,6 +61,8 @@ const mapStateToProps = (state) => ({
   user_fullname: state.userReducer.fullname
 })
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  logout: userActions.logout
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserActions)

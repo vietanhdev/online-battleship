@@ -1,10 +1,10 @@
-import httpService from '../services/http'
+import request from '../services/http'
 import userConstants from './constants'
 
 export const userActions = {
     register: (name, email, password)  => {
         return function (dispatch){
-            httpService.post('/users',
+            request('post', '/users',
                 {
                     username: name,
                     email: email,
@@ -12,38 +12,27 @@ export const userActions = {
                     bio: ""
                 }
             )
-            .then(function (response) {
+            .onSuccess(function (response) {
                 dispatch({
                     type: userConstants.REGISTER_SUCCESS
                 });
             })
-            .catch(function (error) {
-                console.log(error)
-                if (error.response) {
-                    try {
-                        let message = JSON.parse(error.response.data).message
-                        dispatch({
-                            type: userConstants.REGISTER_FAIL,
-                            payload: message
-                        });
-                    } catch (e) {
-                        dispatch({
-                            type: userConstants.REGISTER_FAIL,
-                            payload: "Unknown Error."
-                        });
-                    }
-                }
+            .onError(function (error) {
+                dispatch({
+                    type: userConstants.REGISTER_FAIL,
+                    payload: error
+                });
             })
             
         }
     },
     login: (email, password, history)  => dispatch => {
-        httpService.post('/auth',
+        request('post', '/auth',
             {
                 "email": email,
                 "password": password
             }
-        ).then(function (response) {
+        ).onSuccess(function (response) {
             console.log(response)
             dispatch({
                 type: userConstants.LOGIN_SUCCESS,
@@ -56,22 +45,26 @@ export const userActions = {
             });
             history.push("/")
         })
-        .catch(function (error) {
-            console.log(error)
-            if (error.response) {
-                try {
-                    let message = JSON.parse(error.response.data).message
-                    dispatch({
-                        type: userConstants.REGISTER_FAIL,
-                        payload: message
-                    });
-                } catch (e) {
-                    dispatch({
-                        type: userConstants.REGISTER_FAIL,
-                        payload: "Unknown Error."
-                    });
-                }
-            }
-        });
+        .onError(function (error) {
+            dispatch({
+                type: userConstants.LOGIN_FAIL,
+                payload: error
+            });
+        })
+    },
+    logout: ()  => dispatch => {
+        request('post', '/auth', null, true
+        ).onSuccess(function (response) {
+            console.log(response)
+            dispatch({
+                type: userConstants.LOGOUT_SUCCESS
+            });
+        })
+        .onError(function (error) {
+            dispatch({
+                type: userConstants.LOGOUT_FAIL,
+                payload: error
+            });
+        })
     }
 }

@@ -21,6 +21,7 @@ function getUserFromSessStorage() {
 const initState = getUserFromSessStorage();
 
 export const userReducer = (state = initState, action) =>  {
+    let user = {};
     switch (action.type) {
         case userConstants.REGISTER_FAIL:
             notifierActions.dismissAlert();
@@ -38,12 +39,29 @@ export const userReducer = (state = initState, action) =>  {
             notifierActions.dismissAlert();
             notifierActions.showMessage("Successfully logged in!");
 
-            let user = {
+            user = {
                 fullname: action.payload.fullname,
                 bio: action.payload.bio,
                 email: action.payload.email,
                 token: action.payload.token,
                 isLoggedIn: true
+            }
+            
+            // Save info in session storage
+            localStorage.setItem("user", JSON.stringify(user));
+
+            return Object.assign({}, state, user)
+        case userConstants.LOGOUT_FAIL:
+        case userConstants.LOGOUT_SUCCESS:
+            notifierActions.dismissAlert();
+            notifierActions.showMessage("Successfully logged in!");
+
+            user = {
+                fullname: "",
+                bio: "",
+                email: "",
+                token: "",
+                isLoggedIn: false
             }
             
             // Save info in session storage
