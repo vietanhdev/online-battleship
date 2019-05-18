@@ -88,7 +88,7 @@ class GameList(Resource):
         """Create a new Game"""
         data = request.json
         return save_new_game(data=data)
-
+        
 
 @api.route('/test')
 class Test(Resource):

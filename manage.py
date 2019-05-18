@@ -8,7 +8,7 @@ from flask_script import Manager
 
 from app import blueprint
 from app.main import create_app, db, socketio
-from app.main.model import user, message, game, room, game_user, room_user
+from app.main.model import user, message, game, room, game_user, room_user, follower_user
 
 from flask_cors import CORS
 

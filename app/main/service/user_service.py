@@ -3,6 +3,7 @@ import datetime
 
 from app.main import db
 from app.main.model.user import User
+from app.main.model.follower_user import FollowerUser
 
 from ..config import admin_key
 
@@ -132,3 +133,72 @@ def generate_token(user):
             'message': e
         }
         return response_object, 500
+
+
+def save_new_follower(follower, user):
+    new_association = FollowerUser(
+        follower_id=follower.id,
+        user_id=user.id
+    )
+    save_changes(new_association)
+    response_object = {
+        'status': 'success',
+        'message': 'create friendship successfully'
+    }
+    return response_object, 200
+
+
+def delete_follower(follower, user):
+    association = FollowerUser.query.filter_by(follower_id=follower.id, user_id=user.id).first()
+    if association is not None:
+        db.session.delete(association)
+        save_changes()
+        response_object = {
+            'status': 'success',
+            'message': 'delete friendship successfully'
+        }
+        return response_object, 200
+    response_object = {
+        'status': 'fail',
+        'message': 'the friendship does not exist'
+    }
+    return response_object, 400
+
+
+def get_all_followers(user):
+    print(user.id)
+    list_association = FollowerUser.query.filter_by(user_id=user.id).all()
+    data = {}
+    print(list_association)
+    if list_association is not None:
+        for association in list_association:
+            follower_id = association.follower_id
+            user = get_a_user_by_id(follower_id)
+            if user is None:
+                data[follower_id] = None
+            else:
+                data[follower_id] = user.get_user_information()
+    response_object = {
+        'status': 'success',
+        'data': data
+    }
+    return response_object, 200
+
+
+def get_all_followings(user):
+    list_association = FollowerUser.query.filter_by(follower_id=user.id).all()
+    data = {}
+    print(list_association)
+    if list_association is not None:
+        for association in list_association:
+            user_id = association.user_id
+            user = get_a_user_by_id(user_id)
+            if user is None:
+                data[user_id] = None
+            else:
+                data[user_id] = user.get_user_information()
+    response_object = {
+        'status': 'success',
+        'data': data
+    }
+    return response_object, 200
