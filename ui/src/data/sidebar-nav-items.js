@@ -1,14 +1,25 @@
 export default function() {
   return [
     {
-      title: "Home",
-      to: "/dashboard",
-      htmlBefore: '<i class="material-icons">home</i>',
+      title: "Games",
+      to: "/games",
+      htmlBefore: '<i class="material-icons">videogame_asset</i>',
       htmlAfter: ""
     },
     {
+      title: "Messages",
+      to: "/messages",
+      htmlBefore: '<i class="material-icons">mail_outline</i>',
+      htmlAfter: ""
+    },
+    {
+      title: "User Profile",
+      htmlBefore: '<i class="material-icons">person</i>',
+      to: "/user-profile",
+    },
+    {
       title: "Forms & Components",
-      htmlBefore: '<i class="material-icons">view_module</i>',
+      htmlBefore: '<i class="material-icons">mail_outline</i>',
       to: "/components-overview",
     },
     {
@@ -17,19 +28,9 @@ export default function() {
       to: "/tables",
     },
     {
-      title: "User Profile",
-      htmlBefore: '<i class="material-icons">person</i>',
-      to: "/user-profile",
-    },
-    {
       title: "Errors",
       htmlBefore: '<i class="material-icons">error</i>',
       to: "/errors",
-    },
-    {
-      title: "Login",
-      htmlBefore: '<i class="material-icons">verified_user</i>',
-      to: "/login",
     }
   ];
 }

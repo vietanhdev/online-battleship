@@ -6,10 +6,10 @@ import { DefaultLayout } from "./layouts";
 import BareLayout  from "./layouts/BareLayout";
 
 // Route Views
-import Dashboard from "./views/Dashboard";
+import Messages from "./views/Messages";
 import UserProfile from "./views/UserProfile";
 import ComponentsOverview from "./views/ComponentsOverview";
-import Tables from "./views/Tables";
+import Games from "./views/Games";
 
 import Login from './components/login/Login';
 import Register from './components/login/Register';
@@ -22,13 +22,19 @@ export default [
     exact: true,
     layout: DefaultLayout,
     type: RouteType.NORMAL_ROUTE,
-    component: () => <Redirect to="/dashboard" />
+    component: () => <Redirect to="/games" />
   },
   {
-    path: "/dashboard",
+    path: "/games",
     type: RouteType.PROTECTED_ROUTE,
     layout: DefaultLayout,
-    component: Dashboard
+    component: Games
+  },
+  {
+    path: "/messages",
+    type: RouteType.NORMAL_ROUTE,
+    layout: DefaultLayout,
+    component: Messages
   },
   {
     path: "/user-profile",
@@ -41,12 +47,6 @@ export default [
     type: RouteType.NORMAL_ROUTE,
     layout: DefaultLayout,
     component: ComponentsOverview
-  },
-  {
-    path: "/tables",
-    type: RouteType.NORMAL_ROUTE,
-    layout: DefaultLayout,
-    component: Tables
   },
   {
     path: "/login",

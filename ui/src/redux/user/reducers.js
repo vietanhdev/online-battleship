@@ -36,7 +36,7 @@ export const userReducer = (state = initState, action) =>  {
             // Save info in session storage
             localStorage.setItem("user", JSON.stringify(newUserInfo));
 
-            return state;
+            return newUserInfo;
         case userConstants.UPDATE_FAIL:
             notifierActions.dismissAlert();
             notifierActions.showError(action.payload);
