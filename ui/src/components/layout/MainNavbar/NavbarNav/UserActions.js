@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 import {
   Dropdown,
@@ -9,8 +9,15 @@ import {
   NavItem,
   NavLink
 } from "shards-react";
+import {userActions} from '../../../../redux/user'
 
-export default class UserActions extends React.Component {
+import React from 'react'
+import { connect } from 'react-redux'
+
+
+import { withRouter } from "react-router";
+
+class UserActions extends React.Component {
   constructor(props) {
     super(props);
 
@@ -36,14 +43,14 @@ export default class UserActions extends React.Component {
             src={require("./../../../../images/avatars/king.png")}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block">Sierra Brooks</span>
+          <span className="d-none d-md-inline-block">{this.props.user.fullname}</span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
           <DropdownItem tag={Link} to="user-profile">
             <i className="material-icons">&#xE7FD;</i> Profile
           </DropdownItem>
           <DropdownItem divider />
-          <DropdownItem tag={Link} to="/" className="text-danger">
+          <DropdownItem onClick={(e) => {this.props.logout(this.props.history)}} className="text-danger">
             <i className="material-icons text-danger">&#xE879;</i> Logout
           </DropdownItem>
         </Collapse>
@@ -51,3 +58,14 @@ export default class UserActions extends React.Component {
     );
   }
 }
+
+
+const mapStateToProps = (state) => ({
+  user: state.userReducer
+})
+
+const mapDispatchToProps = {
+  logout: userActions.logout
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserActions))

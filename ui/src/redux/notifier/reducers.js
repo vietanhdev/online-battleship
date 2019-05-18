@@ -1,4 +1,4 @@
-import notifierConstants from './constants'
+// import notifierConstants from './constants'
 
 const initState = {}
 
