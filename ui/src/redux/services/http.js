@@ -42,6 +42,11 @@ request.interceptors.request.use(
   }
 )
 
+request.interceptors.response.use((response) => {
+  return response;
+}, function (error) {
+  return Promise.reject(error.response.data.message);
+});
 
 export default request;
 export {requestStatus}
