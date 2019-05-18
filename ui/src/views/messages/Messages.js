@@ -67,7 +67,7 @@ class Messages extends React.Component {
         ...this.state,
         socket: io(Config.CHAT_SOCKET_ENDPOINT)
       }, () => {
-        console.log(this.state.socket)
+
         this.state.socket.on('connect', function(){
           console.log('SocketIO: Connected to server')
         });
@@ -154,7 +154,7 @@ class Messages extends React.Component {
                   <Col>
                     <Card small className="mb-4">
                       <CardHeader className="border-bottom">
-                        <h6 className="m-0">Sy An</h6>
+                        <h6 className="m-0">{this.props.user.fullname}</h6>
                       </CardHeader>
                       <CardBody className="p-0 pb-3">
                         <div className="app__content">
