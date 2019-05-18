@@ -9,7 +9,6 @@ from ..config import admin_key
 
 def save_new_user(data):
     password=data.get('password')
-    print("password", password)
     if password is not None and len(password) == 0 :
         response_object = {
             "errors": {
