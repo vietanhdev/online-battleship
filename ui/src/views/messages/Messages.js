@@ -18,6 +18,7 @@ import { chatActions } from '../../redux/chat/actions'
 import './styles.css';
 
 class Messages extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -26,20 +27,42 @@ class Messages extends React.Component {
         }
     }
 
+
+    fetchAllMessages = () => {
+
+      // Load old messages
+        request.get("/messages/"+this.props.match.params.room_id+"?offset=0&limit=20")
+        .then((response) => {
+          let messages = response.data.data;
+
+          // Sort messages by time
+          messages = messages.sort(function(x, y) {
+            if (parseFloat(x.created_at) < parseFloat(y.created_at)) {
+              return -1;
+            }
+            if (parseFloat(x.created_at) > parseFloat(y.created_at)) {
+              return 1;
+            }
+            return 0;
+          });
+
+
+          console.log(messages)
+
+          this.setState({messages}, () => {
+            let objMessage = $('.messages');
+            objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 300);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+
   
     componentDidMount = () => {
 
-      // Load old messages
-      request.get("/messages/"+this.props.match.params.room_id+"?offset=0&limit=20")
-      .then((response) => {
-        let messages = response.data.data;
-        messages.map(m => {
-          this.newMessage(m);
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+      this.fetchAllMessages();
 
       const  { user, history } = this.props;
       this.setState({
@@ -78,6 +101,12 @@ class Messages extends React.Component {
   
     }
 
+    componentWillReceiveProps = (nextProps) => {
+      if (nextProps.match.params.room_id !== this.props.match.params.room_id) {
+        this.fetchAllMessages();
+      }
+    }
+
     newMessage = (m) => {
 
         const messages = this.state.messages;
@@ -114,25 +143,6 @@ class Messages extends React.Component {
 
     }
 
-    componentDidUpdate() {
-        if (this.state.typing) {
-            if (true) {}
-        }
-    }
-
-    typing(data) {
-        if (data) {
-            let objMessage = $('.messages');
-            if (objMessage[0].scrollHeight - objMessage[0].scrollTop === objMessage[0].clientHeight) {
-                this.setState({typing: false});
-                objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 300);
-            } else {
-                this.setState({typing: false});
-            }
-        } else {
-            this.setState({typing: false})
-        }
-    }
     render () {
 
         return (
