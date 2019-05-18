@@ -51,9 +51,6 @@ def save_updated_user(user, data):
 
     if 'username' in data.keys():
         user.username = data['username']
-
-    if 'password' in data.keys():
-        user.password = data['password']
     
     if 'bio' in data.keys():
         user.bio = data['bio']
@@ -64,6 +61,11 @@ def save_updated_user(user, data):
         'message': 'Successfully update profile.'
     }
     return response_object, 200
+
+
+def save_new_password(user, new_password):
+    # if 'new_password'
+    pass
 
 
 def update_admin_user(user, key):

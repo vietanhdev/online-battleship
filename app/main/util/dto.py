@@ -18,8 +18,11 @@ class UserDto:
     update_user_req = api.model('update user request', {
         'email': fields.String(description='user email address'),
         'username': fields.String(description='user username'),
-        'bio': fields.String(required=True, description='user bio'),
-        'password': fields.String(description='user password')
+        'bio': fields.String(description='user bio')
+    })
+    update_password_req = api.model('update password request', {
+        'old_password': fields.String(description='user old password'),
+        'new_password': fields.String(description='user new password')
     })
     update_admin_req = api.model('update admin request', {
         'admin_secret_key': fields.String(description='admin secret key')
