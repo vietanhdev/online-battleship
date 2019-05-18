@@ -6,9 +6,10 @@ function getUserFromSessStorage() {
     let user = localStorage.getItem("user");
     try {
         user = JSON.parse(user); 
-    } catch(e) {
+    } catch(e) {}
+    if (user == null) {
         user = {
-            fullname: sessionStorage.hasItem,
+            fullname: "",
             email: "",
             bio: "The best gamer on the Earth.",
             isLoggedIn: false,
@@ -54,7 +55,7 @@ export const userReducer = (state = initState, action) =>  {
         case userConstants.LOGOUT_FAIL:
         case userConstants.LOGOUT_SUCCESS:
             notifierActions.dismissAlert();
-            notifierActions.showMessage("Successfully logged in!");
+            notifierActions.showMessage("Successfully logged out! Please login again to continue.");
 
             user = {
                 fullname: "",

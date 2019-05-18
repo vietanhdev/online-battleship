@@ -14,6 +14,9 @@ import {userActions} from '../../../../redux/user'
 import React from 'react'
 import { connect } from 'react-redux'
 
+
+import { withRouter } from "react-router";
+
 class UserActions extends React.Component {
   constructor(props) {
     super(props);
@@ -40,14 +43,14 @@ class UserActions extends React.Component {
             src={require("./../../../../images/avatars/king.png")}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block">{this.props.user_fullname}</span>
+          <span className="d-none d-md-inline-block">{this.props.user.fullname}</span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
           <DropdownItem tag={Link} to="user-profile">
             <i className="material-icons">&#xE7FD;</i> Profile
           </DropdownItem>
           <DropdownItem divider />
-          <DropdownItem onClick={this.props.logout} className="text-danger">
+          <DropdownItem onClick={(e) => {this.props.logout(this.props.history)}} className="text-danger">
             <i className="material-icons text-danger">&#xE879;</i> Logout
           </DropdownItem>
         </Collapse>
@@ -58,11 +61,11 @@ class UserActions extends React.Component {
 
 
 const mapStateToProps = (state) => ({
-  user_fullname: state.userReducer.fullname
+  user: state.userReducer
 })
 
 const mapDispatchToProps = {
   logout: userActions.logout
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserActions)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserActions))

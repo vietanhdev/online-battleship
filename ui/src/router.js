@@ -9,26 +9,25 @@ export const RouteType  = {
     NORMAL_ROUTE: 3
 }
 
+
+const ProtectedRoute = ({ component: Component, user, ...rest }) => (
+    <Route
+        render={(props) => (user.isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />)}
+        {...rest}
+    />
+);
+
+
+const AuthRoute = ({ component: Component, user, ...rest }) => (
+    <Route
+        render={(props) => (!user.isLoggedIn ? <Component {...props} /> : <Redirect to="/" />)}
+        {...rest}
+    />
+);
+
 const mapStateToProps = (state) => ({
-    isLoggedIn: state.userReducer.isLoggedIn
+    user: state.userReducer
 })
-
-
-const ProtectedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
-    <Route
-        render={(props) => (isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />)}
-        {...rest}
-    />
-);
-
-
-const AuthRoute = ({ component: Component, isLoggedIn, ...rest }) => (
-    <Route
-        render={(props) => (!isLoggedIn ? <Component {...props} /> : <Redirect to="/" />)}
-        {...rest}
-    />
-);
-
 
 const connectedProtectedRoute = connect(mapStateToProps)(ProtectedRoute);
 const connectedAuthRoute = connect(mapStateToProps)(AuthRoute);
