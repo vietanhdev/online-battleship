@@ -24,6 +24,23 @@ const initState = getUserFromSessStorage();
 export const userReducer = (state = initState, action) =>  {
     let user = {};
     switch (action.type) {
+        case userConstants.UPDATE_SUCCESS:
+            notifierActions.dismissAlert();
+            notifierActions.showMessage("Successfully updated user profile!");
+
+            let newUserInfo = Object.assign({}, state);
+            newUserInfo.fullname = action.payload.fullname;
+            newUserInfo.bio = action.payload.bio;
+            newUserInfo.email = action.payload.email;
+
+            // Save info in session storage
+            localStorage.setItem("user", JSON.stringify(newUserInfo));
+
+            return state;
+        case userConstants.UPDATE_FAIL:
+            notifierActions.dismissAlert();
+            notifierActions.showError(action.payload);
+            return state;
         case userConstants.REGISTER_FAIL:
             notifierActions.dismissAlert();
             notifierActions.showError(action.payload);
