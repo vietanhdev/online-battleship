@@ -2,7 +2,8 @@ import os
 
 # uncomment the line below for postgres database url from environment variable
 # postgres_local_base = os.environ['DATABASE_URL']
-mysql_db = 'mysql+pymysql://online_games:Flask#123@localhost:8181/online_games_db?charset=utf8'
+mysql_db = 'mysql+pymysql://online_games:Flask#123@localhost:8181/online_games_db?charset=utf8mb4'
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -11,6 +12,8 @@ class Config:
     ADMIN_KEY = os.getenv('ADMIN_SECRET_KEY', 'admin_precious_secret_key')
     DEBUG = False
     CORS_ENABLED = False
+    SQLALCHEMY_POOL_RECYCLE=90
+    MYSQL_DATABASE_CHARSET = 'utf8mb4'
 
 
 class DevelopmentConfig(Config):
