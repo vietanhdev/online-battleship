@@ -2,16 +2,16 @@ import { toast } from 'react-toastify';
 
 export const notifierActions = {
     showMessage: (message) => {
-        toast.success(toString(message));
+        toast.success(message);
     },
     showError: (message) => {
-        toast.error(toString(message));
+        toast.error(message);
     },
     showInfo: (message) => {
-        toast.info(toString(message));
+        toast.info(message);
     },
     showWarning: (message) => {
-        toast.info(toString(message));
+        toast.info(message);
     },
     dismissAlert: () => {
         toast.dismiss();
