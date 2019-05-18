@@ -16,8 +16,10 @@ import request, { requestStatus } from '../../redux/services/http'
 import { chatActions } from '../../redux/chat/actions'
 
 import './styles.css';
+import { notifierActions } from '../../redux/notifier/actions';
 
 class Messages extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -26,27 +28,46 @@ class Messages extends React.Component {
         }
     }
 
+
+    fetchAllMessages = (roomId) => {
+
+      // Load old messages
+        request.get("/messages/"+roomId+"?offset=0&limit=20")
+        .then((response) => {
+          let messages = response.data.data;
+
+          // Sort messages by time
+          messages = messages.sort(function(x, y) {
+            if (parseFloat(x.created_at) < parseFloat(y.created_at)) {
+              return -1;
+            }
+            if (parseFloat(x.created_at) > parseFloat(y.created_at)) {
+              return 1;
+            }
+            return 0;
+          });
+
+          this.setState({messages}, () => {
+            let objMessage = $('.messages');
+            objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 300);
+          });
+        })
+        .catch((error) => {
+          notifierActions.showError("Error on fetching messages");
+        })
+    }
+
   
     componentDidMount = () => {
 
-      // Load old messages
-      request.get("/messages/"+this.props.match.params.room_id+"?offset=0&limit=20")
-      .then((response) => {
-        let messages = response.data.data;
-        messages.map(m => {
-          this.newMessage(m);
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+      this.fetchAllMessages(this.props.match.params.room_id);
 
       const  { user, history } = this.props;
       this.setState({
         ...this.state,
         socket: io(Config.CHAT_SOCKET_ENDPOINT)
       }, () => {
-        console.log(this.state.socket)
+
         this.state.socket.on('connect', function(){
           console.log('SocketIO: Connected to server')
         });
@@ -76,6 +97,14 @@ class Messages extends React.Component {
       });  
   
   
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+      let nextRoomId = nextProps.match.params.room_id;
+      let currentRoomId = this.props.match.params.room_id;
+      if (currentRoomId !== nextRoomId) {
+        this.fetchAllMessages(nextRoomId);
+      }
     }
 
     newMessage = (m) => {
@@ -114,25 +143,6 @@ class Messages extends React.Component {
 
     }
 
-    componentDidUpdate() {
-        if (this.state.typing) {
-            if (true) {}
-        }
-    }
-
-    typing(data) {
-        if (data) {
-            let objMessage = $('.messages');
-            if (objMessage[0].scrollHeight - objMessage[0].scrollTop === objMessage[0].clientHeight) {
-                this.setState({typing: false});
-                objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 300);
-            } else {
-                this.setState({typing: false});
-            }
-        } else {
-            this.setState({typing: false})
-        }
-    }
     render () {
 
         return (
@@ -144,7 +154,7 @@ class Messages extends React.Component {
                   <Col>
                     <Card small className="mb-4">
                       <CardHeader className="border-bottom">
-                        <h6 className="m-0">Sy An</h6>
+                        <h6 className="m-0">{this.props.user.fullname}</h6>
                       </CardHeader>
                       <CardBody className="p-0 pb-3">
                         <div className="app__content">
@@ -174,7 +184,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  enterRoom: chatActions.enterRoom
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Messages))
