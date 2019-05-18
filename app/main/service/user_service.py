@@ -63,9 +63,14 @@ def save_updated_user(user, data):
     return response_object, 200
 
 
-def save_new_password(user, new_password):
-    # if 'new_password'
-    pass
+def save_updated_password(user, new_password):
+    user.password = new_password
+    save_changes(user)
+    response_object = {
+        'status': 'success',
+        'message': 'Successfully update new password.'
+    }
+    return response_object, 200
 
 
 def update_admin_user(user, key):
