@@ -96,7 +96,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"user3@email.com\",\n  \"username\": \"user3\",\n  \"password\": \"string\"\n}"
+							"raw": "{\n  \"email\": \"s\",\n  \"username\": \"\",\n  \"password\": \"string\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:5000/api/users",
