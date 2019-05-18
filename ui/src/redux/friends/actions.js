@@ -8,7 +8,6 @@ export const friendActions = {
     fetchFriendList: ()  => dispatch => {
         request.get('/users/followings')
         .then(function (response) {
-            console.log(10002);
             let friends = response.data.data;
             dispatch({
                 type: friendConstants.FETCH_FRIENDS_SUCCESS,
