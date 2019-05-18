@@ -10,6 +10,9 @@ import { withRouter } from "react-router";
 import { gameActions } from '../redux/games/actions'
 import { appActions } from '../redux/app/actions'
 
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+
 export class Games extends Component {
 
   constructor (props) {
@@ -21,7 +24,9 @@ export class Games extends Component {
 
   render() {
 
-    const { gameList } = this.props;
+    const { gameList, roomList } = this.props;
+
+    TimeAgo.addLocale(en);
 
     return (
       <Container fluid className="main-content-container px-4">
@@ -42,7 +47,7 @@ export class Games extends Component {
                       <Button theme="accent" className="ml-2" outline><i className="material-icons">compare_arrows</i> Quick match</Button>
                     </div>
                   </CardHeader>
-                  <CardBody className="p-0 pb-3">
+                  <CardBody className="p-0 pb-3" style={{maxHeight: "25rem", overflow: "auto"}}>
                     <table className="table mb-0">
                       <thead className="bg-light">
                         <tr>
@@ -67,38 +72,45 @@ export class Games extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Battle Ship</td>
-                          <td>2</td>
-                          <td>Viet Anh</td>
-                          <td>9 minutes ago</td>
-                          <td><Button theme="success" size="sm">Join</Button></td>
-                        </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>Battle Ship</td>
-                          <td>2</td>
-                          <td>Viet Anh</td>
-                          <td>9 minutes ago</td>
-                          <td><Button theme="success" size="sm">Join</Button></td>
-                        </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>Battle Ship</td>
-                          <td>2</td>
-                          <td>Viet Anh</td>
-                          <td>9 minutes ago</td>
-                          <td><Button theme="success" size="sm">Join</Button></td>
-                        </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>Battle Ship</td>
-                          <td>2</td>
-                          <td>Viet Anh</td>
-                          <td>9 minutes ago</td>
-                          <td><Button theme="success" size="sm">Join</Button></td>
-                        </tr>
+
+                        {
+                          roomList.map((room , index) => {
+
+                            let gameName = room.game.name;
+                            let gameId = room.public_id;
+                            let numOfPlayers = room.players.length;
+
+                            // Generate created time in ago format
+                            const timeAgo = new TimeAgo('en-US')
+                            let createdTime = timeAgo.format(new Date(room.created_at * 1000));
+
+
+                            let creator = {
+                              fullname: "",
+                              public_id: ""
+                            };
+
+                            for (let player in room.players) {
+                              if (player.creator) {
+                                creator = {
+                                  fullname: player.username,
+                                  public_id: player.public_id
+                                };
+                                break;
+                              }
+                            }
+
+                            return (
+                            <tr>
+                              <td>{index}</td>
+                              <td>{gameName}</td>
+                              <td>{numOfPlayers}</td>
+                              <td>{creator.fullname}</td>
+                              <td>{createdTime}</td>
+                              <td><Button theme="success" size="sm">Join</Button></td>
+                            </tr>)
+                          })
+                        }
                       </tbody>
                     </table>
                   </CardBody>
@@ -143,17 +155,35 @@ export class Games extends Component {
       </Container>
     )
   }
+
+
+  componentDidMount = () => {
+    this.props.fetchRoomList();
+    this.interval = setInterval(() => {
+      this.props.fetchRoomList();
+    }, 5000);
+  }
+
+
+  componentWillUnmount = () => {
+    clearInterval(this.interval);
+  }
+
 }
 
+
+
 const mapStateToProps = (state) => ({
-  gameList: state.gameReducer.gameList
+  gameList: state.gameReducer.gameList,
+  roomList: state.gameReducer.roomList
 })
 
 const mapDispatchToProps = {
   fetchGameList: gameActions.fetchGameList,
   openLoadingScreen: appActions.openLoadingScreen,
   closeLoadingScreen: appActions.closeLoadingScreen,
-  createRoom : gameActions.createRoom
+  createRoom : gameActions.createRoom,
+  fetchRoomList: gameActions.fetchRoomList
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Games))

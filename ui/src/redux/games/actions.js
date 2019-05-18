@@ -57,6 +57,25 @@ export const gameActions = {
 
     },
 
+
+    fetchRoomList: (offset = 0, limit = 200)  => dispatch => {
+
+        // Create new room
+        request.get('/games/rooms?offset=' + offset + "&limit=" + limit)
+        .then(function (response) {
+            let gameRooms = response.data.data;
+            dispatch({
+                type: gameConstants.FETCH_GAME_ROOMS_SUCCESS,
+                payload: gameRooms
+            });
+
+        })
+        .catch(function (error) {
+            notifierActions.showError("Fetching game rooms failed: " + error);
+        });
+
+    },
+
     
     enterRoomFailed: (history) => {
         notifierActions.showError("Error on joining room: Could not authenticate with given token. Please try again.");
@@ -93,7 +112,6 @@ export const gameActions = {
             // Return to Games page
             history.push("/games")
         })
-
 
     }
 
