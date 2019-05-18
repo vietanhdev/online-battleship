@@ -11,6 +11,9 @@ services:
       MYSQL_USER: online_games
       MYSQL_PASSWORD: Flask#123
       MYSQL_DATABASE: online_games_db
+    command:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
     volumes:
       - ./conf/mariadb-conf.d:/etc/mysql/mariadb.conf.d
       - ./conf/conf.d:/etc/mysql/conf.d/
