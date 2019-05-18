@@ -40,7 +40,7 @@ def save_new_user(data):
 
 def save_updated_user(user, data):
     if 'email' in data.keys():
-        email = data.['email']
+        email = data['email']
         if email == user.email:
             pass
         else:
