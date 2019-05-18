@@ -10,7 +10,13 @@ from app import blueprint
 from app.main import create_app, db, socketio
 from app.main.model import user, message, game, room, game_user, room_user
 
+from flask_cors import CORS
+
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
+
+
+# Allow all CORS for /api/* endpoints
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.errorhandler(404)
 def page_not_found(e):
