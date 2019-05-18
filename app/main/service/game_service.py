@@ -80,29 +80,7 @@ def get_a_room(room_public_id):
 def get_a_room_by_id(room_id):
     room = Room.query.filter_by(id=room_id).first()
     return room
-
-
-def save_new_game(data):
-    if str(data.get('num_players')).isdigit():
-        new_game = Game(
-            public_id=str(uuid.uuid4()),
-            name=data.get('name'),
-            num_players=data.get('num_players')
-        )
-        save_changes(new_game)
-        response_object = {
-            'status': 'success',
-            'public_id': new_game.public_id,
-            'message': 'Create game successfully'
-        }
-        return response_object, 201
-
-    response_object = {
-        'status': 'fail',
-        'message': 'The number of players must be a positive integer'
-    }
-    return response_object, 400
-
+    
 
 def save_new_player(room, user):
     a = RoomUser()

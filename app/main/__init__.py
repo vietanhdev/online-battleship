@@ -13,7 +13,6 @@ r_db = redis.Redis(host='localhost', port=8183, db=0)
 flask_bcrypt = Bcrypt()
 socketio = SocketIO()
 
-
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])

@@ -9,11 +9,12 @@ from flask_script import Manager
 from app import blueprint
 from app.main import create_app, db, socketio
 from app.main.model import user, message, game, room, game_user, room_user, follower_user
+from app.main.model.game import Game
+
 
 from flask_cors import CORS
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
-
 
 # Allow all CORS for /api/* endpoints
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -26,6 +27,19 @@ def page_not_found(e):
         'message': 'page not found'
     }
     return jsonify(response_object), 404
+
+def init_db():
+    # create new game when run app
+    battle_ship = Game.query.filter_by(public_id="battle_ship").first()
+
+    if battle_ship is None:
+        battle_ship = Game(
+            public_id="battle_ship",
+            name="Battle Ship",
+            num_players=2
+        )
+        db.session.add(battle_ship)
+        db.session.commit()
 
 
 app.register_error_handler(400, page_not_found)
@@ -40,12 +54,15 @@ migrate = Migrate(app, db)
 
 manager.add_command('db', MigrateCommand)
 
+
 @manager.command
 def run():
+    init_db()
     socketio.run(app,
                 host='127.0.0.1',
                 port=5000,
                 use_reloader=False)
+    
 
 @manager.command
 def test():

@@ -4,7 +4,7 @@ from flask_restplus import Resource
 from ..util.dto import GameDto
 from ..util.decorator import admin_token_required, token_required
 
-from ..service.game_service import get_all_rooms, save_new_room, get_all_games, save_new_game, get_a_room, save_new_player
+from ..service.game_service import get_all_rooms, save_new_room, get_all_games, get_a_room, save_new_player
 from ..service.battleship_service import battleship_get_history
 
 from flask_socketio import send, emit
@@ -81,22 +81,6 @@ class GameList(Resource):
     def get(self):
         """List of games"""
         return get_all_games()
-    
-    # @admin_token_required
-    # @api.doc('create a new game', parser=auth_parser, body=create_game_req, validate=True)
-    # def post(self):
-    #     """Create a new Game"""
-    #     data = request.json
-    #     return save_new_game(data=data)
-
-    def post(self):
-        """Create new games"""
-        data = {
-            'name': 'battle ship',
-            'num_players': 2
-        }
-        return save_new_game(data)
-        
         
 
 @api.route('/test')
