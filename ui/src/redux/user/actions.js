@@ -33,7 +33,6 @@ export const userActions = {
                 "password": password
             }
         ).then(function (response) {
-            console.log(response)
             dispatch({
                 type: userConstants.LOGIN_SUCCESS,
                 payload: {
@@ -53,9 +52,8 @@ export const userActions = {
         })
     },
     logout: (history)  => dispatch => {
-        request.post('/logout', null, true
+        request.delete('/auth'
         ).then(function (response) {
-            console.log(response)
             dispatch({
                 type: userConstants.LOGOUT_SUCCESS
             });
