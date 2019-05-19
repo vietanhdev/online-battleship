@@ -83,7 +83,10 @@ def get_a_room_by_id(room_id):
     
 
 def save_new_player(room, user):
-    a = RoomUser()
+    if room.get_num_player() == 0:
+        a = RoomUser(creator=True)
+    else:
+        a = RoomUser(creator=False)
     a.user = user
     room.users.append(a)
     save_changes()
