@@ -40,8 +40,8 @@ class SidebarMainNavbar extends React.Component {
                 alt="iCT Gaming Zone"
               />
               {!hideLogoText && (
-                <span className="d-none d-md-inline ml-1" style={{fontSize: "25px", fontWeigtht: "bolder"}}>
-                  IGZ
+                <span className="d-none d-md-inline ml-1" style={{fontSize: "20px", fontWeigtht: "bolder"}}>
+                  iCTGames
                 </span>
               )}
             </div>

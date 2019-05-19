@@ -16,7 +16,9 @@ class Room(db.Model):
     def get_room_information(self):
         data = {}
         data['room_public_id'] = self.public_id
-        data['game_public_id'] = self.game.public_id
+        data['game'] = {}
+        data['game']['name'] = self.game.name
+        data['game']['public_id'] = self.game.public_id
         data['players'] = []
         room_users = self.users
         for room_user in room_users:
