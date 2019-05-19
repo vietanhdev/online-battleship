@@ -7,7 +7,9 @@ const requestStatus = {
 
 function getToken() {
   let token = ""
-  token = JSON.parse(localStorage.getItem("user")).token;
+  try {
+    token = JSON.parse(localStorage.getItem("user")).token;
+  } catch(e) {}
   return token;
 }
 
