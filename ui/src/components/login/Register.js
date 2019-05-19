@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import {userActions} from '../../redux/user'
+import {userActions} from '../../redux/users'
 
 import {notifierActions} from '../../redux/notifier'
 

@@ -9,7 +9,7 @@ import {
   NavItem,
   NavLink
 } from "shards-react";
-import {userActions} from '../../../../redux/user'
+import {userActions} from '../../../../redux/users'
 
 import React from 'react'
 import { connect } from 'react-redux'

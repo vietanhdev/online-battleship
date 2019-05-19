@@ -15,7 +15,7 @@ import {
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {userActions} from '../../redux/user'
+import {userActions} from '../../redux/users'
 import {notifierActions} from '../../redux/notifier'
 
 export class UserAccountDetails extends Component {
