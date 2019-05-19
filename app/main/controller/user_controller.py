@@ -148,6 +148,7 @@ class GetAllFollowings(Resource):
 
 
 @api.route('/friendships/<public_id>', '/friendships/<public_id>/')
+@api.route('/followings/<public_id>', '/followings/<public_id>/')
 @api.param('public_id', 'The Following identifier')
 class FollowUser(Resource):
     @token_required
