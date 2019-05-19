@@ -1,4 +1,5 @@
 from .. import db
+import json
 
 class Room(db.Model):
     """ Room Model for storing game room ralted details """
@@ -20,6 +21,7 @@ class Room(db.Model):
         data['game']['name'] = self.game.name
         data['game']['public_id'] = self.game.public_id
         data['players'] = []
+        data['created_at'] = json.dumps(self.created_at, default = default)
         room_users = self.users
         for room_user in room_users:
             # print("id ", room_user.id)

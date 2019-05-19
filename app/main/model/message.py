@@ -21,7 +21,7 @@ class Message(db.Model):
         data['content'] = self.content
         data['sender_public_id'] = self.sender_public_id
         print(json.dumps(self.created_at, default = default))
-        data['timestamp'] = json.dumps(self.created_at, default = default)
+        data['created_at'] = json.dumps(self.created_at, default = default)
         return data
     
     def __repr__(self):
