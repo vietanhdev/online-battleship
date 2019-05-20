@@ -1,5 +1,10 @@
 from .. import db
+import datetime
 import json
+
+def default(o):
+    if isinstance(o, (datetime.date, datetime.datetime)):
+        return o.timestamp()
 
 class Room(db.Model):
     """ Room Model for storing game room ralted details """

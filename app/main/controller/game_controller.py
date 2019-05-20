@@ -63,10 +63,16 @@ class RoomWithId(Resource):
             api.abort(404)
         else:
             # Add user until game room have enough players
+            joined = False
             if room.check_num_player():
                 if room.check_exist_player(user) ==  False:
                     save_new_player(room, user)
+                    joined = True
             data = room.get_room_information()
+            
+            data['joined'] = joined
+            data['is_my_room'] = room.check_exist_player(user)
+
             data['history'] = battleship_get_history(user, room)
             response_object = {
                 'status': 'success',
