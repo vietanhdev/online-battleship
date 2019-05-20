@@ -10,7 +10,7 @@ export class Friends extends Component {
 
   render() {
     return (
-      <Card small className="mb-4 h-100" style={{maxWidth: "30rem"}}>
+      <Card small className="mb-4" style={{maxWidth: "30rem", minWidth: "20rem"}}>
         <CardHeader className="border-bottom">
           <h6 className="m-0">Friends</h6>
         </CardHeader>
