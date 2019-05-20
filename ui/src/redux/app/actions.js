@@ -7,17 +7,15 @@ export const appActions = {
         })
     },
     openLoadingScreen: (loading) => dispatch => {
-        console.log("Open Loading")
         dispatch({
             type: appConstants.SET_LOADING,
             payload: true
-        })
+        });
     },
     closeLoadingScreen: (loading) => dispatch => {
-        console.log("Close Loading")
         dispatch({
             type: appConstants.SET_LOADING,
             payload: false
-        })
+        });
     }
 }

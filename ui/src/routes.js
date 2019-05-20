@@ -10,6 +10,7 @@ import Messages from "./views/Messages";
 import UserProfile from "./views/UserProfile";
 import ComponentsOverview from "./views/ComponentsOverview";
 import Games from "./views/Games";
+import PlayGame from "./views/PlayGame";
 
 import Login from './components/login/Login';
 import Register from './components/login/Register';
@@ -23,6 +24,12 @@ export default [
     layout: DefaultLayout,
     type: RouteType.NORMAL_ROUTE,
     component: () => <Redirect to="/games" />
+  },
+  {
+    path: "/games/:game_id/:room_id",
+    type: RouteType.PROTECTED_ROUTE,
+    layout: DefaultLayout,
+    component: PlayGame
   },
   {
     path: "/games",

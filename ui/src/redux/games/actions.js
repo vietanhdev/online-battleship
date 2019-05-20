@@ -1,6 +1,9 @@
 import request from '../services/http'
 import gameConstants from './constants'
 
+import {appActions} from '../app/actions'
+import {notifierActions} from '../notifier/actions'
+
 export const gameActions = {
 
     fetchGameList: ()  => dispatch => {
@@ -13,6 +16,9 @@ export const gameActions = {
             });
         })
         .catch(function (error) {
+
+            notifierActions.showError("Fetching games failed!");
+
             dispatch({
                 type: gameConstants.FETCH_GAMES_FAIL,
                 payload: error
@@ -21,8 +27,32 @@ export const gameActions = {
 
     },
 
+    createRoom: (gameId, history)  => dispatch => {
 
-    createRoom: (gameId)  => dispatch => {
+        // Show loading sreen first
+        dispatch(appActions.openLoadingScreen());
+
+        // Create new room
+        request.post('/games/rooms', {game_public_id: gameId})
+        .then(function (response) {
+            let room_public_id = response.data.room_public_id;
+            dispatch({
+                type: gameConstants.CREATE_GAME_ROOM_SUCCESS,
+                payload: room_public_id
+            });
+
+            // Close loading screen
+            dispatch(appActions.closeLoadingScreen());
+
+            // Open playing page
+            history.push("/games/" + gameId + "/" + room_public_id)
+        })
+        .catch(function (error) {
+            notifierActions.showError("Creating new game failed: " + error);
+
+            // Close loading screen
+            dispatch(appActions.closeLoadingScreen());
+        })
 
     }
 
