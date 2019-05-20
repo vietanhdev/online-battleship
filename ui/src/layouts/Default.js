@@ -6,6 +6,8 @@ import MainNavbar from "../components/layout/MainNavbar/MainNavbar";
 import MainSidebar from "../components/layout/MainSidebar/MainSidebar";
 import MainFooter from "../components/layout/MainFooter";
 
+import Loading from '../components/loading/Loading';
+
 const DefaultLayout = ({ children, noNavbar, noFooter }) => (
   <Container fluid>
     <Row>
@@ -17,6 +19,7 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => (
         sm="12"
         tag="main"
       >
+        <Loading></Loading>
         {!noNavbar && <MainNavbar />}
         {children}
         {!noFooter && <MainFooter />}

@@ -12,6 +12,7 @@
     "dateformat": "^3.0.3",
     "history": "^4.9.0",
     "lodash.find": "^4.6.0",
+    "node-sass": "^4.12.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-fontawesome": "^1.6.1",

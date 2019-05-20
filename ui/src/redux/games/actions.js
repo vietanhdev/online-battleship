@@ -7,7 +7,6 @@ export const gameActions = {
         request.get('/games/')
         .then(function (response) {
             let games = response.data.data;
-            console.log(games);
             dispatch({
                 type: gameConstants.FETCH_GAMES_SUCCESS,
                 payload: games
