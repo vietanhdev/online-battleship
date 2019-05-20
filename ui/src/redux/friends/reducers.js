@@ -1,5 +1,4 @@
 import friendConstants from './constants'
-import {notifierActions} from '../notifier/actions'
 
 const initState = {
     friends: [

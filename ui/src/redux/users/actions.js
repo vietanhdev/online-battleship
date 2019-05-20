@@ -1,8 +1,9 @@
 import request from '../services/http'
 import userConstants from './constants'
+import {notifierActions} from '../notifier/actions'
 
 export const userActions = {
-    register: (name, email, password)  => dispatch => {
+    register: (name, email, password, history)  => dispatch => {
         request.post('/users',
             {
                 username: name,
@@ -12,15 +13,13 @@ export const userActions = {
             }
         )
         .then(function (response) {
-            dispatch({
-                type: userConstants.REGISTER_SUCCESS
-            });
+            notifierActions.dismissAlert();
+            notifierActions.showMessage("Successfully registered!");
+            history.push("/login")
         })
         .catch(function (error) {
-            dispatch({
-                type: userConstants.REGISTER_FAIL,
-                payload: error
-            });
+            notifierActions.dismissAlert();
+            notifierActions.showError(error);
         })
     },
     login: (email, password, history)  => dispatch => {
@@ -30,22 +29,26 @@ export const userActions = {
                 "password": password
             }
         ).then(function (response) {
+
+            let user = {
+                fullname: response.data["data"]["username"],
+                bio: response.data["data"]["bio"],
+                email: response.data["data"]["email"],
+                token:  response.data["data"]["token"]
+            }
+
+            // Save info in session storage
+            localStorage.setItem("user", JSON.stringify(user));
+
             dispatch({
                 type: userConstants.LOGIN_SUCCESS,
-                payload: {
-                    fullname: response.data["data"]["username"],
-                    bio: response.data["data"]["bio"],
-                    email: response.data["data"]["email"],
-                    token:  response.data["data"]["token"]
-                }
+                payload: user
             });
             history.push("/")
         })
         .catch(function (error) {
-            dispatch({
-                type: userConstants.LOGIN_FAIL,
-                payload: error
-            });
+            notifierActions.dismissAlert();
+            notifierActions.showError(error);
         })
     },
     logout: (history)  => dispatch => {
@@ -62,7 +65,21 @@ export const userActions = {
                 payload: error
             });
             history.push("/login")
-        })
+        });
+
+        let user = {
+            fullname: "",
+            bio: "",
+            email: "",
+            token: "",
+            isLoggedIn: false
+        }
+        
+        // Save info in session storage
+        localStorage.setItem("user", JSON.stringify(user));
+
+        notifierActions.dismissAlert();
+        notifierActions.showMessage("Successfully logged out! Please login again to continue.");
     },
     update: (user)  => dispatch => {
         if (user.new_password === "" || user.old_password === "") {
@@ -75,16 +92,20 @@ export const userActions = {
 
         request.put('/users/my_account', user
         ).then(function (response) {
+
+            notifierActions.dismissAlert();
+            notifierActions.showMessage("Successfully updated user profile!");
+
             dispatch({
                 type: userConstants.UPDATE_SUCCESS,
                 payload: user
             });
         })
         .catch(function (error) {
-            dispatch({
-                type: userConstants.UPDATE_FAIL,
-                payload: error
-            });
+
+            notifierActions.dismissAlert();
+            notifierActions.showError(error);
+
         })
     }
 }
