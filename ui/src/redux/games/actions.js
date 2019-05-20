@@ -54,6 +54,41 @@ export const gameActions = {
             dispatch(appActions.closeLoadingScreen());
         })
 
+    },
+
+
+    enterRoom: (roomId, history)  => dispatch => {
+
+        // Show loading sreen first
+        dispatch(appActions.openLoadingScreen());
+
+        // Enter created room
+        request.get('/games/rooms/' + roomId)
+        .then(function (response) {
+
+            let roomInfo = response.data.data;
+
+            console.log(roomInfo);
+
+            dispatch({
+                type: gameConstants.ENTER_ROOM_SUCCESS,
+                payload: roomInfo
+            });
+
+            // Close loading screen
+            dispatch(appActions.closeLoadingScreen());
+        })
+        .catch(function (error) {
+            notifierActions.showError("Error on joining room: " + error);
+
+            // Close loading screen
+            dispatch(appActions.closeLoadingScreen());
+
+            // Return to Games page
+            history.push("/games")
+        })
+
+
     }
 
 }

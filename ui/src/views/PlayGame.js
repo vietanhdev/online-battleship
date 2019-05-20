@@ -5,6 +5,7 @@ import {Friends} from "../components/friends/Friends"
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from "react-router";
 
 import { gameActions } from '../redux/games/actions'
 import { appActions } from '../redux/app/actions'
@@ -14,19 +15,20 @@ export class PlayGame extends Component {
   constructor (props) {
     super(props);
 
+    // Enter this room
+    this.props.enterRoom(this.props.match.params.room_id, this.props.history);
   }
 
   render() {
 
-    const { gameList } = this.props;
+    const { roomInfo } = this.props;
 
     return (
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
-          <PageTitle sm="4" title="PlayGame" subtitle="Let's play with your friends!" className="text-sm-left" />
+          <PageTitle sm="4" title={roomInfo.game.name} subtitle="Let's play" className="text-sm-left" />
         </Row>
-
 
       </Container>
     )
@@ -34,10 +36,11 @@ export class PlayGame extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  
+  roomInfo: state.gameReducer.roomInfo
 })
 
 const mapDispatchToProps = {
+  enterRoom: gameActions.enterRoom
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlayGame)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PlayGame))
