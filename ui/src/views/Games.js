@@ -111,13 +111,13 @@ export class Games extends Component {
                   </CardHeader>
                   <CardBody className="p-0 pb-2">
                     <ul className="p-3" style={{display: "flex"}}>
-                      {gameList.map((game) =>
-                        <li style={{listStyle: "none", marginLeft: "2rem"}}>
+                      {gameList.map((game, id) =>
+                        <li style={{listStyle: "none", marginLeft: "2rem"}} key={id}>
 
                           <div className="mb-3">
                                       <img
                                         className="rounded-circle"
-                                        src={game.image}
+                                        src={require('../images/battleship.svg')}
                                         alt={game.name}
                                         width="55"
                                       />
