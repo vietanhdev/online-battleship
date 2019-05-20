@@ -23,8 +23,8 @@ class MainSidebar extends React.Component {
       <Col
         tag="aside"
         className={classes}
-        lg={{ size: 1 }}
-        md={{ size: 2 }}
+        lg={{ size: 2 }}
+        md={{ size: 3 }}
       >
         <SidebarMainNavbar hideLogoText={this.props.hideLogoText} />
         <SidebarNavItems />
