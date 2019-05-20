@@ -1,20 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Card, CardBody } from 'shards-react'
+
+
+import { Friend } from './Friend'
 
 export class FriendList extends Component {
-
-  render() {
+  render = () => {
+    const friends = this.props.friends;
     return (
-        <div className="m-2">
-            
+        <div className="m-2" style={{ overflow: "auto", maxHeight: "24rem"}}>
+            {friends.map(function(friend, i){
+               return <Friend data={friend} key={i}></Friend>
+             })}
         </div>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  
+    friends: state.friendReducer.friends
 })
 
 const mapDispatchToProps = {

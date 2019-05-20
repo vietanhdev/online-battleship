@@ -2,8 +2,8 @@ import { Container, Row, Col, Card, CardHeader, CardBody, ListItem, Button } fro
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { FindUser } from './FindUser'
-import { FriendList } from './FriendList'
+import FindUser from './FindUser'
+import FriendList from './FriendList'
 
 export class Friends extends Component {
   

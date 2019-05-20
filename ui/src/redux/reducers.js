@@ -3,10 +3,12 @@ import { appReducer } from './app';
 import { notifierReducer } from './notifier';
 import { userReducer } from './users';
 import { gameReducer } from './games';
+import { friendReducer } from './friends';
 
 export default combineReducers({
     appReducer,
     notifierReducer,
     userReducer,
-    gameReducer
+    gameReducer,
+    friendReducer
 });
