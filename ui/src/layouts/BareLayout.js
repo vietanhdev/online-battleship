@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col } from "shards-react";
 
-import MainFooter from "../components/layout/MainFooter";
-
 const BareLayout = ({ children, noNavbar, noFooter }) => (
   <Container fluid>
     <Row>
@@ -16,7 +14,6 @@ const BareLayout = ({ children, noNavbar, noFooter }) => (
         style={{paddingTop: "5rem"}}
       >
         {children}
-        {!noFooter && <MainFooter />}
       </Col>
     </Row>
   </Container>

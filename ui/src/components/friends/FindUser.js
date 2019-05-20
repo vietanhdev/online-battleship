@@ -21,7 +21,7 @@ export class FindUser extends Component {
                         <i className="material-icons">add</i>
                     </InputGroupText>
                 </InputGroupAddon>
-                <FormInput placeholder="Type friend id here to follow" />
+                <FormInput placeholder="Type friend id to add" />
                 <InputGroupAddon type="append">
                     <Button theme="secondary" outline>Follow</Button>
                 </InputGroupAddon>
