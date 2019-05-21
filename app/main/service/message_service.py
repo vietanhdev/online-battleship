@@ -41,6 +41,8 @@ def save_new_message(sender_public_id, receiver_public_id, content):
 
     save_changes(new_message)
 
+    return new_message
+
 
 def save_changes(data=None):
     if data != None:
