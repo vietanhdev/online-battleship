@@ -4,7 +4,7 @@ from flask_restplus import Resource
 from ..util.dto import MessageDto
 from ..util.decorator import token_required
 
-from ..service.message_service import get_messages
+from ..service.message_service import get_private_messages, get_room_messages
 from ..service.user_service import get_a_user
 from ..service.game_service import get_a_room
 from .. import socketio
@@ -38,36 +38,16 @@ class MessageList(Resource):
         partner = get_a_user(public_id)
         room = get_a_room(public_id)
 
-        if partner is not None or room is not None:
-            # Get offset and limit argument, set to 0 if not invalid
-            offset = request.args.get('offset') or '0'
-            limit = request.args.get('limit') or '0'
-            return get_messages(user.public_id, public_id, offset, limit)
+        # Get offset and limit argument, set to 0 if not invalid
+        offset = request.args.get('offset') or '0'
+        limit = request.args.get('limit') or '0'
+
+        if partner is not None:
+            return get_private_messages(user.public_id, public_id, offset, limit)
+        elif room is not None:
+            return get_room_messages(public_id, offset, limit)
         else:
             api.abort(404)
-
-        if offset.isdigit() and limit.isdigit():
-            user = g.user
-
-            data = []
-            
-            messages = get_messages(user.public_id, public_id, offset=offset, limit=limit)
-            
-            if messages:
-                for message in messages:
-                    data.append(message.get_message_information())
-            
-            response_object = {
-                'status': 'success',
-                'data': data
-            }
-        else:
-            response_object = {
-                'status': 'fail',
-                'message': 'offset and limit must be a positive integer'
-            }
-
-        return response_object
 
 
 @api.route('/test', '/test/')

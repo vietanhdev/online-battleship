@@ -111,6 +111,6 @@ class Auth:
                 remain_sec = resp[1]
                 user = User.query.filter_by(id=id).first()
                 
-                return user, remain_sec
+                return user
 
-        return None, None
+        return None

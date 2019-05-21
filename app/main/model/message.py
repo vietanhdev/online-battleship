@@ -20,7 +20,6 @@ class Message(db.Model):
         data = {}
         data['content'] = self.content
         data['sender_public_id'] = self.sender_public_id
-        print(json.dumps(self.created_at, default = default))
         data['created_at'] = json.dumps(self.created_at, default = default)
         return data
     
