@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Config from '../../config'
 
 const requestStatus = {
   SUCCESS: "success",
@@ -14,7 +15,7 @@ function getToken() {
 }
 
 var request = axios.create({
-  baseURL: 'http://127.0.0.1:5000/api/',
+  baseURL: Config.API_BASE_URL,
   timeout: 10000,
   headers: {'Authorization':  getToken()},
   validateStatus: function (status) {
