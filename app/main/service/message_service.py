@@ -11,7 +11,7 @@ def get_private_messages(self_public_id, partner_public_id, offset, limit):
         offset = int(offset)
         limit = int(limit)
         messages = Message.query.filter( or_( and_(Message.sender_public_id==self_public_id, Message.receiver_public_id==partner_public_id) | and_(Message.sender_public_id==partner_public_id, Message.receiver_public_id==self_public_id) ) ).order_by(Message.created_at.desc()).offset(offset).limit(limit).all()
-        print(messages)
+        print(">>>>>>>>>>>>>> Message", messages)
 
         data = []
         if messages:
