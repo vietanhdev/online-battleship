@@ -2,6 +2,7 @@ import gameConstants from './constants'
 
 const initState = {
     gameList: [],
+    roomList: [],
     roomInfo: {
         game: {
             name: ""
@@ -15,6 +16,9 @@ export const gameReducer = (state = initState, action) =>  {
             return {...state, gameList: action.payload}
         case gameConstants.ENTER_ROOM_SUCCESS:
             return {...state, roomInfo: action.payload}
+        case gameConstants.FETCH_GAME_ROOMS_SUCCESS:
+            console.log(action.payload);
+            return {...state, roomList: action.payload}
         default:
             return state
     }
