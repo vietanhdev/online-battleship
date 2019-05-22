@@ -8,7 +8,7 @@ import io from 'socket.io-client';
 
 import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react";
 import PageTitle from "../../components/common/PageTitle";
-import {Friends} from "../../components/friends/Friends"
+import Friends from "../../components/friends/Friends"
 import { connect } from 'react-redux'
 
 import Config from '../../config'
@@ -46,7 +46,9 @@ class Messages extends React.Component {
       });
   
       // Process login response
-      socket.on('response_login_with_room', function(data){
+      socket.on('response_login', function(data){
+
+        console.log("Response login")
   
         console.log(data)
   
@@ -59,12 +61,14 @@ class Messages extends React.Component {
       });
 
       socket.on('newMessage', (response) => {this.newMessage(response)});
-  
+
+
       // Login
-      socket.emit('request_login_with_room', {
-        'authorization': user.token,
-        'room_public_id': this.state.room_id
+      socket.emit('request_login', {
+        'authorization': 'user.token'
       })
+
+      console.log(user.token)
   
     }
 
