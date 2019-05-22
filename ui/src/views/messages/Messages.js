@@ -29,10 +29,10 @@ class Messages extends React.Component {
     }
 
 
-    fetchAllMessages = () => {
+    fetchAllMessages = (roomId) => {
 
       // Load old messages
-        request.get("/messages/"+this.props.match.params.room_id+"?offset=0&limit=20")
+        request.get("/messages/"+roomId+"?offset=0&limit=20")
         .then((response) => {
           let messages = response.data.data;
 
@@ -60,7 +60,7 @@ class Messages extends React.Component {
   
     componentDidMount = () => {
 
-      this.fetchAllMessages();
+      this.fetchAllMessages(this.props.match.params.room_id);
 
       const  { user, history } = this.props;
       this.setState({
@@ -100,8 +100,10 @@ class Messages extends React.Component {
     }
 
     componentWillReceiveProps = (nextProps) => {
-      if (nextProps.match.params.room_id !== this.props.match.params.room_id) {
-        this.fetchAllMessages();
+      let nextRoomId = nextProps.match.params.room_id;
+      let currentRoomId = this.props.match.params.room_id;
+      if (currentRoomId !== nextRoomId) {
+        this.fetchAllMessages(nextRoomId);
       }
     }
 
