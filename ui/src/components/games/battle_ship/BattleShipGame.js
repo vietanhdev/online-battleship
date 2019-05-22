@@ -56,7 +56,7 @@ export class BattleShipGame extends Component {
 
             <div className="col">
                 <div className="game_field">
-                <p className="game_field-title">My fleet</p>
+                <p className="game_field-title">My fleets</p>
 
                 <div className="game_grid game_grid-player">
                     <div className="game_grid-row">
