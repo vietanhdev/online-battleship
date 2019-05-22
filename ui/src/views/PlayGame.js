@@ -1,14 +1,12 @@
 
-import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react";
-import PageTitle from "../components/common/PageTitle";
-import {Friends} from "../components/friends/Friends"
+import { Container, Row, Col } from "shards-react";
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from "react-router";
 
 import { gameActions } from '../redux/games/actions'
-import { appActions } from '../redux/app/actions'
+// import { appActions } from '../redux/app/actions'
 
 import { requestStatus } from '../redux/services/http'
 
@@ -69,8 +67,6 @@ export class PlayGame extends Component {
 
   render() {
 
-    const { roomInfo } = this.props;
-
     return (
 
       <Container fluid className="main-content-container px-4 mt-2">
@@ -93,7 +89,6 @@ export class PlayGame extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  roomInfo: state.gameReducer.roomInfo,
   user: state.userReducer
 })
 
