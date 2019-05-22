@@ -7,6 +7,23 @@ from app.main import r_db
 
 online_dict = {}
 
+def login_socket(request_object):
+    user = Auth.socket_logged_in_user(request_object)
+
+    if user is None:
+        response_object = {
+            'status': 'fail',
+            'message': 'Fail to authenticate'
+        }
+        return None, response_object
+    
+    response_object = {
+        'status': 'success',
+        'message': 'Authenticate successfully'
+    }
+    return user, response_object
+
+
 def login_room_socket(request_object):
     user = Auth.socket_logged_in_user(request_object)
     room_public_id = request_object.get('room_public_id')
@@ -51,6 +68,18 @@ def user_get_in_room(user, room):
 def user_get_out_room(user, room):
     r_db.srem(room.id, user.id)
     return get_list_users_in_room(room)
+
+
+def get_user_and_receiver(list_user_id, receiver_public_id):
+    if len(list_user_id) == 0:
+        return None, None
+
+    user_id = list_user_id[-1]
+    user = get_a_user_by_id(user_id)
+
+    receiver = get_a_user(receiver_public_id)
+
+    return user, receiver
 
 
 def get_user_and_room(list_user_id, list_room_id):
