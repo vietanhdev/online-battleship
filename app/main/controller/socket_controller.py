@@ -23,7 +23,7 @@ def update_list_users_in_room(list_users_in_room, room):
 
 def update_list_online_followings(list_online_followings):
 	response_object = {
-		'online_followings': online_followings
+		'online_followings': list_online_followings
 	}
 	emit('online_followings', response_object, room=user.id, namespace='/')
 
@@ -62,7 +62,7 @@ def registerUserId(request_object):
 		join_room(room=user.id, namespace='/')
 
 		list_online_followings = user_online(user)
-		update_list_online_followings(list_online_following)
+		update_list_online_followings(list_online_followings)
 
 
 @socketio.on('request_login_with_room', namespace='/rooms')
