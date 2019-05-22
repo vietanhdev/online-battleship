@@ -289,6 +289,9 @@
   .game_grid-cell {
     background: #00b6c6;
   }
+  .game_grid-cell:hover {
+    border: 2px solid red;
+  }
   .ship-1:before,
   .ship-2:before,
   .ship-3:before,
