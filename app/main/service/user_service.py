@@ -156,16 +156,24 @@ def generate_token(user):
 
 
 def save_new_follower(follower, user):
-    new_association = FollowerUser(
-        follower_id=follower.id,
-        user_id=user.id
-    )
-    save_changes(new_association)
-    response_object = {
-        'status': 'success',
-        'message': 'create friendship successfully'
-    }
-    return response_object, 200
+    association = FollowerUser.query.filter_by(follower_id=follower.id, user_id=user.id).first()
+    if association is None:
+        new_association = FollowerUser(
+            follower_id=follower.id,
+            user_id=user.id
+        )
+        save_changes(new_association)
+        response_object = {
+            'status': 'success',
+            'message': 'create friendship successfully'
+        }
+        return response_object, 200
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'the friendship already exists'
+        }
+        return response_object, 400
 
 
 def delete_follower(follower, user):
