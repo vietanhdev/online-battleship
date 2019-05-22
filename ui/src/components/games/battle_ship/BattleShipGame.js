@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { styles } from './files/styles.css'
+import './files/styles.css'
 import { Button } from 'shards-react'
 
 

@@ -6,7 +6,7 @@ import { DefaultLayout } from "./layouts";
 import BareLayout  from "./layouts/BareLayout";
 
 // Route Views
-import Messages from "./views/Messages";
+import Messages from "./views/messages/Messages";
 import UserProfile from "./views/UserProfile";
 import ComponentsOverview from "./views/ComponentsOverview";
 import Games from "./views/Games";
@@ -38,7 +38,7 @@ export default [
     component: Games
   },
   {
-    path: "/messages",
+    path: "/messages/:room_id",
     type: RouteType.NORMAL_ROUTE,
     layout: DefaultLayout,
     component: Messages
