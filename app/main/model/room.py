@@ -15,7 +15,7 @@ class Room(db.Model):
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
     game = db.relationship("Game")
     history = db.Column(db.Text)
-    created_at = db.Column(db.DateTime, timezone=True, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False)
 
     users = db.relationship('RoomUser', back_populates='room')
 
