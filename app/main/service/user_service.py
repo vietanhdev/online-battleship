@@ -207,16 +207,14 @@ def get_all_followers(user):
 
 def get_all_followings(user):
     list_association = FollowerUser.query.filter_by(follower_id=user.id).all()
-    data = {}
+    data = []
     print(list_association)
     if list_association is not None:
         for association in list_association:
             user_id = association.user_id
             user = get_a_user_by_id(user_id)
-            if user is None:
-                data[user_id] = None
-            else:
-                data[user_id] = user.get_user_information()
+            if user:
+                data.append(user.get_user_information())
     response_object = {
         'status': 'success',
         'data': data
