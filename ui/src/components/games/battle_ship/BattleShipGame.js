@@ -5,7 +5,7 @@ import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-
 
 import Images from './Images'
 import Constants from './constants';
-import Messages from "../../../views/messages/Messages"
+
 
 import './files/styles.scss'
 
@@ -47,13 +47,7 @@ export class BattleShipGame extends Component {
     render() {
         return (
 
-
-        <Container fluid className="main-content-container px-4 mt-2">
-            <Row>
-                <Col md="9">
-                <Row>
-                    <Col>
-                    <Card small className="mb-4">
+            <Card small className="mb-4">
                         <CardHeader className="border-bottom">
                             <h4 className="text-center">BattleShip</h4>
                         </CardHeader>
@@ -429,16 +423,6 @@ export class BattleShipGame extends Component {
                         </div>
                         </CardBody>
                     </Card>
-                    </Col>
-                </Row>
-                </Col>
-                <Col md="3">
-                    <Messages></Messages>
-                </Col>
-            </Row>
-
-        </Container>
-
         )
     }
 }
