@@ -8,6 +8,7 @@ def translate_history_battleship(history):
         pass
     return boards
 
+
 def get_history_battleship(user, room):
     history = json.loads(room.history)
     print(history)
