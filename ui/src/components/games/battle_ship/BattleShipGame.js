@@ -60,155 +60,147 @@ export class BattleShipGame extends Component {
 
                 <div className="game_grid game_grid-player">
                     <div className="game_grid-row">
-                    <div className="game_grid-corner"></div>
-                    <div className="game_grid-nav">A</div>
-                    <div className="game_grid-nav">B</div>
-                    <div className="game_grid-nav">C</div>
-                    <div className="game_grid-nav">D</div>
-                    <div className="game_grid-nav">E</div>
-                    <div className="game_grid-nav">F</div>
-                    <div className="game_grid-nav">G</div>
-                    <div className="game_grid-nav">H</div>
-                    <div className="game_grid-nav">I</div>
-                    <div className="game_grid-nav">J</div>
-                    </div>
-
-                    { () => {
-                        for (let i = 0; i < 10; ++i) {
-
-                        }
-                    }
-                    }
-
-                    <div className="game_grid-row">
-                    <div className="game_grid-nav">1</div>
-                    <div className="game_grid-cell" id="c0_0"></div>
-                    <div className="game_grid-cell" id="c0_1"></div>
-                    <div className="game_grid-cell" id="c0_2"></div>
-                    <div className="game_grid-cell" id="c0_3"></div>
-                    <div className="game_grid-cell" id="c0_4"></div>
-                    <div className="game_grid-cell" id="c0_5"></div>
-                    <div className="game_grid-cell" id="c0_6"></div>
-                    <div className="game_grid-cell" id="c0_7"></div>
-                    <div className="game_grid-cell" id="c0_8"></div>
-                    <div className="game_grid-cell" id="c0_9"></div>
+                        <div className="game_grid-corner"></div>
+                        <div className="game_grid-nav">A</div>
+                        <div className="game_grid-nav">B</div>
+                        <div className="game_grid-nav">C</div>
+                        <div className="game_grid-nav">D</div>
+                        <div className="game_grid-nav">E</div>
+                        <div className="game_grid-nav">F</div>
+                        <div className="game_grid-nav">G</div>
+                        <div className="game_grid-nav">H</div>
+                        <div className="game_grid-nav">I</div>
+                        <div className="game_grid-nav">J</div>
                     </div>
                     <div className="game_grid-row">
-                    <div className="game_grid-nav">2</div>
-                    <div className="game_grid-cell" id="c1_0"></div>
-                    <div className="game_grid-cell" id="c1_1"></div>
-                    <div className="game_grid-cell" id="c1_2"></div>
-                    <div className="game_grid-cell" id="c1_3"></div>
-                    <div className="game_grid-cell" id="c1_4"></div>
-                    <div className="game_grid-cell" id="c1_5"></div>
-                    <div className="game_grid-cell" id="c1_6"></div>
-                    <div className="game_grid-cell" id="c1_7"></div>
-                    <div className="game_grid-cell" id="c1_8"></div>
-                    <div className="game_grid-cell" id="c1_9"></div>
+                        <div className="game_grid-nav">1</div>
+                        <div className="game_grid-cell" id="c0_0"></div>
+                        <div className="game_grid-cell" id="c0_1"></div>
+                        <div className="game_grid-cell" id="c0_2"></div>
+                        <div className="game_grid-cell" id="c0_3"></div>
+                        <div className="game_grid-cell" id="c0_4"></div>
+                        <div className="game_grid-cell" id="c0_5"></div>
+                        <div className="game_grid-cell" id="c0_6"></div>
+                        <div className="game_grid-cell" id="c0_7"></div>
+                        <div className="game_grid-cell" id="c0_8"></div>
+                        <div className="game_grid-cell" id="c0_9"></div>
                     </div>
                     <div className="game_grid-row">
-                    <div className="game_grid-nav">3</div>
-                    <div className="game_grid-cell" id="c2_0"></div>
-                    <div className="game_grid-cell" id="c2_1"></div>
-                    <div className="game_grid-cell" id="c2_2"></div>
-                    <div className="game_grid-cell" id="c2_3"></div>
-                    <div className="game_grid-cell" id="c2_4"></div>
-                    <div className="game_grid-cell" id="c2_5"></div>
-                    <div className="game_grid-cell" id="c2_6"></div>
-                    <div className="game_grid-cell" id="c2_7"></div>
-                    <div className="game_grid-cell" id="c2_8"></div>
-                    <div className="game_grid-cell" id="c2_9"></div>
+                        <div className="game_grid-nav">2</div>
+                        <div className="game_grid-cell" id="c1_0"></div>
+                        <div className="game_grid-cell" id="c1_1"></div>
+                        <div className="game_grid-cell" id="c1_2"></div>
+                        <div className="game_grid-cell" id="c1_3"></div>
+                        <div className="game_grid-cell" id="c1_4"></div>
+                        <div className="game_grid-cell" id="c1_5"></div>
+                        <div className="game_grid-cell" id="c1_6"></div>
+                        <div className="game_grid-cell" id="c1_7"></div>
+                        <div className="game_grid-cell" id="c1_8"></div>
+                        <div className="game_grid-cell" id="c1_9"></div>
                     </div>
                     <div className="game_grid-row">
-                    <div className="game_grid-nav">4</div>
-                    <div className="game_grid-cell" id="c3_0"></div>
-                    <div className="game_grid-cell" id="c3_1"></div>
-                    <div className="game_grid-cell" id="c3_2"></div>
-                    <div className="game_grid-cell" id="c3_3"></div>
-                    <div className="game_grid-cell" id="c3_4"></div>
-                    <div className="game_grid-cell" id="c3_5"></div>
-                    <div className="game_grid-cell" id="c3_6"></div>
-                    <div className="game_grid-cell" id="c3_7"></div>
-                    <div className="game_grid-cell" id="c3_8"></div>
-                    <div className="game_grid-cell" id="c3_9"></div>
+                        <div className="game_grid-nav">3</div>
+                        <div className="game_grid-cell" id="c2_0"></div>
+                        <div className="game_grid-cell" id="c2_1"></div>
+                        <div className="game_grid-cell" id="c2_2"></div>
+                        <div className="game_grid-cell" id="c2_3"></div>
+                        <div className="game_grid-cell" id="c2_4"></div>
+                        <div className="game_grid-cell" id="c2_5"></div>
+                        <div className="game_grid-cell" id="c2_6"></div>
+                        <div className="game_grid-cell" id="c2_7"></div>
+                        <div className="game_grid-cell" id="c2_8"></div>
+                        <div className="game_grid-cell" id="c2_9"></div>
                     </div>
                     <div className="game_grid-row">
-                    <div className="game_grid-nav">5</div>
-                    <div className="game_grid-cell" id="c4_0"></div>
-                    <div className="game_grid-cell" id="c4_1"></div>
-                    <div className="game_grid-cell" id="c4_2"></div>
-                    <div className="game_grid-cell" id="c4_3"></div>
-                    <div className="game_grid-cell" id="c4_4"></div>
-                    <div className="game_grid-cell" id="c4_5"></div>
-                    <div className="game_grid-cell" id="c4_6"></div>
-                    <div className="game_grid-cell" id="c4_7"></div>
-                    <div className="game_grid-cell" id="c4_8"></div>
-                    <div className="game_grid-cell" id="c4_9"></div>
+                        <div className="game_grid-nav">4</div>
+                        <div className="game_grid-cell" id="c3_0"></div>
+                        <div className="game_grid-cell" id="c3_1"></div>
+                        <div className="game_grid-cell" id="c3_2"></div>
+                        <div className="game_grid-cell" id="c3_3"></div>
+                        <div className="game_grid-cell" id="c3_4"></div>
+                        <div className="game_grid-cell" id="c3_5"></div>
+                        <div className="game_grid-cell" id="c3_6"></div>
+                        <div className="game_grid-cell" id="c3_7"></div>
+                        <div className="game_grid-cell" id="c3_8"></div>
+                        <div className="game_grid-cell" id="c3_9"></div>
                     </div>
                     <div className="game_grid-row">
-                    <div className="game_grid-nav">6</div>
-                    <div className="game_grid-cell" id="c5_0"></div>
-                    <div className="game_grid-cell" id="c5_1"></div>
-                    <div className="game_grid-cell" id="c5_2"></div>
-                    <div className="game_grid-cell" id="c5_3"></div>
-                    <div className="game_grid-cell" id="c5_4"></div>
-                    <div className="game_grid-cell" id="c5_5"></div>
-                    <div className="game_grid-cell" id="c5_6"></div>
-                    <div className="game_grid-cell" id="c5_7"></div>
-                    <div className="game_grid-cell" id="c5_8"></div>
-                    <div className="game_grid-cell" id="c5_9"></div>
+                        <div className="game_grid-nav">5</div>
+                        <div className="game_grid-cell" id="c4_0"></div>
+                        <div className="game_grid-cell" id="c4_1"></div>
+                        <div className="game_grid-cell" id="c4_2"></div>
+                        <div className="game_grid-cell" id="c4_3"></div>
+                        <div className="game_grid-cell" id="c4_4"></div>
+                        <div className="game_grid-cell" id="c4_5"></div>
+                        <div className="game_grid-cell" id="c4_6"></div>
+                        <div className="game_grid-cell" id="c4_7"></div>
+                        <div className="game_grid-cell" id="c4_8"></div>
+                        <div className="game_grid-cell" id="c4_9"></div>
+                    </div>
+                        <div className="game_grid-row">
+                        <div className="game_grid-nav">6</div>
+                        <div className="game_grid-cell" id="c5_0"></div>
+                        <div className="game_grid-cell" id="c5_1"></div>
+                        <div className="game_grid-cell" id="c5_2"></div>
+                        <div className="game_grid-cell" id="c5_3"></div>
+                        <div className="game_grid-cell" id="c5_4"></div>
+                        <div className="game_grid-cell" id="c5_5"></div>
+                        <div className="game_grid-cell" id="c5_6"></div>
+                        <div className="game_grid-cell" id="c5_7"></div>
+                        <div className="game_grid-cell" id="c5_8"></div>
+                        <div className="game_grid-cell" id="c5_9"></div>
                     </div>
                     <div className="game_grid-row">
-                    <div className="game_grid-nav">7</div>
-                    <div className="game_grid-cell" id="c6_0"></div>
-                    <div className="game_grid-cell" id="c6_1"></div>
-                    <div className="game_grid-cell" id="c6_2"></div>
-                    <div className="game_grid-cell" id="c6_3"></div>
-                    <div className="game_grid-cell" id="c6_4"></div>
-                    <div className="game_grid-cell" id="c6_5"></div>
-                    <div className="game_grid-cell" id="c6_6"></div>
-                    <div className="game_grid-cell" id="c6_7"></div>
-                    <div className="game_grid-cell" id="c6_8"></div>
-                    <div className="game_grid-cell" id="c6_9"></div>
+                        <div className="game_grid-nav">7</div>
+                        <div className="game_grid-cell" id="c6_0"></div>
+                        <div className="game_grid-cell" id="c6_1"></div>
+                        <div className="game_grid-cell" id="c6_2"></div>
+                        <div className="game_grid-cell" id="c6_3"></div>
+                        <div className="game_grid-cell" id="c6_4"></div>
+                        <div className="game_grid-cell" id="c6_5"></div>
+                        <div className="game_grid-cell" id="c6_6"></div>
+                        <div className="game_grid-cell" id="c6_7"></div>
+                        <div className="game_grid-cell" id="c6_8"></div>
+                        <div className="game_grid-cell" id="c6_9"></div>
                     </div>
                     <div className="game_grid-row">
-                    <div className="game_grid-nav">8</div>
-                    <div className="game_grid-cell" id="c7_0"></div>
-                    <div className="game_grid-cell" id="c7_1"></div>
-                    <div className="game_grid-cell" id="c7_2"></div>
-                    <div className="game_grid-cell" id="c7_3"></div>
-                    <div className="game_grid-cell" id="c7_4"></div>
-                    <div className="game_grid-cell" id="c7_5"></div>
-                    <div className="game_grid-cell" id="c7_6"></div>
-                    <div className="game_grid-cell" id="c7_7"></div>
-                    <div className="game_grid-cell" id="c7_8"></div>
-                    <div className="game_grid-cell" id="c7_9"></div>
+                        <div className="game_grid-nav">8</div>
+                        <div className="game_grid-cell" id="c7_0"></div>
+                        <div className="game_grid-cell" id="c7_1"></div>
+                        <div className="game_grid-cell" id="c7_2"></div>
+                        <div className="game_grid-cell" id="c7_3"></div>
+                        <div className="game_grid-cell" id="c7_4"></div>
+                        <div className="game_grid-cell" id="c7_5"></div>
+                        <div className="game_grid-cell" id="c7_6"></div>
+                        <div className="game_grid-cell" id="c7_7"></div>
+                        <div className="game_grid-cell" id="c7_8"></div>
+                        <div className="game_grid-cell" id="c7_9"></div>
                     </div>
                     <div className="game_grid-row">
-                    <div className="game_grid-nav">9</div>
-                    <div className="game_grid-cell" id="c8_0"></div>
-                    <div className="game_grid-cell" id="c8_1"></div>
-                    <div className="game_grid-cell" id="c8_2"></div>
-                    <div className="game_grid-cell" id="c8_3"></div>
-                    <div className="game_grid-cell" id="c8_4"></div>
-                    <div className="game_grid-cell" id="c8_5"></div>
-                    <div className="game_grid-cell" id="c8_6"></div>
-                    <div className="game_grid-cell" id="c8_7"></div>
-                    <div className="game_grid-cell" id="c8_8"></div>
-                    <div className="game_grid-cell" id="c8_9"></div>
+                        <div className="game_grid-nav">9</div>
+                        <div className="game_grid-cell" id="c8_0"></div>
+                        <div className="game_grid-cell" id="c8_1"></div>
+                        <div className="game_grid-cell" id="c8_2"></div>
+                        <div className="game_grid-cell" id="c8_3"></div>
+                        <div className="game_grid-cell" id="c8_4"></div>
+                        <div className="game_grid-cell" id="c8_5"></div>
+                        <div className="game_grid-cell" id="c8_6"></div>
+                        <div className="game_grid-cell" id="c8_7"></div>
+                        <div className="game_grid-cell" id="c8_8"></div>
+                        <div className="game_grid-cell" id="c8_9"></div>
                     </div>
                     <div className="game_grid-row">
-                    <div className="game_grid-nav">10</div>
-                    <div className="game_grid-cell" id="c9_0"></div>
-                    <div className="game_grid-cell" id="c9_1"></div>
-                    <div className="game_grid-cell" id="c9_2"></div>
-                    <div className="game_grid-cell" id="c9_3"></div>
-                    <div className="game_grid-cell" id="c9_4"></div>
-                    <div className="game_grid-cell" id="c9_5"></div>
-                    <div className="game_grid-cell" id="c9_6"></div>
-                    <div className="game_grid-cell" id="c9_7"></div>
-                    <div className="game_grid-cell" id="c9_8"></div>
-                    <div className="game_grid-cell" id="c9_9"></div>
+                        <div className="game_grid-nav">10</div>
+                        <div className="game_grid-cell" id="c9_0"></div>
+                        <div className="game_grid-cell" id="c9_1"></div>
+                        <div className="game_grid-cell" id="c9_2"></div>
+                        <div className="game_grid-cell" id="c9_3"></div>
+                        <div className="game_grid-cell" id="c9_4"></div>
+                        <div className="game_grid-cell" id="c9_5"></div>
+                        <div className="game_grid-cell" id="c9_6"></div>
+                        <div className="game_grid-cell" id="c9_7"></div>
+                        <div className="game_grid-cell" id="c9_8"></div>
+                        <div className="game_grid-cell" id="c9_9"></div>
                     </div>
                 </div>
                 </div>
