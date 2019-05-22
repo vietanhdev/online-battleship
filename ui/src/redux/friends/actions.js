@@ -8,6 +8,7 @@ export const friendActions = {
     fetchFriendList: ()  => dispatch => {
         request.get('/users/followings')
         .then(function (response) {
+            console.log(10002);
             let friends = response.data.data;
             dispatch({
                 type: friendConstants.FETCH_FRIENDS_SUCCESS,
@@ -27,7 +28,7 @@ export const friendActions = {
     follow: (userId)  => dispatch => {
 
         request.post('/users/friendships/' + userId)
-        .then(function (response) {
+        .then((response) => {
             let friends = response.data.data;
             dispatch({
                 type: friendConstants.FOLLOW_FRIENDS_SUCCESS,
@@ -36,13 +37,15 @@ export const friendActions = {
             
             notifierActions.showInfo("Followed new friend.");
 
-            dispatch(this.fetchFriendList());
+            dispatch(friendActions.fetchFriendList());
         })
-        .catch(function (error) {
+        .catch((error) => {
             dispatch({
                 type: friendConstants.FOLLOW_FRIENDS_FAIL,
                 payload: error
             });
+
+            console.log(error);
 
             notifierActions.showError(error);
         })
