@@ -80,7 +80,7 @@ class MyAccount(Resource):
         return response_object
 
     @token_required
-    @api.doc('update your own information', parser=auth_parser, body=update_user_req, validate=True)
+    @api.doc('Update your own information', parser=auth_parser, body=update_user_req, validate=True)
     def put(self):
         """User update his/her own information"""
         user = g.user
@@ -91,7 +91,7 @@ class MyAccount(Resource):
 @api.route('/my_account/new_password', '/my_account/new_password/')
 class update_password(Resource):
     @token_required
-    @api.doc('update new password', parser=auth_parser, body=update_password_req, validate=True)
+    @api.doc('Update new password', parser=auth_parser, body=update_password_req, validate=True)
     def put(self):
         """User update new password"""
         user = g.user
@@ -108,24 +108,11 @@ class update_password(Resource):
         if status != 200:
             response_object = {
                 'status': 'fail',
-                'message': 'wrong old password'
+                'message': 'Wrong old password'
             }
             return response_object, 401
         return save_updated_password(user, new_password)
         
-
-
-@api.route('/admin', '/admin/')
-class Admin(Resource):
-    @token_required
-    @api.doc('update admin privilege', parser=auth_parser, body=update_admin_req)
-    def post(self):
-        """Update normal account to admin account"""
-        user = g.user
-        data = request.json
-        key = data['admin_secret_key']
-        return update_admin_user(user=user, key=key)
-
 
 @api.route('/followers', '/followers/')
 class GetAllFollowers(Resource):
@@ -158,11 +145,11 @@ class FollowUser(Resource):
         follower = g.user
         user = get_a_user(public_id)
         if not user:
-            abort(404, 'page not found', status='fail')
+            abort(404, 'User not found!')
         if follower.id == user.id:
             response_object = {
                 'status': 'fail',
-                'message': 'you can not follow your self'
+                'message': 'You can not follow your self'
             }
             return response_object, 400
         return save_new_follower(follower, user)
@@ -175,6 +162,6 @@ class FollowUser(Resource):
         follower = g.user 
         user = get_a_user(public_id)
         if not user:
-            abort(404, 'page not found', status='fail')
+            abort(404, 'User ID not found!')
         return delete_follower(follower, user)
         

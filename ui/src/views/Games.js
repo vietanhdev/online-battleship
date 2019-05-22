@@ -1,7 +1,7 @@
 
 import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
-import {Friends} from "../components/friends/Friends"
+import Friends from "../components/friends/Friends"
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'

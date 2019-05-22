@@ -18,19 +18,9 @@ export default function() {
       to: "/user-profile",
     },
     {
-      title: "Forms & Components",
-      htmlBefore: '<i class="material-icons">mail_outline</i>',
-      to: "/components-overview",
-    },
-    {
-      title: "Tables",
-      htmlBefore: '<i class="material-icons">table_chart</i>',
-      to: "/tables",
-    },
-    {
-      title: "Errors",
-      htmlBefore: '<i class="material-icons">error</i>',
-      to: "/errors",
+      title: "Info",
+      htmlBefore: '<i class="material-icons">info</i>',
+      to: "/",
     }
   ];
 }
