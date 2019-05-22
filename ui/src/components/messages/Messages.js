@@ -114,10 +114,11 @@ class Messages extends React.Component {
     }
 
     componentWillReceiveProps = (nextProps) => {
-      let nextRoomId = nextProps.match.params.room_id;
-      let currentRoomId = this.props.match.params.room_id;
-      if (currentRoomId !== nextRoomId) {
-        this.fetchAllMessages(nextRoomId);
+      console.log(nextProps.roomId)
+      let nextRoomId = nextProps.roomId;
+      if (this.roomId !== nextRoomId) {
+        this.roomId = nextRoomId;
+        this.fetchAllMessages(this.roomId);
       }
     }
 

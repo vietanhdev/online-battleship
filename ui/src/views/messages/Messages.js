@@ -18,7 +18,7 @@ class Messages extends React.Component {
             <Col md="9">
               <Row>
                 <Col>
-                  <MessageBox></MessageBox>
+                  <MessageBox roomId={this.props.match.params.room_id}></MessageBox>
                 </Col>
               </Row>
             </Col>
