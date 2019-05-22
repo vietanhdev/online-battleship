@@ -17,6 +17,7 @@ import Config from '../config'
 import socketIOClient from "socket.io-client";
 
 import { BattleShipGame } from '../components/games/battle_ship/BattleShipGame'
+import Messages from "../components/messages/Messages"
 
 export class PlayGame extends Component {
 
@@ -71,9 +72,20 @@ export class PlayGame extends Component {
     const { roomInfo } = this.props;
 
     return (
-      <Container fluid className="main-content-container px-4">
-      
-        <BattleShipGame room={this.state.room_id} history={this.props.history}></BattleShipGame>
+
+      <Container fluid className="main-content-container px-4 mt-2">
+      <Row>
+          <Col md="8">
+          <Row>
+              <Col>
+              <BattleShipGame room={this.state.room_id} history={this.props.history}></BattleShipGame>
+              </Col>
+          </Row>
+          </Col>
+          <Col md="4">
+              <Messages></Messages>
+          </Col>
+      </Row>
 
       </Container>
     )
