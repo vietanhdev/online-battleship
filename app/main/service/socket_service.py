@@ -7,15 +7,14 @@ from app.main import r_db
 
 online_dict = {}
 
-def get_online_followings(list_online, user):
+def get_online_followings(user):
     list_followings = get_list_followings(user)
     # print(">>>>>>>>>> list online ", list_online)
     # print(">>>>>>>>>> list followings ", list_followings)
     online_followings = []
-    # for following in list_followings:
-
-    #     online_followings.append(following.get_user_information())
-    # print('online_followings ', online_followings)
+    for following in list_followings:
+        online_followings.append(following.get_user_information())
+    print('>>>>>>>>>> online_followings ', online_followings)
     return online_followings
 
 
@@ -62,24 +61,27 @@ def login_room_socket(request_object):
     return user, room, response_object
 
 
-def get_list_online():
+def get_list_online_followings(user):
     set_users = r_db.smembers('online')
-    list_users = []
+    list_followings = get_list_followings(user)
+
+    list_online_followings = []
     for user_id in set_users:
         user = get_a_user_by_id(user_id)
-        if user is not None:
-            list_users.append(user.get_user_information())
-    return list_users
+        if user in list_followings:
+            list_online_followings.append(user.get_user_information())
+
+    return list_online_followings
 
 
 def user_online(user):
     r_db.sadd('online', user.id)
-    return get_list_online()
+    return get_list_online_followings(user)
 
 
 def user_offline(user):
     r_db.srem('online', user.id)
-    return get_list_online()
+    return get_list_online_followings(user)
 
 
 def get_list_users_in_room(room):
