@@ -14,7 +14,7 @@ def get_all_rooms(offset, limit):
     if offset.isdigit() and limit.isdigit():
         offset = int(offset)
         limit = int(limit)
-        rooms = Room.query.offset(offset).limit(limit).all()
+        rooms = Room.query.order_by(Room.created_at.desc()).offset(offset).limit(limit).all()
         data = []
         for room in rooms:
             data.append(room.get_room_information())
