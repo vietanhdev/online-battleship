@@ -1,6 +1,10 @@
 
 .battleship_game_wrapper {
 
+  display: flex;
+  align-content: center;
+  justify-content: center;
+
   [hidden],
   .hidden {
     display: none !important;
