@@ -14,7 +14,7 @@ export default class Input extends React.Component {
                 </div>
                 <div className="send_message" onClick={() => this.props.sendMessage(this.refs.message)}>
                     <div className="icon"></div>
-                    <div className="text">Send</div>
+                    <div className="text"><i className="material-icons">send</i></div>
                 </div>
             </div>
         )
