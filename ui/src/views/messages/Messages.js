@@ -16,6 +16,7 @@ import request, { requestStatus } from '../../redux/services/http'
 import { chatActions } from '../../redux/chat/actions'
 
 import './styles.css';
+import { notifierActions } from '../../redux/notifier/actions';
 
 class Messages extends React.Component {
 
@@ -46,16 +47,13 @@ class Messages extends React.Component {
             return 0;
           });
 
-
-          console.log(messages)
-
           this.setState({messages}, () => {
             let objMessage = $('.messages');
             objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 300);
           });
         })
         .catch((error) => {
-          console.log(error);
+          notifierActions.showError("Error on fetching messages");
         })
     }
 
@@ -184,7 +182,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  enterRoom: chatActions.enterRoom
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Messages))
