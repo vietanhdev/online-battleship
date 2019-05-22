@@ -16,7 +16,7 @@ import request, { requestStatus } from '../../redux/services/http'
 import { chatActions } from '../../redux/chat/actions'
 import { notifierActions } from '../../redux/notifier/actions';
 
-import '../../components/messages/styles.css';
+import '../../components/messages/styles.scss';
 
 
 class Messages extends React.Component {
