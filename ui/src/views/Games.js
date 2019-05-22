@@ -101,7 +101,7 @@ export class Games extends Component {
                             }
 
                             return (
-                            <tr>
+                            <tr key={index}>
                               <td>{index}</td>
                               <td>{gameName}</td>
                               <td>{numOfPlayers}</td>
