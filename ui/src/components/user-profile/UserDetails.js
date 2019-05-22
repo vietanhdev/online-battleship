@@ -12,7 +12,7 @@ import { connect } from 'react-redux'
 export class UserDetails extends Component {
 
   render() {
-    const {photo, fullname, bio} = this.props
+    const {public_id, photo, fullname, bio} = this.props
     return (
       <Card small className="mb-4 pt-3">
         <CardHeader className="border-bottom text-center">
@@ -25,6 +25,7 @@ export class UserDetails extends Component {
             />
           </div>
           <h4 className="mb-0">{fullname}</h4>
+          <p>Your ID is: <span style={{fontWeight: "bold"}}>{public_id}</span></p>
           <Button pill outline size="sm" className="mb-2">
             <i className="material-icons mr-1">person_add</i> Follow
           </Button>
@@ -45,8 +46,10 @@ export class UserDetails extends Component {
 
 
 const mapStateToProps = (state) => ({
+  user_id: state.userReducer.fullname,
   fullname: state.userReducer.fullname,
   bio: state.userReducer.bio,
+  public_id: state.userReducer.public_id,
   photo: require("../../images/avatars/king.png")
 })
 
