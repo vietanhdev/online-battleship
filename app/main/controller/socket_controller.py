@@ -1,8 +1,7 @@
 from flask import g, request
 
-from ..service.socket_service import get_user_and_receiver, get_user_and_room, login_socket, login_room_socket, user_get_in_room, user_get_out_room
+from ..service.socket_service import get_user_and_receiver, get_user_by_sid, get_room_by_sid, login_socket, login_room_socket, user_get_in_room, user_get_out_room, get_online_followings, user_online, user_offline
 from ..service.message_service import save_new_message
-from ..service.user_service import get_a_user
 from .. import socketio
 
 from flask_socketio import disconnect, join_room, leave_room, emit, rooms
@@ -15,24 +14,41 @@ def connectClient():
 	print(">>>>>>>>> Client connected on rooth path with session id " + request.sid)
 
 
-def update_list_users_in_room(list_users, room):
+def update_list_users_in_room(list_users_in_room, room):
 	response_object = {
-		'users_in_room': list_users
+		'users_in_room': list_users_in_room
 	}
 	emit('users_in_room', response_object, room=room.id, namespace='/rooms')
+
+
+def update_list_online_followings(list_online, user):
+	online_followings = get_online_followings(list_online, user)
+	
+	response_object = {
+		'online_followings': online_followings
+	}
+	emit('online_followings', response_object, room=user.id, namespace='/')
 
 
 @socketio.on('disconnect')
 def disconnectClient():
 	print(">>>>>>>>> Client disconnected on rooth path with session id " + request.sid)
-	# Check authenticate session id
+	# Check with room
 	list_user_id = rooms(sid=request.sid, namespace="/user_id")
 	list_room_id = rooms(sid=request.sid, namespace="/room_id")
 
-	user, room = get_user_and_room(list_user_id, list_room_id)
+	user = get_user_by_sid(list_user_id)
+	room = get_room_by_sid(list_room_id)
+
 	if user is not None and room is not None:
-		list_users = user_get_out_room(user, room)
-		update_list_users_in_room(list_users, room)
+		list_users_in_room = user_get_out_room(user, room)
+		update_list_users_in_room(list_users_in_room, room)
+
+
+	# Check with user
+	if user is not None:
+		list_online = user_offline(user)
+		update_list_online_followings(list_online, user)
 
 
 @socketio.on('request_login', namespace='/')
@@ -46,6 +62,9 @@ def registerUserId(request_object):
 		join_room(room=user.id, namespace='/user_id')
 		# join room to get message
 		join_room(room=user.id, namespace='/')
+
+		list_online = user_online(user)
+		update_list_online_followings(list_online, user)
 
 
 @socketio.on('request_login_with_room', namespace='/rooms')
@@ -62,8 +81,8 @@ def registerUserRoomID(request_object):
 		join_room(room=room.id, namespace='/rooms')
 		join_room(room=user.id, namespace='/')
 
-		list_users = user_get_in_room(user, room)
-		update_list_users_in_room(list_users, room)
+		list_users_in_room = user_get_in_room(user, room)
+		update_list_users_in_room(list_users_in_room, room)
 
 
 @socketio.on('request_private_message', namespace='/')
@@ -106,7 +125,8 @@ def newRoomMessage(request_object):
 	list_user_id = rooms(sid=request.sid, namespace="/user_id")
 	list_room_id = rooms(sid=request.sid, namespace="/room_id")
 
-	user, room = get_user_and_room(list_user_id, list_room_id)
+	user = get_user_by_sid(list_user_id)
+	room = get_room_by_sid(list_room_id)
 
 	if user is None:
 		response_object = {
