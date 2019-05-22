@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter } from "react-router";
 import $ from 'jquery';
-import MessageList from './MessageList';
-import Input from './Input';
+import MessageList from '../../components/messages/MessageList';
+import Input from '../../components/messages/Input';
 import io from 'socket.io-client';
 
 import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react";
@@ -14,9 +14,10 @@ import Config from '../../config'
 import request, { requestStatus } from '../../redux/services/http'
 
 import { chatActions } from '../../redux/chat/actions'
-
-import './styles.css';
 import { notifierActions } from '../../redux/notifier/actions';
+
+import '../../components/messages/styles.css';
+
 
 class Messages extends React.Component {
 
@@ -55,6 +56,21 @@ class Messages extends React.Component {
         .catch((error) => {
           notifierActions.showError("Error on fetching messages");
         })
+    }
+
+
+    getFriendById = (id) => {
+
+      console.log(this.props.friends)
+
+      for (let friend in this.props.friends) {
+        if (friend.public_id === id) {
+          return friend;
+        }
+      }
+
+      return null;
+
     }
 
   
@@ -145,6 +161,9 @@ class Messages extends React.Component {
 
     render () {
 
+      let friend = this.getFriendById(this.props.match.params.room_id);
+      console.log(friend);
+
         return (
 
           <Container fluid className="main-content-container px-4 mt-4">
@@ -154,12 +173,13 @@ class Messages extends React.Component {
                   <Col>
                     <Card small className="mb-4">
                       <CardHeader className="border-bottom">
-                        <h6 className="m-0">{this.props.user.fullname}</h6>
+                        <h6> {friend ? friend.fullname : ""}
+                        </h6>
                       </CardHeader>
                       <CardBody className="p-0 pb-3">
                         <div className="app__content">
                           <div className="chat_window">
-                              <MessageList user_id={this.props.user.public_id} messages={this.state.messages} typing={this.state.typing}/>
+                              <MessageList user_id={this.props.user.public_id} messages={this.state.messages}/>
                               <Input sendMessage={this.sendNewMessage.bind(this)}/>
                           </div>
                         </div>
@@ -180,7 +200,8 @@ class Messages extends React.Component {
 
 
 const mapStateToProps = (state) => ({
-  user: state.userReducer
+  user: state.userReducer,
+  friends: state.friendReducer.friends
 })
 
 const mapDispatchToProps = {

@@ -72,11 +72,7 @@ export class PlayGame extends Component {
 
     return (
       <Container fluid className="main-content-container px-4">
-        {/* Page Header */}
-        <Row noGutters className="page-header py-4">
-          <PageTitle sm="4" title={roomInfo.game.name} subtitle="Let's play" className="text-sm-left" />
-        </Row>
-
+      
         <BattleShipGame room={this.state.room_id} history={this.props.history}></BattleShipGame>
 
       </Container>
