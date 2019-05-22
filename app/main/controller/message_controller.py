@@ -40,7 +40,7 @@ class MessageList(Resource):
 
         # Get offset and limit argument, set to 0 if not invalid
         offset = request.args.get('offset') or '0'
-        limit = request.args.get('limit') or '0'
+        limit = request.args.get('limit') or '20'
 
         if partner is not None:
             return get_private_messages(user.public_id, public_id, offset, limit)

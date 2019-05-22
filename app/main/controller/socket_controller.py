@@ -14,18 +14,18 @@ def connectClient():
 	print(">>>>>>>>> Client connected on rooth path with session id " + request.sid)
 
 
-def update_list_users_in_room(list_users_in_room, room):
-	response_object = {
-		'users_in_room': list_users_in_room
-	}
-	emit('users_in_room', response_object, room=room.id, namespace='/rooms')
+# def update_list_users_in_room(list_users_in_room, room):
+# 	response_object = {
+# 		'users_in_room': list_users_in_room
+# 	}
+# 	emit('users_in_room', response_object, room=room.id, namespace='/rooms')
 
 
-def update_list_online_followings(list_online_followings):
-	response_object = {
-		'online_followings': list_online_followings
-	}
-	emit('online_followings', response_object, room=user.id, namespace='/')
+# def update_list_online_followings(list_online_followings, user):
+# 	response_object = {
+# 		'online_followings': list_online_followings
+# 	}
+# 	emit('online_followings', response_object, room=user.id, namespace='/')
 
 
 @socketio.on('disconnect')
@@ -44,9 +44,9 @@ def disconnectClient():
 
 
 	# Check with user
-	if user is not None:
-		list_online_followings = user_offline(user)
-		update_list_online_followings(list_online_following)
+	# if user is not None:
+	# 	list_online_followings = user_offline(user)
+	# 	update_list_online_followings(list_online_following, user)
 
 
 @socketio.on('request_login', namespace='/')
@@ -61,8 +61,8 @@ def registerUserId(request_object):
 		# join room to get message
 		join_room(room=user.id, namespace='/')
 
-		list_online_followings = user_online(user)
-		update_list_online_followings(list_online_followings)
+		# list_online_followings = user_online(user)
+		# update_list_online_followings(list_online_followings, user)
 
 
 @socketio.on('request_login_with_room', namespace='/rooms')
