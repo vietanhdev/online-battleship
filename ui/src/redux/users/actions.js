@@ -36,7 +36,8 @@ export const userActions = {
                 fullname: response.data["data"]["username"],
                 bio: response.data["data"]["bio"],
                 email: response.data["data"]["email"],
-                token:  response.data["data"]["token"]
+                token:  response.data["data"]["token"],
+                public_id: response.data["data"]["public_id"]
             }
 
             dispatch({

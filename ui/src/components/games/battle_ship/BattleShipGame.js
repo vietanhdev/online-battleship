@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import './files/styles.css'
+import './files/styles.scss'
 import { Button } from 'shards-react'
 
 
@@ -45,7 +45,7 @@ export class BattleShipGame extends Component {
 
     render() {
         return (
-            <div>
+            <div className="battleship_game_wrapper">
         <div className="extension_wrapper theme-white">
 
             <header className="header">
