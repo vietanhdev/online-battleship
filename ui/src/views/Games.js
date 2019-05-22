@@ -77,7 +77,7 @@ export class Games extends Component {
                           roomList.map((room , index) => {
 
                             let gameName = room.game.name;
-                            let gameId = room.public_id;
+                            // let gameId = room.public_id;
                             let numOfPlayers = room.players.length;
 
                             // Generate created time in ago format

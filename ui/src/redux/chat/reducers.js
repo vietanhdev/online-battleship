@@ -1,4 +1,4 @@
-import chatConstants from './constants'
+// import chatConstants from './constants'
 
 const initState = {
 }

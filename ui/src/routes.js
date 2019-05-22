@@ -9,7 +9,6 @@ import BareLayout  from "./layouts/BareLayout";
 import RootMessages from "./views/messages/RootMessages";
 import Messages from "./views/messages/Messages";
 import UserProfile from "./views/UserProfile";
-import ComponentsOverview from "./views/ComponentsOverview";
 import Games from "./views/Games";
 import PlayGame from "./views/PlayGame";
 

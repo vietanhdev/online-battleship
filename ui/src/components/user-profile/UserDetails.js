@@ -2,7 +2,6 @@
 import {
   Card,
   CardHeader,
-  Button,
   ListGroup,
   ListGroupItem,
 } from "shards-react";

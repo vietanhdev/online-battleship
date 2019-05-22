@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react";
+import { Card, CardHeader, CardBody, Button } from "shards-react";
 
 import Images from './Images'
 import Constants from './constants';

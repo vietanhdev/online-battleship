@@ -5,9 +5,7 @@ import MessageList from '../../components/messages/MessageList';
 import Input from '../../components/messages/Input';
 import io from 'socket.io-client';
 
-import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react";
-import PageTitle from "../../components/common/PageTitle";
-import Friends from "../../components/friends/Friends"
+import { Card, CardHeader, CardBody } from "shards-react";
 import { connect } from 'react-redux'
 
 import Config from '../../config'
@@ -161,27 +159,26 @@ class Messages extends React.Component {
 
     render () {
 
-      let friend = this.getFriendById(this.props.match.params.room_id);
+      // let friend = this.getFriendById(this.props.match.params.room_id);
 
+      return (
 
-        return (
-
-            <Card small className="mb-4">
-                <CardHeader className="border-bottom">
-                <h6> Chat
-                </h6>
-                </CardHeader>
-                <CardBody className="p-0 pb-3">
-                <div className="app__content">
-                    <div className="chat_window">
-                        <MessageList user_id={this.props.user.public_id} messages={this.state.messages}/>
-                        <Input sendMessage={this.sendNewMessage.bind(this)}/>
-                    </div>
-                </div>
-                </CardBody>
-            </Card>
-                 
-        )
+          <Card small className="mb-4">
+              <CardHeader className="border-bottom">
+              <h6> Chat
+              </h6>
+              </CardHeader>
+              <CardBody className="p-0 pb-3">
+              <div className="app__content">
+                  <div className="chat_window">
+                      <MessageList user_id={this.props.user.public_id} messages={this.state.messages}/>
+                      <Input sendMessage={this.sendNewMessage.bind(this)}/>
+                  </div>
+              </div>
+              </CardBody>
+          </Card>
+                
+      )
     }
 }
 
