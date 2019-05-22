@@ -165,13 +165,13 @@ def save_new_follower(follower, user):
         save_changes(new_association)
         response_object = {
             'status': 'success',
-            'message': 'create friendship successfully'
+            'message': 'Create friendship successfully'
         }
         return response_object, 200
     else:
         response_object = {
             'status': 'fail',
-            'message': 'the friendship already exists'
+            'message': "You've already followed that user"
         }
         return response_object, 400
 
