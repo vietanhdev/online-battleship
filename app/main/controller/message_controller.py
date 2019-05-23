@@ -4,7 +4,7 @@ from flask_restplus import Resource
 from ..util.dto import MessageDto
 from ..util.decorator import token_required
 
-from ..service.message_service import get_private_messages, get_room_messages
+from ..service.message_service import get_list_chat_friends, get_private_messages, get_room_messages
 from ..service.user_service import get_a_user
 from ..service.game_service import get_a_room
 from .. import socketio
@@ -24,6 +24,22 @@ auth_ol_parser.add_argument('offset', type=int,
 auth_ol_parser.add_argument('limit', type=int,
                     location='args',
                     help='limit')
+
+auth_parser = api.parser()
+auth_parser.add_argument('Authorization', type=str,
+                    location='headers',
+                    help='Bearer Access Token',
+                    required=True)
+
+@api.route('', '/')
+class ChatFriendsList(Resource):
+    @token_required
+    @api.doc('list of all chat friends', parser=auth_parser, validate=True)
+    def get(self):
+        """List of all chat friends"""
+        user = g.user
+
+        return get_list_chat_friends(user)
 
 
 @api.route('/<public_id>')
