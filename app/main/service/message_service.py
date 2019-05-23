@@ -2,8 +2,34 @@ import datetime
 
 from app.main import db
 from app.main.model.message import Message
+from .user_service import get_a_user
 
 from sqlalchemy import or_, and_
+
+def get_list_chat_friends(user):
+    set_chat_friends_public_id = set()
+    
+    receive_messages = Message.query.filter( Message.sender_public_id==user.public_id ).all()
+    send_messages = Message.query.filter( Message.receiver_public_id==user.public_id ).all()
+
+    for message in receive_messages:
+        set_chat_friends_public_id.add(message.receiver_public_id)
+    for message in send_messages:
+        set_chat_friends_public_id.add(message.sender_public_id)
+    print(set_chat_friends_public_id)
+    
+    list_chat_friends = []
+
+    for chat_friend_public_id in set_chat_friends_public_id:
+        user = get_a_user(chat_friend_public_id)
+        if user is not None:
+            list_chat_friends.append(user.get_user_information())
+    
+    response_object = {
+        'status': 'success',
+        'list_chat_friends': list_chat_friends
+    }
+    return response_object, 200
 
 
 def get_private_messages(self_public_id, partner_public_id, offset, limit):
