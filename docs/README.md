@@ -59,19 +59,3 @@ See ```OnlineGames.postman_collection.json``` for ```Postman``` API examples.
 # Reference
 
 Sample project get from [this article](https://medium.freecodecamp.org/structuring-a-flask-restplus-web-service-for-production-builds-c2ec676de563), [github link](https://github.com/cosmic-byte/flask-restplus-boilerplate)
-
-# EC2 instances
-
-User: Ubuntu
-IPs: 52.221.195.89, 52.77.226.146
-Private key: sea1.pem
-
-Việt Anh:
-git config --local user.name "Viet-Anh Nguyen"
-git config --local user.email "vietanh@vietanhdev.com"
-Tuấn:
-git config --local user.name "Dinh-Tuan Nguyen"
-git config --local user.email "tuannguyendinh224@gmail.com"
-An:
-git config --local user.name "Sy-An Nguyen"
-git config --local user.email "syan224@gmail.com"
