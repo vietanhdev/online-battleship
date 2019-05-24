@@ -2,7 +2,7 @@
 
 echo "Waiting for database..."
 
-while ! nc -z users-db 5432; do
+while ! nc -z database 3306; do
   sleep 0.1
 done
 

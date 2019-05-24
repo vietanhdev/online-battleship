@@ -9,7 +9,7 @@ from .config import config_by_name
 import redis
 
 db = SQLAlchemy()
-r_db = redis.Redis(host='localhost', port=5436, db=0)
+r_db = redis.Redis(host='redis', port=6379, db=0)
 r_db.flushdb()
 flask_bcrypt = Bcrypt()
 socketio = SocketIO()

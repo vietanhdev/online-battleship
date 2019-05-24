@@ -17,7 +17,7 @@ from app.main.model.user import User
 
 from flask_cors import CORS
 
-app = create_app(os.getenv('FLASK_ENV') or 'dev')
+app = create_app(os.getenv('APP_ENV') or 'development')
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -70,7 +70,7 @@ migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 
 
-@manager.command('recreate_db')
+@manager.command
 def recreate_db():
     db.drop_all()
     db.create_all()
