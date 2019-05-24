@@ -1,0 +1,18 @@
+# base image
+FROM mhart/alpine-node:12
+
+# set working directory
+WORKDIR /usr/src/app
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# install and cache app dependencies
+COPY package.json /usr/src/app/package.json
+COPY yarn.lock /usr/src/app/yarn.lock
+RUN yarn
+RUN yarn add react-scripts@2.1.8 -g --silent
+
+
+# start app
+CMD ["yarn", "start"]
