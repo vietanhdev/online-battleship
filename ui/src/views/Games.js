@@ -90,15 +90,16 @@ export class Games extends Component {
                               public_id: ""
                             };
 
-                            for (let player in room.players) {
+                            for (let i = 0; i < room.players.length; ++i) {
+                              let player = room.players[i];
                               if (player.creator) {
                                 creator = {
                                   fullname: player.username,
                                   public_id: player.public_id
                                 };
                                 break;
-                              }
                             }
+                            
 
                             return (
                             <tr key={index}>
