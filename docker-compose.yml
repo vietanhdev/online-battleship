@@ -13,6 +13,7 @@ services:
       - 5001:5000
     environment:
       - FLASK_ENV=development
+      - APP_ENV=development
       - DATABASE_DEV_URL=mysql+pymysql://online_games:Flask#123@database:3306/online_games_db?charset=utf8mb4
       - DATABASE_PROD_URL=mysql+pymysql://online_games:Flask#123@database:3306/online_games_db?charset=utf8mb4
       - SECRET_KEY=my_precious_secret_key
