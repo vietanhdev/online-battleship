@@ -96,5 +96,11 @@ def test():
     return 1
 
 
+# Recreate DB if needed
+import os
+if os.getenv('RECREATE_DB') == "true":
+    recreate_db()
+
+
 if __name__ == '__main__':
     manager.run()

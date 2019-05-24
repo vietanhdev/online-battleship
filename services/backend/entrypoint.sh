@@ -9,10 +9,4 @@ done
 
 echo "Database started"
 
-# Recreate database if needed
-if [ "$RECREATE_DB" == "true" ]
-then
-  python manage.py recreate_db
-fi
-
 python manage.py run
