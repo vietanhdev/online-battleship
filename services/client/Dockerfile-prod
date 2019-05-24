@@ -3,7 +3,7 @@
 ###########
 
 # base image
-FROM node:11.12.0-alpine as builder
+FROM mhart/alpine-node:12 as builder
 
 # set working directory
 WORKDIR /usr/src/app
@@ -11,9 +11,9 @@ WORKDIR /usr/src/app
 # install app dependencies
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY package.json /usr/src/app/package.json
-COPY package-lock.json /usr/src/app/package-lock.json
-RUN npm ci
-RUN npm install react-scripts@2.1.8 -g --silent
+#COPY yarn.lock /usr/src/app/yarn.lock
+RUN yarn
+RUN yarn add react-scripts@2.1.8 -g --silent
 
 # set environment variables
 ARG REACT_APP_USERS_SERVICE_URL
