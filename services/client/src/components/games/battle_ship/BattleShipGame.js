@@ -4,52 +4,31 @@ import { connect } from 'react-redux'
 import { Card, CardHeader, CardBody, Button } from "shards-react";
 
 import Images from './Images'
-import Constants from './constants';
 
+import {ShipSize} from '../../../redux/battleship/constants'
 
 import './files/styles.scss'
+import { battleshipActions } from '../../../redux/battleship';
+
+import { withRouter } from "react-router";
 
 export class BattleShipGame extends Component {
 
 
-    constructor(props) {
-
-        super(props);
-
-        this.state = {
-
-            ship_arrangement: {
-                rotate_ship: false,
-                selected_ship_type: Constants.SHIP_SIZE.GIGANT
-            }
-
-        }
-
+    componentDidMount = () => {
+        this.props.initSocket(this.props.match.params.room_id);
     }
 
-
-    toggleRotateShip = () =>  {
-
-        let newState = Object.assign({}, this.state);
-        newState.ship_arrangement.rotate_ship = !this.state.ship_arrangement.rotate_ship;
-
-        this.setState(newState);
-    }
-
-
-    selectShipSize = (size) => {
-        let newState = Object.assign({}, this.state);
-        newState.ship_arrangement.selected_ship_type = size;
-
-        this.setState(newState);
-    }
 
     render() {
+
+        const selectShipSize = this.props.shipArrangement.selectedShipSize
         return (
 
             <Card small className="mb-4">
                         <CardHeader className="border-bottom">
                             <h4 className="text-center">BattleShip</h4>
+                            <h5 className="text-center">{this.props.user.fullname} vs. ??</h5>
                         </CardHeader>
                         <CardBody className="p-0 pb-3">
                         <div className="battleship_game_wrapper">
@@ -361,33 +340,33 @@ export class BattleShipGame extends Component {
                                                 <div className="game_grid-cell" id="o9_9"></div>
                                             </div>
                                         </div>
-                                        <div className={ this.state.ship_arrangement.rotate_ship ? "prepare_field--rotate" : "prepare_field"}>
+                                        <div className={ this.props.shipArrangement.rotateShip ? "prepare_field--rotate" : "prepare_field"}>
 
                                             <div className="prepare_cell-wrapper">
-                                                <div className={"prepare_cell" + (this.state.ship_arrangement.selected_ship_type === Constants.SHIP_SIZE.SMALL ? " prepare_cell--active" : "")} onClick={() => {this.selectShipSize(Constants.SHIP_SIZE.SMALL)}}>
+                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.SMALL ? " prepare_cell--active" : "")} onClick={() => {this.props.selectShipSize(ShipSize.SMALL)}}>
                                                     <div className="prepare_cell-counter">x4</div>
                                                     <img src={Images.ship_1_player} alt=""
                                                     className="prepare_cell-ship"></img>
                                                 </div>
 
-                                                <div className={"prepare_cell" + (this.state.ship_arrangement.selected_ship_type === Constants.SHIP_SIZE.MID ? " prepare_cell--active" : "")} onClick={() => {this.selectShipSize(Constants.SHIP_SIZE.MID)}}>
+                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.MID ? " prepare_cell--active" : "")} onClick={() => {this.props.selectShipSize(ShipSize.MID)}}>
                                                     <div className="prepare_cell-counter">x3</div>
                                                     <img src={Images.ship_2_player} alt=""
                                                     className="prepare_cell-ship"></img>
                                                 </div>
 
-                                                <div className={"prepare_cell" + (this.state.ship_arrangement.selected_ship_type === Constants.SHIP_SIZE.LARGE ? " prepare_cell--active" : "")} onClick={() => {this.selectShipSize(Constants.SHIP_SIZE.LARGE)}}>
+                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.LARGE ? " prepare_cell--active" : "")} onClick={() => {this.props.selectShipSize(ShipSize.LARGE)}}>
                                                 <div className="prepare_cell-counter">x2</div>
                                                     <img src={Images.ship_3_player} alt="" className="prepare_cell-ship"></img>
                                                 </div>
 
-                                                <div className={"prepare_cell" + (this.state.ship_arrangement.selected_ship_type === Constants.SHIP_SIZE.GIGANT ? " prepare_cell--active" : "")} onClick={() => {this.selectShipSize(Constants.SHIP_SIZE.GIGANT)}}>
+                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.GIGANT ? " prepare_cell--active" : "")} onClick={() => {this.props.selectShipSize(ShipSize.GIGANT)}}>
                                                 <div className="prepare_cell-counter">x1</div>
                                                     <img src={Images.ship_4_player} alt=""
                                                     className="prepare_cell-ship"></img>
                                                 </div>
 
-                                                <button className="prepare_field-rotate_btn" onClick={this.toggleRotateShip}></button>
+                                                <button className="prepare_field-rotate_btn" onClick={this.props.toggleShipRotate}></button>
                                             </div>
 
                                             <div className="prepare_overlay">
@@ -428,11 +407,14 @@ export class BattleShipGame extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  
+    user: state.userReducer,
+    shipArrangement: state.battleshipReducer.shipArrangement,
 })
 
 const mapDispatchToProps = {
-  
+    toggleShipRotate: battleshipActions.toggleShipRotate,
+    selectShipSize: battleshipActions.selectShipSize,
+    initSocket: battleshipActions.initSocket
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BattleShipGame)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BattleShipGame))
