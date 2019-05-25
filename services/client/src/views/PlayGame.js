@@ -5,15 +5,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from "react-router";
 
-import { gameActions } from '../redux/games/actions'
-// import { appActions } from '../redux/app/actions'
-
-import { requestStatus } from '../utilities/http'
-
-import Config from '../config'
-
-import socketIOClient from "socket.io-client";
-
 import { BattleShipGame } from '../components/games/battle_ship/BattleShipGame'
 import Messages from "../components/room_messages/Messages"
 
