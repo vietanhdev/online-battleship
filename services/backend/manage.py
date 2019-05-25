@@ -72,7 +72,7 @@ def run():
     socketio.run(app,
                 host='0.0.0.0',
                 port=5000,
-                use_reloader=False)
+                use_reloader=True)
     
 
 @manager.command

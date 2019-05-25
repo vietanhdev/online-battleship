@@ -1,12 +1,12 @@
 import React from 'react';
 import { withRouter } from "react-router";
-import MessageBox from '../../components/messages/Messages';
+import MessageBox from '../../components/private_messages/Messages';
 
 import { Container, Row, Col } from "shards-react";
 import Friends from "../../components/friends/Friends"
 import { connect } from 'react-redux'
 
-import '../../components/messages/styles.scss';
+import '../../components/private_messages/styles.scss';
 
 
 class Messages extends React.Component {

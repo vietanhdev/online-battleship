@@ -66,11 +66,11 @@ def registerUserId(request_object):
 		# update_list_online_followings(list_online_followings, user)
 
 
-@socketio.on('request_login_with_room', namespace='/rooms')
+@socketio.on('request_login', namespace='/rooms')
 def registerUserRoomID(request_object):
 	user, room, response_object = login_room_socket(request_object)
 	# Notify sender response result
-	emit('response_login_with_room', response_object, broadcast=False, namespace='/rooms')
+	emit('response_login', response_object, broadcast=False, namespace='/rooms')
 
 	if user is not None and room is not None:
 		# join room to authenticate
@@ -87,7 +87,7 @@ def registerUserRoomID(request_object):
 		update_boards(user, room)
 
 
-@socketio.on('request_private_message', namespace='/')
+@socketio.on('send_message', namespace='/')
 def newPrivateMessage(request_object):
 	# Check authenticate session id
 	list_user_id = rooms(sid=request.sid, namespace="/user_id")
@@ -114,14 +114,14 @@ def newPrivateMessage(request_object):
 		new_message = save_new_message(sender_public_id=user.public_id, receiver_public_id=receiver.public_id, content=content)
 		# Send new message to all receiver in that room
 		receive_object = new_message.get_message_information()
-		emit('receive_message', receive_object, room=user.id, namespace='/')
-		emit('receive_message', receive_object, room=receiver.id, namespace='/')
+		emit('new_message', receive_object, room=user.id, namespace='/')
+		emit('new_message', receive_object, room=receiver.id, namespace='/')
 
 	# Notify sender response result
-	emit('response_private_message', response_object, broadcast=False, namespace='/')
+	emit('response_send_message', response_object, broadcast=False, namespace='/')
 
 
-@socketio.on('request_room_message', namespace='/rooms')
+@socketio.on('send_message', namespace='/rooms')
 def newRoomMessage(request_object):
 	# Check authenticate session id
 	list_user_id = rooms(sid=request.sid, namespace="/user_id")
@@ -150,6 +150,7 @@ def newRoomMessage(request_object):
 		new_message = save_new_message(sender_public_id=user.public_id, receiver_public_id=room.public_id, content=content)
 		# Send new message to all receiver in that room
 		receive_object = new_message.get_message_information()
+<<<<<<< HEAD
 		emit('receive_message', receive_object, room=room.public_id, namespace='/rooms')
 
 	# Notify sender response result
@@ -226,3 +227,9 @@ def update_boards(user, room):
 
 	emit('receive_event', {'event': data}, room=user.public_id, namespace='/rooms')
 		
+=======
+		emit('new_message', receive_object, room=room.id, namespace='/rooms')
+
+	# Notify sender response result
+	emit('response_send_message', response_object, broadcast=False, namespace='/rooms')
+>>>>>>> 41cb90373d32d880a8204aeca3895983645f182a
