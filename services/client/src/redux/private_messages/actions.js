@@ -16,7 +16,7 @@ export const messageActions = {
         }) 
     },
 
-    initSocket: () => {
+    initSocket: (roomType) => {
         return (dispatch, getState, socket) => {
 
             // Remove all listeners
@@ -35,7 +35,7 @@ export const messageActions = {
             });
 
             // Receive message from server
-            socket.message.on('receive_message', (message) => {
+            socket.message.on('new_message', (message) => {
                 dispatch(messageActions.pushNewMessage(message));
             });
 
@@ -49,7 +49,7 @@ export const messageActions = {
             'receiver_public_id': roomId,
             'content': content
           };
-          socket.message.emit("request_private_message", msgContent);
+          socket.message.emit("send_message", msgContent);
     },
     
     

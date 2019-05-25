@@ -4,7 +4,7 @@ const initState = {
     messages: []
 }
 
-export const messageReducer = (state = initState, action) =>  {
+export const roomMessageReducer = (state = initState, action) =>  {
     switch (action.type) {
         case messageConstants.CLEAR_MESSAGES:
             return {...state, messages: []}
