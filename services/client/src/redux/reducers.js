@@ -4,7 +4,7 @@ import { notifierReducer } from './notifier';
 import { userReducer } from './users';
 import { gameReducer } from './games';
 import { friendReducer } from './friends';
-import { chatReducer } from './chat';
+import { messageReducer } from './messages';
 
 export default combineReducers({
     appReducer,
@@ -12,5 +12,5 @@ export default combineReducers({
     userReducer,
     gameReducer,
     friendReducer,
-    chatReducer
+    messageReducer
 });
