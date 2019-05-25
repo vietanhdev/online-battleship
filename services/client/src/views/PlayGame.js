@@ -17,13 +17,23 @@ import socketIOClient from "socket.io-client";
 import { BattleShipGame } from '../components/games/battle_ship/BattleShipGame'
 import Messages from "../components/room_messages/Messages"
 
+import loading_icon from '../images/loading_ship.svg'
+import './loading.scss'
+
 export class PlayGame extends Component {
+
+  componentDidMount() {
+    this.props.enterRoom(this.props.match.params.room_id, this.props.history);
+  }
 
   render() {
 
     return (
 
       <Container fluid className="main-content-container px-4 mt-2">
+      <div className={"loading-screen " + (this.props.displayLoading ? "" : "hidden")}>
+        <img alt="Loading Icon" src={loading_icon}></img>
+      </div>
       <Row>
           <Col md="8">
           <Row>
@@ -43,11 +53,13 @@ export class PlayGame extends Component {
 }
 
 const mapStateToProps = (state) => ({
-
+  displayLoading: state.gameReducer.isLoading
 })
 
 const mapDispatchToProps = {
-  
+  openLoadingScreen: gameActions.openLoadingScreen,
+  closeLoadingScreen: gameActions.closeLoadingScreen,
+  enterRoom: gameActions.enterRoom
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PlayGame))

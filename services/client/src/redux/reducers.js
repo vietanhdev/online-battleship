@@ -6,6 +6,7 @@ import { gameReducer } from './games';
 import { friendReducer } from './friends';
 import { privateMessageReducer } from './private_messages';
 import { roomMessageReducer } from './room_messages';
+import { battleshipReducer } from './battleship';
 
 export default combineReducers({
     appReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
     gameReducer,
     friendReducer,
     privateMessageReducer,
-    roomMessageReducer
+    roomMessageReducer,
+    battleshipReducer
 });
