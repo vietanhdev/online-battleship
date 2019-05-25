@@ -6,8 +6,8 @@ export default class MessageItem extends React.Component {
     render () {
         return (
             <ul className="messages">
-                {this.props.messages.map(item =>
-                    <Message key={item.created_at} user={item.sender_public_id === this.props.user_id? true: false} message={item.content}/>
+                {this.props.messages.map((item, index) =>
+                    <Message key={index} user={item.sender_public_id === this.props.user_id? true: false} message={item.content}/>
                 )}
             </ul>
         )

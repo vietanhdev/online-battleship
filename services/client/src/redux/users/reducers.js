@@ -27,7 +27,7 @@ export const userReducer = (state = initState, action) =>  {
 
             let newUserInfo = Object.assign({}, state);
             newUserInfo.fullname = action.payload.fullname;
-            newUserInfo.bio = action.payload.bio;
+            newUserInfo.bio = action.payload.bio || "";
             newUserInfo.email = action.payload.email;
 
             // Save info in session storage
