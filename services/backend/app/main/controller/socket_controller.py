@@ -150,11 +150,10 @@ def newRoomMessage(request_object):
 		new_message = save_new_message(sender_public_id=user.public_id, receiver_public_id=room.public_id, content=content)
 		# Send new message to all receiver in that room
 		receive_object = new_message.get_message_information()
-<<<<<<< HEAD
-		emit('receive_message', receive_object, room=room.public_id, namespace='/rooms')
+		emit('new_message', receive_object, room=room.public_id, namespace='/rooms')
 
 	# Notify sender response result
-	emit('response_room_message', response_object, broadcast=False, namespace='/rooms')
+	emit('response_send_message', response_object, broadcast=False, namespace='/rooms')
 
 
 @socketio.on('request_command', namespace='/rooms')
@@ -227,9 +226,3 @@ def update_boards(user, room):
 
 	emit('receive_event', {'event': data}, room=user.public_id, namespace='/rooms')
 		
-=======
-		emit('new_message', receive_object, room=room.id, namespace='/rooms')
-
-	# Notify sender response result
-	emit('response_send_message', response_object, broadcast=False, namespace='/rooms')
->>>>>>> 41cb90373d32d880a8204aeca3895983645f182a
