@@ -15,4 +15,4 @@ done
 
 echo "Database started"
 
-python manage.py run
+python -u manage.py run
