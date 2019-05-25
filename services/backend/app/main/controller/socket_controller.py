@@ -1,7 +1,7 @@
 from flask import g, request
 
 from ..service.socket_service import get_user_and_receiver, get_user_by_sid, get_room_by_sid, login_socket, login_room_socket, user_get_in_room, user_get_out_room, get_online_followings, user_online, user_offline, get_list_users_in_room, get_list_users_infor_in_room
-from ..service.battleship_service import get_battlship_history, process_command
+from ..service.battleship_service import get_data, process_command
 from ..service.message_service import save_new_message
 from .. import socketio
 
@@ -187,7 +187,11 @@ def newCommand(request_object):
             }
 		else:
 			command = request_object.get('command')
-			process_command(user, room, command)
+			if process_command(user, room, command) is False:
+				response_object = {
+					'status': 'fail',
+					'message': 'Something wrong'
+				}
 
 			list_users = get_list_users_in_room(room)
 			for user in list_users:
@@ -198,31 +202,8 @@ def newCommand(request_object):
 
 
 def update_boards(user, room):
-	data = {}
-	hist, turn = get_battlship_history(room)
-	boards = []
-	players = room.get_players()
-	for player in players:
-		sub_hist = hist.get(player.id)
-		if sub_hist is not None:
-			board = sub_hist.get('board')
-			player_turn = (turn==player.id)
-			boards.append({
-				'user_public_id': player.public_id,
-				'board': board,
-				'turn': player_turn
-			})
-	data['boards'] = boards
+	data = get_data(user, room)
+	data['name'] = 'update_boards'
+	emit('receive_event', data, room=user.public_id, namespace='/rooms')
 
-	is_player = room.check_exist_player(user)
-	data['is_player'] = is_player
-	only_player = {}
-	if is_player:
-		only_player['your_turn'] = (turn==user.id)
-		ships = hist.get(user.id).get('ships')
-		only_player['ships_ready'] = (ships is not None)
-		only_player['ships'] = ships
-	data['only_player'] = only_player
 
-	emit('receive_event', {'event': data}, room=user.public_id, namespace='/rooms')
-		

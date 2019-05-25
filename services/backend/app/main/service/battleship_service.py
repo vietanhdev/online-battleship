@@ -1,23 +1,6 @@
 from app.main import db
 import json
-
-
-def get_battlship_history(room):
-    history = json.loads(room.history)
-    hist = history.get('hist') 
-    turn = history.get('turn')
-    num = len(hist)
-    data = {}
-
-    for sub_hist in hist:
-        user_id = sub_hist.get('user_id')
-        board = sub_hist.get('board')
-        ships = sub_hist.get('ships')
-        data[user_id] = {}
-        data[user_id]['board'] = board
-        data[user_id]['ships'] = ships
-
-    return data, turn
+from .user_service import get_a_user_by_id
 
 
 def save_new_player_battleship(user, room):
@@ -28,7 +11,7 @@ def save_new_player_battleship(user, room):
         history['hist'] = []
     history['hist'].append({
         'user_id': user.id,
-        'board': [[0]*10]*10,
+        'board': [[0]*10 for _ in range(10)],
         'ships': None
     })
     room.history = json.dumps(history)
@@ -52,58 +35,77 @@ def save_new_ships(user, room, ships):
 
     room.history = json.dumps(history)
     save_changes(room)
-    
 
-def ships_to_matrix(ships):
-    # check if ships is None
+
+def init_ships(ships):
     if ships is None:
-        return None
+        return False
     
-    ships_1 = ships.get('ships_1')
-    ships_2 = ships.get('ships_2')
-    ships_3 = ships.get('ships_3')
-    ships_4 = ships.get('ships_4')
-    
-    # check full 4 kind of ship
-    if ships_1 is None or len(ships_1) != 4:
-        return None
-    if ships_2 is None or len(ships_2) != 3:
-        return None
-    if ships_3 is None or len(ships_3) != 2:
-        return None
-    if ships_4 is None or len(ships_4) != 1:
-        return None
+    for ship in ships:
+        x = ship.get('x')
+        y = ship.get('y')
+        vertical = ship.get('vertical')
+        len_ship = ship.get('len_ship')
+        if vertical not in [False, True] \
+            or len_ship not in [1, 2, 3, 4]:
+            return False
 
-    matrix = [[0]*10]*10
-
-    for name, sub_ships in ships.items():
-        len_ship = 5 - len(sub_ships)
-        for i in range(0, len(sub_ships)):
-            # add sink fields
-            if ships[name][i].get('sink') is None: 
-                ships[name][i]['sink'] = False
-
-            ship = sub_ships[i]
-            x = ship.get('x')
-            y = ship.get('y')
-            vertical = ship.get('vertical')
+        if vertical is False:
+            delta_x = 1
+            delta_y = 0
+        else:
             delta_x = 0
             delta_y = 1
-            if vertical is False:
-                delta_x = 1
-                delta_y = 0
-            for i in range(0, len_ship+1):
-                x = x + delta_x
-                y = y + delta_y
-                if  x not in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] \
-                    or y not in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] \
-                    or vertical is None:
-                    return None
-                matrix[x][y] = 1
-            print(ship)
-            print(matrix)
 
-    return matrix
+        for i in range(0, len_ship):
+            x_pos = x + delta_x * i
+            y_pos = y + delta_y * i
+            if  x_pos not in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] \
+                or y_pos not in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] \
+                or vertical is None:
+                return False
+    
+    for i in range(0, len(ships)):
+        ships[i]['sink'] = False
+
+    return True
+
+
+def get_data(user, room):
+    data = {}
+    data['is_enough_player'] = room.is_enough_players()
+    data['is_player'] = room.check_exist_player(user)
+    history = json.loads(room.history)
+    hist = history.get('hist') 
+    turn = history.get('turn')
+
+    boards = []
+    for sub_hist in hist:
+        player_id = sub_hist.get('user_id')
+        board = sub_hist.get('board')
+        ships = sub_hist.get('ships')
+        player = get_a_user_by_id(player_id)
+        visible = player.id == user.id
+        visible_ships = []
+        ships_ready = ships is not None
+        if ships_ready:
+            for i in range(0, len(ships)):
+                if ships[i].get('sink') == False and not visible:
+                    pass
+                else:
+                    visible_ships.append(ships[i])
+        boards.append({
+            'user_public_id': player.public_id,
+            'board': board,
+            'ships_ready': ships_ready,
+            'ships': visible_ships,
+            'turn': turn==player.id
+        })
+    data['boards'] = boards
+    turn_user = get_a_user_by_id(turn)
+    data['turn'] = turn_user.public_id
+
+    return data
 
 
 def process_command(user, room, command):
@@ -112,10 +114,12 @@ def process_command(user, room, command):
     if command.get('name') == 'save_ships':
         ships = command.get('ships')
         # check ships condition
-        matrix = ships_to_matrix(ships)
-        if matrix is not None:
+        check = init_ships(ships)
+        if check:
             save_new_ships(user, room, ships)
-    return matrix
+        return check
+        
+    return False
 
 
 def save_changes(data=None):
@@ -124,3 +128,5 @@ def save_changes(data=None):
         db.session.commit()
     else:
         db.session.commit()
+
+
