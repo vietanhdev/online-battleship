@@ -18,7 +18,7 @@ services:
       - DATABASE_PROD_URL=mysql+pymysql://online_games:Flask#123@database:3306/online_games_db?charset=utf8mb4
       - SECRET_KEY=my_precious_secret_key
       - ADMIN_SECRET_KEY=admin_precious_secret_key
-      - RECREATE_DB=true
+      - RECREATE_DB=false # true/false
     depends_on:
       - database
       - redis
