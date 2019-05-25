@@ -9,11 +9,9 @@ import { Card, CardHeader, CardBody } from "shards-react";
 import { connect } from 'react-redux'
 
 import Config from '../../config'
-import request, { requestStatus } from '../../utilities/http'
+import { requestStatus } from '../../utilities/http'
 
 import { messageActions } from '../../redux/messages/actions'
-import { notifierActions } from '../../redux/notifier/actions';
-
 import '../../components/messages/styles.scss';
 
 
@@ -22,38 +20,8 @@ class Messages extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            messages: [],
-            socket: null,
+            socket: null
         }
-    }
-
-
-    fetchAllMessages = (roomId) => {
-
-      // Load old messages
-        request.get("/messages/"+roomId+"?offset=0&limit=20")
-        .then((response) => {
-          let messages = response.data.data;
-
-          // Sort messages by time
-          messages = messages.sort(function(x, y) {
-            if (parseFloat(x.created_at) < parseFloat(y.created_at)) {
-              return -1;
-            }
-            if (parseFloat(x.created_at) > parseFloat(y.created_at)) {
-              return 1;
-            }
-            return 0;
-          });
-
-          this.setState({messages}, () => {
-            let objMessage = $('.messages');
-            objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 300);
-          });
-        })
-        .catch((error) => {
-          notifierActions.showError("Error on fetching messages");
-        })
     }
 
 
@@ -71,10 +39,17 @@ class Messages extends React.Component {
 
     }
 
+
+    componentDidUpdate = () => {
+      // Scroll to bottom of message list
+      let objMessage = $('.messages');
+      objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 300);
+    }
+
   
     componentDidMount = () => {
 
-      this.fetchAllMessages(this.props.match.params.room_id);
+      this.props.fetchAllMessages(this.props.match.params.room_id);
 
       const  { user, history } = this.props;
       this.setState({
@@ -118,32 +93,12 @@ class Messages extends React.Component {
       let nextRoomId = nextProps.roomId;
       if (this.roomId !== nextRoomId) {
         this.roomId = nextRoomId;
-        this.fetchAllMessages(this.roomId);
+        this.props.fetchAllMessages(this.roomId);
       }
     }
 
     newMessage = (m) => {
-
-        const messages = this.state.messages;
-        messages.push(m);
-
-        let objMessage = $('.messages');
-        if (objMessage[0].scrollHeight - objMessage[0].scrollTop === objMessage[0].clientHeight ) {
-            this.setState({
-              ...this.state,
-              messages: messages
-            });
-            objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 300);
-
-        } else {
-            this.setState({
-              ...this.state,
-              messages: messages
-            });
-            if (m.sender_public_id === this.props.user.public_id) {
-                objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 300);
-            }
-        }
+        this.props.pushNewMessage(m);
     }
 
     sendNewMessage(m) {
@@ -161,18 +116,18 @@ class Messages extends React.Component {
     render () {
 
       // let friend = this.getFriendById(this.props.match.params.room_id);
-
+      console.log(this.props.messages)
       return (
 
           <Card small className="mb-4">
               <CardHeader className="border-bottom">
-              <h6> message
+              <h6> Message
               </h6>
               </CardHeader>
               <CardBody className="p-0 pb-3">
               <div className="app__content">
                   <div className="message_window">
-                      <MessageList user_id={this.props.user.public_id} messages={this.state.messages}/>
+                      <MessageList user_id={this.props.user.public_id} messages={this.props.messages}/>
                       <Input sendMessage={this.sendNewMessage.bind(this)}/>
                   </div>
               </div>
@@ -186,10 +141,13 @@ class Messages extends React.Component {
 
 const mapStateToProps = (state) => ({
   user: state.userReducer,
-  friends: state.friendReducer.friends
+  friends: state.friendReducer.friends,
+  messages: state.messageReducer.messages
 })
 
 const mapDispatchToProps = {
+  fetchAllMessages: messageActions.fetchAllMessages,
+  pushNewMessage: messageActions.pushNewMessage
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Messages))
