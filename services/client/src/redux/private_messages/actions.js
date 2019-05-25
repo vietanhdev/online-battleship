@@ -43,7 +43,7 @@ export const messageActions = {
 
             // Remove all listeners
             socket.message.removeListener('response_login');
-            socket.message.removeListener('receive_message');
+            socket.message.removeListener('new_message');
 
             // ====== Reinit listeners =======
 

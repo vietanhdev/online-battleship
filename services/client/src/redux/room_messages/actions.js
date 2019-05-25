@@ -22,7 +22,7 @@ export const messageActions = {
 
             // Remove all listeners
             socket.gameRoomMessage.removeListener('response_login');
-            socket.gameRoomMessage.removeListener('receive_message');
+            socket.gameRoomMessage.removeListener('new_message');
 
             // ====== Reinit listeners =======
 
