@@ -1,20 +1,19 @@
-import battleshipConstants from './constants'
+import battleshipConstants, {ShipSize} from './constants'
 
 const initState = {
-    loadingScreen: true
+    opponent: {},
+    shipArrangement: {
+        rotateShip: false,
+        selectedShipSize: ShipSize.GIGANT
+    }
 }
 
 export const battleshipReducer = (state = initState, action) =>  {
     switch (action.type) {
-        case battleshipConstants.CLEAR_BATTLESHIPS:
-            return {...state, battleships: []}
-        case battleshipConstants.FETCH_BATTLESHIPS_SUCCESS:
-            return {...state, battleships: action.payload}
-        case battleshipConstants.PUSH_NEW_BATTLESHIP:
-            return {...state, battleships: [...state.battleships, action.payload]}
-        case battleshipConstants.SET_PARTNER:
-            action.payload.fullname = action.payload.username;
-        return {...state, partner: action.payload}
+        case battleshipConstants.SELECT_SHIP_SIZE:
+            return {...state, shipArrangement:{...state.shipArrangement, selectedShipSize: action.payload} }
+        case battleshipConstants.TOGGLE_SHIP_ROTATE:
+            return {...state, shipArrangement:{...state.shipArrangement, rotateShip: !state.shipArrangement.rotateShip} }
         default:
             return state
     }

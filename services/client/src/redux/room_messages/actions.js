@@ -15,10 +15,6 @@ export const messageActions = {
             'authorization': getState().userReducer.token,
             'room_public_id': roomId
         }) 
-        console.log({
-            'authorization': getState().userReducer.token,
-            'room_public_id': roomId
-        })
     },
 
     initSocket: (roomId) => {

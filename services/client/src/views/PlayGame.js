@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from "react-router";
 
-import { BattleShipGame } from '../components/games/battle_ship/BattleShipGame'
+import BattleShipGame from '../components/games/battle_ship/BattleShipGame'
 import Messages from "../components/room_messages/Messages"
 
 import loading_icon from '../images/loading_ship.svg'
