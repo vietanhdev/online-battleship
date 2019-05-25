@@ -10,7 +10,7 @@ import {notifierActions} from "./redux/notifier"
 import {ProtectedRoute, AuthRoute, RouteType} from './router'
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./components/shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
+import "./components/shards_dashboard/styles/shards-dashboards.1.1.0.min.css";
 
 export const AppContext = React.createContext({});
 
