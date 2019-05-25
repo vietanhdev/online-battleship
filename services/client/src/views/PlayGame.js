@@ -15,7 +15,7 @@ import Config from '../config'
 import socketIOClient from "socket.io-client";
 
 import { BattleShipGame } from '../components/games/battle_ship/BattleShipGame'
-import Messages from "../components/messages/Messages"
+import Messages from "../components/room_messages/Messages"
 
 export class PlayGame extends Component {
 

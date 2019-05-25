@@ -16,6 +16,7 @@ import Config from '../config'
 import io from 'socket.io-client';
 let socket = {};
 socket.gameRoom = io(Config.GAME_ROOM_SOCKET_ENDPOINT);
+socket.gameRoomMessage = io(Config.GAME_ROOM_SOCKET_ENDPOINT);
 socket.message = io(Config.MESSAGE_SOCKET_ENDPOINT);
 
 
@@ -31,6 +32,13 @@ socket.gameRoom.on('connect', function(){
 });
 socket.gameRoom.on('disconnect', function(){
     console.log('Game Room Socket: Disconnected from server')
+});
+
+socket.gameRoomMessage.on('connect', function () {
+    console.log('Mesage Socket: Connected to server');
+});
+socket.gameRoomMessage.on('disconnect', function () {
+    console.log('Mesage Socket: Disconnected from server');
 });
 
 console.log(socket.message)

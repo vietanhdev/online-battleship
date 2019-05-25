@@ -5,7 +5,7 @@ import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react";
 import Friends from "../../components/friends/Friends"
 import { connect } from 'react-redux'
 
-import '../../components/messages/styles.scss';
+import '../../components/private_messages/styles.scss';
 
 class Messages extends React.Component {
   

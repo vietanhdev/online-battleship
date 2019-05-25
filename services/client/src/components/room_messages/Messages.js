@@ -1,32 +1,17 @@
 import React from 'react';
 import { withRouter } from "react-router";
 import $ from 'jquery';
-import MessageList from '../../components/messages/MessageList';
-import Input from '../../components/messages/Input';
+import MessageList from './MessageList';
+import Input from './Input';
 
 import { Card, CardHeader, CardBody } from "shards-react";
 import { connect } from 'react-redux'
 
-import { messageActions } from '../../redux/messages/actions'
-import '../../components/messages/styles.scss';
+import { messageActions } from '../../redux/room_messages/actions'
+import './styles.scss';
 
 
 class Messages extends React.Component {
-
-
-    getFriendById = (id) => {
-
-      console.log(this.props.friends)
-
-      for (let friend in this.props.friends) {
-        if (friend.public_id === id) {
-          return friend;
-        }
-      }
-
-      return null;
-
-    }
 
     componentDidUpdate = () => {
       // Scroll to bottom of message list
@@ -37,7 +22,7 @@ class Messages extends React.Component {
   
     componentDidMount = () => {
       this.props.fetchAllMessages(this.props.match.params.room_id);
-      this.props.initSocket();
+      this.props.initSocket(this.props.match.params.room_id);
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -47,7 +32,6 @@ class Messages extends React.Component {
         this.props.fetchAllMessages(this.roomId);
       }
     }
-
 
     sendNewMessage(m) {
         if (m.value) {
@@ -62,8 +46,7 @@ class Messages extends React.Component {
 
           <Card small className="mb-4">
               <CardHeader className="border-bottom">
-              <h6> Message
-              </h6>
+              <h6> Chat </h6>
               </CardHeader>
               <CardBody className="p-0 pb-3">
               <div className="app__content">
@@ -83,7 +66,7 @@ class Messages extends React.Component {
 const mapStateToProps = (state) => ({
   user: state.userReducer,
   friends: state.friendReducer.friends,
-  messages: state.messageReducer.messages
+  messages: state.roomMessageReducer.messages
 })
 
 const mapDispatchToProps = {
