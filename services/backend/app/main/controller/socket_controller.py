@@ -1,6 +1,7 @@
 from flask import g, request
 
-from ..service.socket_service import get_user_and_receiver, get_user_by_sid, get_room_by_sid, login_socket, login_room_socket, user_get_in_room, user_get_out_room, get_online_followings, user_online, user_offline
+from ..service.socket_service import get_user_and_receiver, get_user_by_sid, get_room_by_sid, login_socket, login_room_socket, user_get_in_room, user_get_out_room, get_online_followings, user_online, user_offline, get_list_users_in_room, get_list_users_infor_in_room
+from ..service.battleship_service import get_battlship_history, process_command
 from ..service.message_service import save_new_message
 from .. import socketio
 
@@ -14,11 +15,11 @@ def connectClient():
 	print(">>>>>>>>> Client connected on rooth path with session id " + request.sid)
 
 
-# def update_list_users_in_room(list_users_in_room, room):
-# 	response_object = {
-# 		'users_in_room': list_users_in_room
-# 	}
-# 	emit('users_in_room', response_object, room=room.id, namespace='/rooms')
+def update_list_users_in_room(list_users_in_room, room):
+	response_object = {
+		'users_in_room': list_users_in_room
+	}
+	emit('users_in_room', response_object, room=room.public_id, namespace='/rooms')
 
 
 # def update_list_online_followings(list_online_followings, user):
@@ -76,11 +77,14 @@ def registerUserRoomID(request_object):
 		join_room(room=user.id, namespace='/user_id')
 		join_room(room=room.id, namespace='/room_id')
 		# join room to get message and event
-		join_room(room=room.id, namespace='/rooms')
+		join_room(room=room.public_id, namespace='/rooms')
+		join_room(room=user.public_id, namespace='/rooms')
 		join_room(room=user.id, namespace='/')
 
 		list_users_in_room = user_get_in_room(user, room)
 		update_list_users_in_room(list_users_in_room, room)
+
+		update_boards(user, room)
 
 
 @socketio.on('request_private_message', namespace='/')
@@ -146,7 +150,79 @@ def newRoomMessage(request_object):
 		new_message = save_new_message(sender_public_id=user.public_id, receiver_public_id=room.public_id, content=content)
 		# Send new message to all receiver in that room
 		receive_object = new_message.get_message_information()
-		emit('receive_message', receive_object, room=room.id, namespace='/rooms')
+		emit('receive_message', receive_object, room=room.public_id, namespace='/rooms')
 
 	# Notify sender response result
 	emit('response_room_message', response_object, broadcast=False, namespace='/rooms')
+
+
+@socketio.on('request_command', namespace='/rooms')
+def newCommand(request_object):
+    	# Check authenticate session id
+	list_user_id = rooms(sid=request.sid, namespace="/user_id")
+	list_room_id = rooms(sid=request.sid, namespace="/room_id")
+
+	user = get_user_by_sid(list_user_id)
+	room = get_room_by_sid(list_room_id)
+
+	if user is None:
+		response_object = {
+			'status': 'false',
+			'message': 'Fail to authenticate'
+		}
+	elif room is None:
+		response_object = {
+			'status': 'false',
+			'message': 'Room not found'
+		}
+	else:
+		response_object = {
+			'status': 'success',
+			'message': 'Send command successfully'
+		}
+		if room.check_exist_player(user) == False:
+			response_object = {
+                'status': 'fail',
+                'message': 'You are not player of this room'
+            }
+		else:
+			command = request_object.get('command')
+			process_command(user, room, command)
+
+			list_users = get_list_users_in_room(room)
+			for user in list_users:
+				update_boards(user, room)
+
+    # Notify sender response result
+	emit('response_command', response_object, broadcast=False, namespace='/rooms')
+
+
+def update_boards(user, room):
+	data = {}
+	hist, turn = get_battlship_history(room)
+	boards = []
+	players = room.get_players()
+	for player in players:
+		sub_hist = hist.get(player.id)
+		if sub_hist is not None:
+			board = sub_hist.get('board')
+			player_turn = (turn==player.id)
+			boards.append({
+				'user_public_id': player.public_id,
+				'board': board,
+				'turn': player_turn
+			})
+	data['boards'] = boards
+
+	is_player = room.check_exist_player(user)
+	data['is_player'] = is_player
+	only_player = {}
+	if is_player:
+		only_player['your_turn'] = (turn==user.id)
+		ships = hist.get(user.id).get('ships')
+		only_player['ships_ready'] = (ships is not None)
+		only_player['ships'] = ships
+	data['only_player'] = only_player
+
+	emit('receive_event', {'event': data}, room=user.public_id, namespace='/rooms')
+		

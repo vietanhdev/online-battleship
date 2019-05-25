@@ -7,6 +7,8 @@ from app.main.model.room import Room
 from app.main.model.game import Game
 from app.main.model.room_user import RoomUser
 
+from .battleship_service import save_new_player_battleship
+
 from . import battleship_service
 
 
@@ -90,6 +92,7 @@ def save_new_player(room, user):
     a.user = user
     room.users.append(a)
     save_changes()
+    save_new_player_battleship(user, room)
 
 
 def check_player_or_viewer(room, user):
