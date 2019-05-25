@@ -7,49 +7,15 @@
 - docker
 - docker-compose
 
-## 2. Install requirement.txt
+## 2. Start server in development
 
-First, remember to activate your virtual environment. Then, we will start install all the dependencies inside requirement.txt:
-
-```
-$ python3 -m venv venv
-$ source venv/bin/activate
-$ pip install -r requirements.txt
-```
-
-## 3. Database Setup (Using docker-compose)
-
-
-- Run development mysql(mariadb) and Redis:
+- In the first time running or when you want to re-create the database, please set `RECREATE_DB` to `true` in `docker-compose.yml`. After running the docker-compose, change it to the default value (false).
 
 ~~~
-cd mysql_redis_dev
 sudo docker-compose up
 ~~~
 
-## 4. Run Server
-
-First, you need to initialize the database:
-
-```
-$ make init_db
-$ make update_db
-```
-
-Then you just simply run this command:
-
-```
-$ make run
-```
-
-
-## 5. Run UI
-
-```
-cd ui
-yarn
-yarn start
-```
+- Backend and frontend will be up at port 80
 
 # API DOCUMENT
 [Battleship API](https://hackmd.io/s/B1ch__boV)
