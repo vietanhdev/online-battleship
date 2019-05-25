@@ -1,4 +1,4 @@
-// import request from '../services/http'
+// import request from '../../utilities/http'
 // import chatConstants from './constants'
 
 // import {appActions} from '../app/actions'

@@ -8,7 +8,7 @@ import { withRouter } from "react-router";
 import { gameActions } from '../redux/games/actions'
 // import { appActions } from '../redux/app/actions'
 
-import { requestStatus } from '../redux/services/http'
+import { requestStatus } from '../utilities/http'
 
 import Config from '../config'
 
