@@ -158,7 +158,7 @@ def newRoomMessage(request_object):
 
 @socketio.on('request_command', namespace='/rooms')
 def newCommand(request_object):
-    	# Check authenticate session id
+	# Check authenticate session id
 	list_user_id = rooms(sid=request.sid, namespace="/user_id")
 	list_room_id = rooms(sid=request.sid, namespace="/room_id")
 

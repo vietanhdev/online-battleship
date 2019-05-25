@@ -46,7 +46,7 @@
                     'authorization': token,
                     'room_public_id': room_public_id
                 };
-                rooms.emit('request_login_with_room', request_object)
+                rooms.emit('request_login', request_object)
             })
 
             rooms.on('response_login_with_room', function(response_object){

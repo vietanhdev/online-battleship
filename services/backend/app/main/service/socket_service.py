@@ -1,5 +1,5 @@
 from .user_service import get_a_user, get_a_user_by_id, get_list_followings
-from .game_service import send_command, get_a_room, get_a_room_by_id
+from .game_service import get_a_room, get_a_room_by_id
 
 from app.main.service.auth_helper import Auth
 

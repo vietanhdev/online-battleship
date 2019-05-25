@@ -100,13 +100,7 @@ def check_player_or_viewer(room, user):
     if a is not None:
         return True
     return False
-
-
-def send_command(user, room, command):
-    if room.game_id == 1:
-        response_command, receive_event = battleship_service.enter_command(user, room, command)
-    return response_command, receive_event
-
+    
 
 def save_changes(data=None):
     if data != None:
