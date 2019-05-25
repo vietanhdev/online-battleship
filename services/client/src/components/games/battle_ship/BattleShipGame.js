@@ -10,7 +10,14 @@ import {ShipSize} from '../../../redux/battleship/constants'
 import './files/styles.scss'
 import { battleshipActions } from '../../../redux/battleship';
 
+import { withRouter } from "react-router";
+
 export class BattleShipGame extends Component {
+
+
+    componentDidMount = () => {
+        this.props.initSocket(this.props.match.params.room_id);
+    }
 
 
     render() {
@@ -406,7 +413,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     toggleShipRotate: battleshipActions.toggleShipRotate,
-    selectShipSize: battleshipActions.selectShipSize
+    selectShipSize: battleshipActions.selectShipSize,
+    initSocket: battleshipActions.initSocket
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BattleShipGame)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BattleShipGame))
