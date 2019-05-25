@@ -1,7 +1,7 @@
 import request, {
     requestStatus
 } from '../../utilities/http'
-import battleshipConstants from './constants'
+import battleshipConstants, {ShipSize} from './constants'
 
 import {
     notifierActions
@@ -17,23 +17,41 @@ export const battleshipActions = {
     },
 
 
-    getPartnerInfo: (partnerId) => (dispatch, getState, socket) =>  {
-        // Load old battleships
-        request.get("/users/" + partnerId)
+    selectShipSize: (size) => dispatch =>  {
+        if (size < ShipSize.SMALL) size = ShipSize.SMALL;
+        if (size > ShipSize.GIGANT) size = ShipSize.GIGANT;
+        dispatch({
+            type: battleshipConstants.SELECT_SHIP_SIZE,
+            payload: size
+        });
+    },
+
+
+    toggleShipRotate: () => dispatch => {
+        dispatch({
+            type: battleshipConstants.TOGGLE_SHIP_ROTATE
+        });
+    },
+
+
+    getOpponentInfo: (opponentId) => (dispatch, getState, socket) =>  {
+
+        request.get("/users/" + opponentId)
         .then((response) => {
-            let partner = response.data.data;
+            let opponent = response.data.data;
 
             dispatch({
-                type: battleshipConstants.SET_PARTNER,
-                payload: partner
+                type: battleshipConstants.SET_OPPONENT,
+                payload: opponent
             });
 
         })
         .catch((error) => {
             // Clear battleships
             dispatch(battleshipActions.clearMessages());
-            notifierActions.showError("Error on getting partner info");
+            notifierActions.showError("Error on getting opponent info");
         })
+
     },
 
     initSocket: (roomId) => {
@@ -73,7 +91,7 @@ export const battleshipActions = {
           };
           socket.gameRoom.emit("send_battleship", msgContent);
     },
-    
+
     
 
     clearMessages: () => dispatch => {
@@ -82,33 +100,6 @@ export const battleshipActions = {
         });
     },
 
-
-    fetchAllMessages: (roomId) => dispatch => {
-
-        // Load old battleships
-        request.get("/battleships/" + roomId + "?offset=0&limit=20")
-            .then((response) => {
-                let battleships = response.data.data;
-
-                // Sort battleships by time
-                battleships = battleships.sort(function (x, y) {
-                    if (parseFloat(x.created_at) < parseFloat(y.created_at)) return -1;
-                    if (parseFloat(x.created_at) > parseFloat(y.created_at)) return 1;
-                    return 0;
-                });
-
-                dispatch({
-                    type: battleshipConstants.FETCH_BATTLESHIPS_SUCCESS,
-                    payload: battleships
-                });
-
-            })
-            .catch((error) => {
-                // Clear battleships
-                dispatch(battleshipActions.clearMessages());
-                notifierActions.showError("Error on fetching battleships");
-            })
-    },
 
 
     pushNewMessage: (content) => dispatch => {
