@@ -1,4 +1,4 @@
-import request from '../services/http'
+import request from '../../utilities/http'
 import friendConstants from './constants'
 
 import {notifierActions} from '../notifier/actions'

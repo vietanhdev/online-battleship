@@ -9,7 +9,7 @@ import { Card, CardHeader, CardBody } from "shards-react";
 import { connect } from 'react-redux'
 
 import Config from '../../config'
-import request, { requestStatus } from '../../redux/services/http'
+import request, { requestStatus } from '../../utilities/http'
 
 import { chatActions } from '../../redux/chat/actions'
 import { notifierActions } from '../../redux/notifier/actions';
