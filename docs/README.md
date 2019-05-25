@@ -20,6 +20,7 @@ sudo docker-compose up
 ## 3. Build and up in production
 
 ~~~
+sudo docker-compose -f docker-compose-prod.yml build --nocache
 sudo docker-compose -f docker-compose-prod.yml up
 ~~~
 
