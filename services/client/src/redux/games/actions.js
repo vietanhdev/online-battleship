@@ -86,8 +86,10 @@ export const gameActions = {
 
     enterRoom: (roomId, history)  => dispatch => {
 
+        console.log("Entering room")
+
         // Show loading sreen first
-        dispatch(appActions.openLoadingScreen());
+        dispatch(gameActions.openLoadingScreen());
 
         // Enter created room
         request.get('/games/rooms/' + roomId)
@@ -101,18 +103,33 @@ export const gameActions = {
             });
 
             // Close loading screen
-            dispatch(appActions.closeLoadingScreen());
+            dispatch(gameActions.closeLoadingScreen());
         })
         .catch(function (error) {
             notifierActions.showError("Error on joining room: " + error);
 
             // Close loading screen
-            dispatch(appActions.closeLoadingScreen());
+            dispatch(gameActions.closeLoadingScreen());
 
             // Return to Games page
             history.push("/games")
         })
 
+    },
+
+
+    openLoadingScreen: () => dispatch => {
+        dispatch({
+            type: gameConstants.SET_LOADING,
+            payload: true
+        });
+    },
+
+    closeLoadingScreen: () => dispatch => {
+        dispatch({
+            type: gameConstants.SET_LOADING,
+            payload: false
+        });
     }
 
 }

@@ -1,0 +1,8 @@
+const battleshipConstants = {
+    CLEAR_BATTLESHIPS: 'CLEAR_BATTLESHIPS',
+    FETCH_BATTLESHIPS_SUCCESS: 'FETCH_BATTLESHIPS_SUCCESS',
+    PUSH_NEW_BATTLESHIP: 'PUSH_NEW_BATTLESHIP',
+    SET_PARTNER: 'SET_PARTNER'
+};
+
+export default battleshipConstants;
