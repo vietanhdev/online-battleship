@@ -19,15 +19,6 @@ from flask_cors import CORS
 
 app = create_app(os.getenv('APP_ENV') or 'development')
 
-@app.errorhandler(404)
-def page_not_found(e):
-    # note that we set the 404 status explicitly
-    response_object = {
-        'status': 'fail',
-        'message': 'page not found'
-    }
-    return jsonify(response_object), 404
-
 def init_db():
     # create new game when run app
     battle_ship = Game.query.filter_by(public_id="battle_ship").first()
@@ -56,8 +47,6 @@ def init_db():
         db.session.add(admin)
         db.session.commit()
 
-
-app.register_error_handler(400, page_not_found)
 
 app.register_blueprint(blueprint)
 
