@@ -5,7 +5,9 @@ const battleshipConstants = {
     SET_OPPONENT: 'SET_OPPONENT',
 
     SELECT_SHIP_SIZE: 'SELECT_SHIP_SIZE',
-    TOGGLE_SHIP_ROTATE: 'TOGGLE_SHIP_ROTATE'
+    TOGGLE_SHIP_ROTATE: 'TOGGLE_SHIP_ROTATE',
+
+    RESET_GAME: 'RESET_GAME'
 };
 
 
@@ -18,6 +20,7 @@ export const ShipSize  =  {
 
 
 export const GameState = {
+    LOADING: 'LOADING',
     ARRANGING: 'ARRANGING',
     PLAYING: 'PLAYING',
     FINSIHED: 'FINISHED'

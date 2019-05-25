@@ -55,8 +55,18 @@ export const battleshipActions = {
 
     },
 
-    initSocket: (roomId) => {
+
+    resetGameData: () => dispatch => {
+        dispatch({
+            type: battleshipConstants.RESET_GAME
+        });
+    },
+
+    initGame: (roomId) => {
         return (dispatch, getState, socket) => {
+
+            // Reset game data before doing anything
+            dispatch(battleshipActions.resetGameData());
 
             // Remove all listeners
             socket.gameRoom.removeListener('response_login');

@@ -16,7 +16,7 @@ export class BattleShipGame extends Component {
 
 
     componentDidMount = () => {
-        this.props.initSocket(this.props.match.params.room_id);
+        this.props.initGame(this.props.match.params.room_id);
     }
 
 
@@ -415,7 +415,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     toggleShipRotate: battleshipActions.toggleShipRotate,
     selectShipSize: battleshipActions.selectShipSize,
-    initSocket: battleshipActions.initSocket
+    initGame: battleshipActions.initGame
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BattleShipGame))
