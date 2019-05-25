@@ -11,6 +11,8 @@ import Messages from "../components/room_messages/Messages"
 import loading_icon from '../images/loading_ship.svg'
 import './loading.scss'
 
+import { gameActions } from '../redux/games/actions'
+
 export class PlayGame extends Component {
 
   componentDidMount() {
