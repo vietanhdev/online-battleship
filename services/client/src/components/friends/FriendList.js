@@ -26,7 +26,7 @@ export class FriendList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    friends: state.friendReducer.friends
+  friends: state.friendReducer.friends
 })
 
 const mapDispatchToProps = {

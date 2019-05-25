@@ -13,21 +13,6 @@ import './styles.scss';
 
 class Messages extends React.Component {
 
-
-    getFriendById = (id) => {
-
-      console.log(this.props.friends)
-
-      for (let friend in this.props.friends) {
-        if (friend.public_id === id) {
-          return friend;
-        }
-      }
-
-      return null;
-
-    }
-
     componentDidUpdate = () => {
       // Scroll to bottom of message list
       let objMessage = $('.messages');
@@ -37,7 +22,7 @@ class Messages extends React.Component {
   
     componentDidMount = () => {
       this.props.fetchAllMessages(this.props.match.params.room_id);
-      this.props.initSocket();
+      this.props.initSocket(this.props.match.params.room_id);
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -45,6 +30,7 @@ class Messages extends React.Component {
       if (this.roomId !== nextRoomId) {
         this.roomId = nextRoomId;
         this.props.fetchAllMessages(this.roomId);
+        this.props.getPartnerInfo(this.roomId);
       }
     }
 
@@ -62,7 +48,7 @@ class Messages extends React.Component {
 
           <Card small className="mb-4">
               <CardHeader className="border-bottom">
-              <h6> Message
+              <h6> { this.props.partner.fullname }
               </h6>
               </CardHeader>
               <CardBody className="p-0 pb-3">
@@ -83,14 +69,16 @@ class Messages extends React.Component {
 const mapStateToProps = (state) => ({
   user: state.userReducer,
   friends: state.friendReducer.friends,
-  messages: state.privateMessageReducer.messages
+  messages: state.privateMessageReducer.messages,
+  partner: state.privateMessageReducer.partner
 })
 
 const mapDispatchToProps = {
   initSocket: messageActions.initSocket,
   fetchAllMessages: messageActions.fetchAllMessages,
   pushNewMessage: messageActions.pushNewMessage,
-  sendMessage: messageActions.sendMessage
+  sendMessage: messageActions.sendMessage,
+  getPartnerInfo: messageActions.getPartnerInfo
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Messages))

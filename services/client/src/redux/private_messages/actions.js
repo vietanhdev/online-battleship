@@ -16,8 +16,30 @@ export const messageActions = {
         }) 
     },
 
-    initSocket: (roomType) => {
+
+    getPartnerInfo: (partnerId) => (dispatch, getState, socket) =>  {
+        // Load old messages
+        request.get("/users/" + partnerId)
+        .then((response) => {
+            let partner = response.data.data;
+
+            dispatch({
+                type: messageConstants.SET_PARTNER,
+                payload: partner
+            });
+
+        })
+        .catch((error) => {
+            // Clear messages
+            dispatch(messageActions.clearMessages());
+            notifierActions.showError("Error on getting partner info");
+        })
+    },
+
+    initSocket: (roomId) => {
         return (dispatch, getState, socket) => {
+            // Get partner info from roomId (also partner id)
+            dispatch(messageActions.getPartnerInfo(roomId));
 
             // Remove all listeners
             socket.message.removeListener('response_login');
