@@ -27,7 +27,7 @@
 
     <script>
         $(document).ready(function(){
-            var address = 'http://127.0.0.1:5000'
+            var address = 'http://127.0.0.1:5001'
 
             var rooms = io.connect(address + '/rooms');
 
@@ -79,6 +79,8 @@
 
             $('#send_command').on('click', function(){
                 command = $('#command').val();
+                command = JSON.parse(command)
+                console.log(command)
                 request_object = {
                     'command': command
                 }
@@ -93,6 +95,11 @@
             rooms.on('receive_event', function(response_object){
                 msg = JSON.stringify(response_object);
                 console.log('receive_event: ' + msg);
+            });
+
+            rooms.on('users_in_room', function(response_object){
+                msg = JSON.stringify(response_object);
+                console.log('users_in_room: ' + msg);
             });
         });
     </script>

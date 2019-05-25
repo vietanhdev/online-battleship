@@ -84,24 +84,35 @@ def user_offline(user):
     return get_list_online_followings(user)
 
 
+def get_list_users_infor_in_room(room):
+    set_users = r_db.smembers(room.id)
+    list_users_infor = []
+    for user_id in set_users:
+        user = get_a_user_by_id(user_id)
+        if user is not None:
+            list_users_infor.append(user.get_user_information())
+    return list_users_infor
+
+
 def get_list_users_in_room(room):
     set_users = r_db.smembers(room.id)
     list_users = []
     for user_id in set_users:
         user = get_a_user_by_id(user_id)
         if user is not None:
-            list_users.append(user.get_user_information())
+            list_users.append(user)
     return list_users
+
 
 
 def user_get_in_room(user, room):
     r_db.sadd(room.id, user.id)
-    return get_list_users_in_room(room)
+    return get_list_users_infor_in_room(room)
 
 
 def user_get_out_room(user, room):
     r_db.srem(room.id, user.id)
-    return get_list_users_in_room(room)
+    return get_list_users_infor_in_room(room)
 
 
 def get_user_and_receiver(list_user_id, receiver_public_id):
