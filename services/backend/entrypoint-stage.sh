@@ -1,5 +1,4 @@
 #!/bin/sh
-
 echo "Waiting for database..."
 
 while ! nc -z database 3306; do
