@@ -1,11 +1,12 @@
-import battleshipConstants, {ShipSize} from './constants'
+import battleshipConstants, {ShipSize, GameState} from './constants'
 
 const initState = {
     opponent: {},
     shipArrangement: {
         rotateShip: false,
         selectedShipSize: ShipSize.GIGANT
-    }
+    },
+    gameState: GameState.PLAYING
 }
 
 export const battleshipReducer = (state = initState, action) =>  {

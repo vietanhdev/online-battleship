@@ -16,4 +16,11 @@ export const ShipSize  =  {
     SMALL     : 1
 }
 
+
+export const GameState = {
+    ARRANGING: 'ARRANGING',
+    PLAYING: 'PLAYING',
+    FINSIHED: 'FINISHED'
+}
+
 export default battleshipConstants;

@@ -5,7 +5,7 @@ import { Card, CardHeader, CardBody, Button } from "shards-react";
 
 import Images from './Images'
 
-import {ShipSize} from '../../../redux/battleship/constants'
+import {ShipSize, GameState} from '../../../redux/battleship/constants'
 
 import './files/styles.scss'
 import { battleshipActions } from '../../../redux/battleship';
@@ -194,8 +194,8 @@ export class BattleShipGame extends Component {
 
                                 <div className="col">
                                     <div className="game_field">
-                                        <p className="game_field-title">Ship Arrangement</p>
-                                        <div className="game_grid game_grid-opponent hidden">
+                                        <p className="game_field-title">{this.props.gameState === GameState.ARRANGING ? "Ship Arrangement" : "Opponent's fleets"}</p>
+                                        <div className={"game_grid game_grid-opponent" + (this.props.gameState === GameState.ARRANGING ? " hidden" : "")}>
                                             <div className="game_grid-row">
                                                 <div className="game_grid-corner"></div>
                                                 <div className="game_grid-nav">A</div>
@@ -340,7 +340,7 @@ export class BattleShipGame extends Component {
                                                 <div className="game_grid-cell" id="o9_9"></div>
                                             </div>
                                         </div>
-                                        <div className={ this.props.shipArrangement.rotateShip ? "prepare_field--rotate" : "prepare_field"}>
+                                        <div className={ this.props.shipArrangement.rotateShip ? "prepare_field--rotate" : "prepare_field" + (this.props.gameState !== GameState.ARRANGING ? " hidden" : "")}>
 
                                             <div className="prepare_cell-wrapper">
                                                 <div className={"prepare_cell" + (selectShipSize === ShipSize.SMALL ? " prepare_cell--active" : "")} onClick={() => {this.props.selectShipSize(ShipSize.SMALL)}}>
@@ -409,6 +409,7 @@ export class BattleShipGame extends Component {
 const mapStateToProps = (state) => ({
     user: state.userReducer,
     shipArrangement: state.battleshipReducer.shipArrangement,
+    gameState: state.battleshipReducer.gameState,
 })
 
 const mapDispatchToProps = {
