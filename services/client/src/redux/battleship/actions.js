@@ -9,10 +9,11 @@ import {
 
 export const battleshipActions = {
 
-    login: () => (dispatch, getState, socket) =>  {
+    login: (roomId) => (dispatch, getState, socket) =>  {
         // Login
         socket.gameRoom.emit('request_login', {
-            'authorization': getState().userReducer.token
+            'authorization': getState().userReducer.token,
+            'room_public_id': roomId
         }) 
     },
 
@@ -56,30 +57,29 @@ export const battleshipActions = {
 
     initSocket: (roomId) => {
         return (dispatch, getState, socket) => {
-            // Get partner info from roomId (also partner id)
-            dispatch(battleshipActions.getPartnerInfo(roomId));
 
             // Remove all listeners
             socket.gameRoom.removeListener('response_login');
-            socket.gameRoom.removeListener('receive_battleship');
+            // socket.gameRoom.removeListener('receive_battleship');
 
             // ====== Reinit listeners =======
 
             // Login response
             socket.gameRoom.on('response_login', function (data) {
                 if (data.status !== requestStatus.SUCCESS) {
-                    notifierActions.showError("Could not join the chat room.");
+                    console.log(data)
+                    notifierActions.showError("Could not join the game room.");
                 } else {
                     console.log('Authorized successfully.')
                 }
             });
 
             // Receive battleship from server
-            socket.gameRoom.on('new_battleship', (battleship) => {
-                dispatch(battleshipActions.pushNewMessage(battleship));
+            socket.gameRoom.on('receive_event', (data) => {
+                console.log(data)
             });
 
-            dispatch(battleshipActions.login());
+            dispatch(battleshipActions.login(roomId));
         }
     },
 
