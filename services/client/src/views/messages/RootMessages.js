@@ -13,7 +13,7 @@ class Messages extends React.Component {
     render () {
 
         const  { friends } = this.props;
-        // Show chat box of the first friend in friend list
+        // Show message box of the first friend in friend list
         // If friend list is not empty
         if (friends.length !== 0) {
           this.props.history.push("/messages/" + friends[0].public_id);

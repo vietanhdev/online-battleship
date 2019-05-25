@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import Config from '../../config'
 import request, { requestStatus } from '../../utilities/http'
 
-import { chatActions } from '../../redux/chat/actions'
+import { messageActions } from '../../redux/messages/actions'
 import { notifierActions } from '../../redux/notifier/actions';
 
 import '../../components/messages/styles.scss';
@@ -79,7 +79,7 @@ class Messages extends React.Component {
       const  { user, history } = this.props;
       this.setState({
         ...this.state,
-        socket: io(Config.CHAT_SOCKET_ENDPOINT)
+        socket: io(Config.message_SOCKET_ENDPOINT)
       }, () => {
 
         this.state.socket.on('connect', function(){
@@ -94,7 +94,7 @@ class Messages extends React.Component {
         this.state.socket.on('response_login', function(data){
     
           if (data.status !== requestStatus.SUCCESS) {
-            chatActions.enterRoomFailed(history);
+            messageActions.enterRoomFailed(history);
           } else {
             console.log('Authorized successfully.')
           }
@@ -166,12 +166,12 @@ class Messages extends React.Component {
 
           <Card small className="mb-4">
               <CardHeader className="border-bottom">
-              <h6> Chat
+              <h6> message
               </h6>
               </CardHeader>
               <CardBody className="p-0 pb-3">
               <div className="app__content">
-                  <div className="chat_window">
+                  <div className="message_window">
                       <MessageList user_id={this.props.user.public_id} messages={this.state.messages}/>
                       <Input sendMessage={this.sendNewMessage.bind(this)}/>
                   </div>
