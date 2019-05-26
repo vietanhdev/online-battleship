@@ -115,7 +115,8 @@ export class BattleShipGame extends Component {
                             <div className="extension_wrapper theme-white">
 
                                 <header className="header">
-                                <p className="header-title">Place your fleet on the field</p>
+                                
+                                <p className="header-title">{showArrangementScreen? "Place your fleet on the field" : (!gameState.isEnoughPlayer ? "Waiting for your component..." : (!player2.shipsReady ? "Waiting for your component to arrange fleets" : ""))}</p>
                                 </header>
 
                                 <main className="game_wrapper">

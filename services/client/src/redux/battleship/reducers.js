@@ -138,7 +138,6 @@ export const battleshipReducer = (state = getInitState(), action) =>  {
                 }
             }
 
-            console.log(newState)
             return newState
         default:
             return state
