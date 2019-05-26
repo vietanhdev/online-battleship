@@ -74,13 +74,6 @@ def init_ships(ships):
     return True
 
 
-def check_end_game(ships):
-    for ship in ships:
-        if ship.get('sink') == False:
-            return False
-    return True
-
-
 def get_data(user, room):
     data = {}
     data['is_enough_player'] = room.is_enough_players()
@@ -113,8 +106,13 @@ def get_data(user, room):
         })
     data['my_public_id'] = user.public_id
     data['boards'] = boards
-    turn_user = get_a_user_by_id(turn)
-    data['turn'] = turn_user.public_id
+    if turn is None:
+        data['turn'] = None
+        data['game_over'] = True
+    else:
+        turn_user = get_a_user_by_id(turn)
+        data['turn'] = turn_user.public_id
+        data['game_over'] = False
     data['room_data'] = room.get_room_information()
 
     return data
@@ -195,7 +193,15 @@ def shoot(user, room, x, y):
             ships[j]['sink'] = sink
             turn = user.id
             break
-
+    
+    # check if end game
+    end_game = True
+    for j in range(0, len(ships)):
+        if ships[j]['sink'] == False:
+            end_game = False
+            break
+    if end_game == True:
+        turn = None
     
     hist[i]['board'] = board
     hist[i]['ships'] = ships
