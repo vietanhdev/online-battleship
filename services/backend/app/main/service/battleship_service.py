@@ -41,6 +41,9 @@ def init_ships(ships):
     if ships is None:
         return False
     
+    if len(ships) != 10:
+        return False
+    
     for ship in ships:
         x = ship.get('x')
         y = ship.get('y')
@@ -68,6 +71,13 @@ def init_ships(ships):
     for i in range(0, len(ships)):
         ships[i]['sink'] = False
 
+    return True
+
+
+def check_end_game(ships):
+    for ship in ships:
+        if ship.get('sink') == False:
+            return False
     return True
 
 
@@ -205,15 +215,13 @@ def process_command(user, room, command):
         result = init_ships(ships)
         if result:
             save_new_ships(user, room, ships)
-        broadcast_in_room = None
-        return result, broadcast_in_room
+        return result
     elif command.get('name') == 'shoot':
         x = command.get('x')
         y = command.get('y')
         # shoot and save to history
         result = shoot(user, room, x, y)
-        broadcast_in_room = None
-        return result, None
+        return result
 
     return False
 
