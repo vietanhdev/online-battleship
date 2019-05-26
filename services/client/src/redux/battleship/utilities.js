@@ -53,6 +53,8 @@ const Utilities = {
             }
         }
 
+        console.log(board)
+
         return board;
     }
 }
