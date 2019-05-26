@@ -114,7 +114,7 @@ export const battleshipReducer = (state = getInitState(), action) =>  {
                     fullname: playerInfo.username,
                     playerPublicId: playerInfo.public_id, 
                     data: board.board,
-                    ships: board.ships,
+                    ships: ships,
                     shipsReady: board.ships_ready
                 }
                 if (board.user_public_id === myId) {
@@ -137,6 +137,8 @@ export const battleshipReducer = (state = getInitState(), action) =>  {
                     player2: player2
                 }
             }
+
+            console.log(newState)
             return newState
         default:
             return state

@@ -56,7 +56,7 @@ export class BattleShipGame extends Component {
                 // Check for ships
                 let shipClasses = ""; // style classes for ship
                 for (let i = 0; i < ships.length; ++i) {
-                    if (ships[i].x == x && ships[i].y == y) {
+                    if (ships[i].x === x && ships[i].y === y) {
                         switch (ships[i].size) {
                             case ShipSize.GIANT: shipClasses += " ship-4"; break
                             case ShipSize.LARGE: shipClasses += " ship-3"; break
@@ -71,7 +71,7 @@ export class BattleShipGame extends Component {
                 // Check cell state
                 switch (data[y][x]) {
                     case BoardState.MISS: shipClasses += " shot-miss"; break;
-                    case DESTROYED:
+                    case BoardState.DESTROYED:
                     case BoardState.HIT: shipClasses += " shot-hit"; break;
                     default: 
                 }
@@ -148,7 +148,7 @@ export class BattleShipGame extends Component {
                                 <div className="col">
                                     <div className="game_field">
                                         <p className="game_field-title">{showArrangementScreen ?  "Ship Arrangement" : ( gameState.isMyRoom ? "Opponent's fleets" : player2.fullname)}</p>
-                                        <div className="game_grid game_grid-opponent hidden">
+                                        <div className={"game_grid game_grid-opponent " + (showArrangementScreen ? " hidden" : "")}>
                                             <div className="game_grid-row">
                                                 <div className="game_grid-corner"></div>
                                                 <div className="game_grid-nav">A</div>
@@ -166,7 +166,7 @@ export class BattleShipGame extends Component {
                                             {this.createBoard(gameState.boardHeight, gameState.boardWidth, player2.data, player2.ships, 2)}
                                             
                                         </div>
-                                        <div className={"prepare_field" + (this.props.shipArrangement.vertical ? " prepare_field--rotate" : "")}>
+                                        <div className={"prepare_field" + (this.props.shipArrangement.vertical ? " prepare_field--rotate" : "") + (showArrangementScreen ? "" : " hidden")}>
 
                                             <div className="prepare_cell-wrapper">
                                                 <div className={"prepare_cell" + (selectShipSize === ShipSize.SMALL ? " prepare_cell--active" : "") + (remainingSmallShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.SMALL)}}>
@@ -203,7 +203,7 @@ export class BattleShipGame extends Component {
                                             <div className="prepare_field-buttons">
                                             <Button theme="warning" id="auto" onClick={this.props.clearArrangement}> Clear All </Button>
                                             <Button theme="danger"
-                                                id="start">TO BATTLE!</Button>
+                                                id="start" onClick={this.props.submitShips}>TO BATTLE!</Button>
                                             </div>
                                         </div>
 
@@ -244,7 +244,8 @@ const mapDispatchToProps = {
     initSocket: battleshipActions.initSocket,
     putShip: battleshipActions.putShip,
     clearArrangement: battleshipActions.clearArrangement,
-    fire: battleshipActions.fire
+    submitShips: battleshipActions.submitShips,
+    fire: battleshipActions.fire,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BattleShipGame))

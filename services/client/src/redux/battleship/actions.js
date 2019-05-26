@@ -1,7 +1,7 @@
 import request, {
     requestStatus
 } from '../../utilities/http'
-import battleshipConstants, {ShipSize, MessageEvent} from './constants'
+import battleshipConstants, {MessageEvent} from './constants'
 
 import {
     notifierActions
@@ -57,8 +57,6 @@ export const battleshipActions = {
             return;
         }
 
-        console.log(boardheight)
-
         // Check ship collision
         let coverageBoard = Utilities.createCoverageBoard(boardWidth, boardheight, ships);
         if (coverageBoard[x][y]) {
@@ -85,6 +83,27 @@ export const battleshipActions = {
         dispatch({
             type: battleshipConstants.CLEAR_SHIP
         });
+    },
+
+    // Submit arrangement
+    submitShips: () => (dispatch, getState, socket) =>  {
+        let ships = getState().battleshipReducer.gameState.player1.ships;
+        let shipsForServer = [];
+
+        for (let i = 0; i < ships.length; ++i) {
+            shipsForServer.push({
+                "x": ships[i].x,
+                "y": ships[i].y,
+                "vertical": ships[i].vertical,
+                "len_ship": Utilities.shipSize2Length(ships[i].size)
+            });
+        }
+
+        socket.gameRoom.emit('request_command', {"command": {
+            "name": "save_ships",
+            "ships": shipsForServer
+        }})
+
     },
 
 
@@ -120,7 +139,8 @@ export const battleshipActions = {
 
             // Remove all listeners
             socket.gameRoom.removeListener('response_login');
-            // socket.gameRoom.removeListener('receive_battleship');
+            socket.gameRoom.removeListener('response_command');
+            socket.gameRoom.removeListener('receive_event');
 
             // ====== Reinit listeners =======
 
@@ -135,10 +155,16 @@ export const battleshipActions = {
 
             // Receive battleship from server
             socket.gameRoom.on('receive_event', (data) => {
+                console.log(data)
                 switch (data.name) {
                     case MessageEvent.UPDATE_GAME_STATE: dispatch(battleshipActions.updateGameState(data)); break;
                     default:
                 }
+            });
+
+            // Receive command response
+            socket.gameRoom.on('response_command', (data) => {
+                console.log(data)
             });
 
             dispatch(battleshipActions.login(roomId));
@@ -147,6 +173,7 @@ export const battleshipActions = {
 
 
     updateGameState: (gameState) => dispatch => {
+        console.log(gameState)
         dispatch({
             type: battleshipConstants.UPDATE_GAME_STATE,
             payload: gameState
@@ -158,11 +185,17 @@ export const battleshipActions = {
     fire: (x, y) => {
         return (dispatch, getState, socket) => {
             
-            socket.gameRoom.emit('request_command', {
+            socket.gameRoom.emit('request_command', {"command": {
                 "name": "shoot",
                 "x": x,
                 "y": y
-            }) 
+            }}) 
+
+            console.log({"command": {
+                "name": "shoot",
+                "x": x,
+                "y": y
+            }});
             
         }
     },

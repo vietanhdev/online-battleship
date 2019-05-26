@@ -41,9 +41,6 @@ const Utilities = {
             board.push(row);
         }
 
-        console.log(ships);
-        console.log(height)
-
         for (let i = 0; i < ships.length; ++i) {
             let ship = ships[i];
             let length = Utilities.shipSize2Length(ship.size);
@@ -55,8 +52,6 @@ const Utilities = {
                 }
             }
         }
-
-        console.log(board)
 
         return board;
     }
