@@ -52,7 +52,7 @@ export const battleshipActions = {
             notifierActions.showError("Wrong ship position. Please choose another position.");
             return;
         }
-        if ((shipVertical && y + shipLength >= boardheight) || (!shipVertical && x + shipLength >= boardWidth)) {
+        if ((shipVertical && y + shipLength > boardheight) || (!shipVertical && x + shipLength > boardWidth)) {
             notifierActions.showError("Wrong ship position. Please choose another position.");
             return;
         }
@@ -184,6 +184,15 @@ export const battleshipActions = {
     // Give a shot
     fire: (x, y) => {
         return (dispatch, getState, socket) => {
+
+            dispatch({
+                type: 'PLAY_SOUND',
+                meta: {
+                    sound: {
+                        play :'missed'
+                    }
+                }
+            })
             
             socket.gameRoom.emit('request_command', {"command": {
                 "name": "shoot",
