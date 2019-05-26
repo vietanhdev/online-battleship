@@ -23,6 +23,9 @@
             <input type="text" id="command" placeholder="Enter your command">
             <button id="send_command">Send command</button>
         </div>
+        <div>
+            <button id="update_boards">Update boards</button>
+        </div>
     </div>
 
     <script>
@@ -50,8 +53,8 @@
             })
 
             rooms.on('response_login_with_room', function(response_object){
-                msg = JSON.stringify(response_object);
-                console.log('response_login_with_room : ' + msg);
+                msg = response_object;
+                console.log('response_login_with_room : ', msg);
             });
 
             $('#send_message').on('click', function(){
@@ -63,18 +66,18 @@
             })
 
             rooms.on('response_room_message', function(response_object){
-                msg = JSON.stringify(response_object)
-                console.log('response_room_message : ' + msg);
+                msg = response_object
+                console.log('response_room_message : ', msg);
             });
 
             rooms.on('receive_message', function(response_object){
-                msg = JSON.stringify(response_object);
-                console.log('receive_message : ' + msg);
+                msg = response_object;
+                console.log('receive_message : ', msg);
             });
 
             rooms.on('users_in_room', function(response_object){
-                msg = JSON.stringify(response_object);
-                console.log('users_in_room : ' + msg);
+                msg = response_object;
+                console.log('users_in_room : ', msg);
             });
 
             $('#send_command').on('click', function(){
@@ -88,18 +91,22 @@
             });
 
             rooms.on('response_command', function(response_object){
-                msg = JSON.stringify(response_object);
-                console.log('response_command: ' + msg);
+                msg = response_object;
+                console.log('response_command: ', msg);
             });
 
             rooms.on('receive_event', function(response_object){
-                msg = JSON.stringify(response_object);
-                console.log('receive_event: ' + msg);
+                msg = response_object;
+                console.log('receive_event: ', msg);
             });
 
             rooms.on('users_in_room', function(response_object){
-                msg = JSON.stringify(response_object);
-                console.log('users_in_room: ' + msg);
+                msg = response_object;
+                console.log('users_in_room: ', msg);
+            });
+
+            $('#update_boards').on('click', function(){
+                rooms.emit('request_update');
             });
         });
     </script>

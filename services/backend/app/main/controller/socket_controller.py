@@ -156,6 +156,29 @@ def newRoomMessage(request_object):
 	emit('response_send_message', response_object, broadcast=False, namespace='/rooms')
 
 
+@socketio.on('request_update', namespace='/rooms')
+def update():
+	# Check authenticate session id
+	list_user_id = rooms(sid=request.sid, namespace="/user_id")
+	list_room_id = rooms(sid=request.sid, namespace="/room_id")
+
+	user = get_user_by_sid(list_user_id)
+	room = get_room_by_sid(list_room_id)
+
+	if user is None:
+		response_object = {
+			'status': 'false',
+			'message': 'Fail to authenticate'
+		}
+	elif room is None:
+		response_object = {
+			'status': 'false',
+			'message': 'Room not found'
+		}
+	else:
+		update_boards(user, room)
+
+
 @socketio.on('request_command', namespace='/rooms')
 def newCommand(request_object):
 	# Check authenticate session id
