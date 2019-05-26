@@ -185,17 +185,17 @@ def newCommand(request_object):
                 'status': 'fail',
                 'message': 'You are not player of this room'
             }
-		else:
-			command = request_object.get('command')
-			if process_command(user, room, command) is False:
-				response_object = {
-					'status': 'fail',
-					'message': 'Something wrong'
-				}
+		# else:
+		# 	command = request_object.get('command')
+		# 	if process_command(user, room, command) is False:
+		# 		response_object = {
+		# 			'status': 'fail',
+		# 			'message': 'Please check your command'
+		# 		}
 
-			list_users = get_list_users_in_room(room)
-			for user in list_users:
-				update_boards(user, room)
+		# 	list_users = get_list_users_in_room(room)
+		# 	for user in list_users:
+		# 		update_boards(user, room)
 
     # Notify sender response result
 	emit('response_command', response_object, broadcast=False, namespace='/rooms')

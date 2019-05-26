@@ -108,17 +108,27 @@ def get_data(user, room):
     return data
 
 
+def shoot(user, room, x, y):
+    history = json.loads(room.history)
+    hist = history.get('hist')
+    turn = history.get('turn')
+
+
 def process_command(user, room, command):
     response_command = None
     receive_event = None
     if command.get('name') == 'save_ships':
         ships = command.get('ships')
         # check ships condition
-        check = init_ships(ships)
-        if check:
+        result = init_ships(ships)
+        if result:
             save_new_ships(user, room, ships)
-        return check
-        
+        return result
+    if command.get('name') == 'shoot':
+        x = command.get('x')
+        y = command.get('y')
+        result = shoot(user, room, x, y)
+
     return False
 
 
