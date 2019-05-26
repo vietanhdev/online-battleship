@@ -210,11 +210,15 @@ def newCommand(request_object):
             }
 		else:
 			command = request_object.get('command')
-			if process_command(user, room, command) is False:
+
+			result, broadcast_in_room = process_command(user, room, command)
+			if result is False:
 				response_object = {
 					'status': 'fail',
 					'message': 'Please check your command'
 				}
+			else:
+				emit('users_in_room', response_object, room=room.public_id, namespace='/rooms')
 
 			list_users = get_list_users_in_room(room)
 			for user in list_users:
