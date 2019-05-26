@@ -154,29 +154,18 @@ export const battleshipActions = {
     },
 
 
-    sendMessage: (roomId, content) => (dispatch, getState, socket) => {
-        let msgContent =  {
-            'receiver_public_id': roomId,
-            'content': content
-          };
-          socket.gameRoom.emit("send_battleship", msgContent);
+    // Give a shot
+    fire: (x, y) => {
+        return (dispatch, getState, socket) => {
+            
+            socket.gameRoom.emit('request_command', {
+                "name": "shoot",
+                "x": x,
+                "y": y
+            }) 
+            
+        }
     },
 
-    
-
-    clearMessages: () => dispatch => {
-        dispatch({
-            type: battleshipConstants.CLEAR_BATTLESHIPS
-        });
-    },
-
-
-
-    pushNewMessage: (content) => dispatch => {
-        dispatch({
-            type: battleshipConstants.PUSH_NEW_BATTLESHIP,
-            payload: content
-        });
-    }
 
 }

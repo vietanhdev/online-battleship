@@ -5,7 +5,7 @@ import { Card, CardHeader, CardBody, Button } from "shards-react";
 
 import Images from './Images'
 
-import {ShipSize} from '../../../redux/battleship/constants'
+import {ShipSize, BoardState} from '../../../redux/battleship/constants'
 
 import './files/styles.scss'
 import { battleshipActions } from '../../../redux/battleship';
@@ -24,6 +24,7 @@ export class BattleShipGame extends Component {
 
     clickBoard = (x, y, board) => {
 
+        const isMyTurn = this.props.gameState.isMyTurn;
         const gameState = this.props.gameState;
         const isArranging = gameState.isMyRoom && !gameState.player1.shipsReady;
 
@@ -31,6 +32,11 @@ export class BattleShipGame extends Component {
 
             // Put a ship in board
             this.props.putShip(x, y);
+
+        } else if (isMyTurn && board === 2) {
+
+            // Fire
+            this.props.fire(x, y);
 
         }
 
@@ -60,6 +66,14 @@ export class BattleShipGame extends Component {
 
                         if (ships[i].vertical) shipClasses += " ship-ver";
                     }
+                }
+
+                // Check cell state
+                switch (data[y][x]) {
+                    case BoardState.MISS: shipClasses += " shot-miss"; break;
+                    case DESTROYED:
+                    case BoardState.HIT: shipClasses += " shot-hit"; break;
+                    default: 
                 }
 
                 children.push(<div key={x} className={"game_grid-cell" + shipClasses} onClick={() => {this.clickBoard(x, y, board)}}></div>)
@@ -229,7 +243,8 @@ const mapDispatchToProps = {
     selectShipSize: battleshipActions.selectShipSize,
     initSocket: battleshipActions.initSocket,
     putShip: battleshipActions.putShip,
-    clearArrangement: battleshipActions.clearArrangement
+    clearArrangement: battleshipActions.clearArrangement,
+    fire: battleshipActions.fire
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BattleShipGame))
