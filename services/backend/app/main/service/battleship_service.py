@@ -162,6 +162,7 @@ def shoot(user, room, x, y):
         return False
     
     board[y][x] = -1
+    turn = rival.id
 
     # check if hit the ship, then change state of square to 1
     for j in range(0, len(ships)):
@@ -172,7 +173,6 @@ def shoot(user, room, x, y):
             if square['x'] == x and square['y'] == y:
                 board[y][x] = 1
                 break
-    
         if board[y][x] == 1:
             # check is ship is sinked
             sink = True
@@ -183,9 +183,8 @@ def shoot(user, room, x, y):
                     sink = False
                     break
             ships[j]['sink'] = sink
-        elif board[y][x] == -1:
-            # change turn when you miss a shot
-            turn = rival.id
+            turn = user.id
+            break
 
     
     hist[i]['board'] = board
