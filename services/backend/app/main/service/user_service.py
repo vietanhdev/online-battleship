@@ -194,7 +194,11 @@ def delete_follower(follower, user):
 
 
 def check_friend(user_1, user_2):
-    return True
+    association_1 = FollowerUser.query.filter_by(follower_id=user_1.id, user_id=user_2.id).first()
+    association_2 = FollowerUser.query.filter_by(follower_id=user_2.id, user_id=user_1.id).first()
+    if association_1 is not None and association_2 is not None:
+        return True
+    return False
 
 
 def get_all_followers(user):
