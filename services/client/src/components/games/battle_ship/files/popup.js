@@ -177,7 +177,7 @@ const DIRECTION = Object.freeze({
 });
 
 const SHIP_TYPE = Object.freeze({
-    'GIGANT'    : Object.freeze({ len: 4, directions: [DIRECTION.RIGHT, DIRECTION.DOWN]}),
+    'GIANT'    : Object.freeze({ len: 4, directions: [DIRECTION.RIGHT, DIRECTION.DOWN]}),
     'LARGE'     : Object.freeze({ len: 3, directions: [DIRECTION.RIGHT, DIRECTION.DOWN]}),
     'MID'       : Object.freeze({ len: 2, directions: [DIRECTION.RIGHT, DIRECTION.DOWN]}),
     'SMALL'     : Object.freeze({ len: 1, directions: [DIRECTION.NONE]}),
@@ -306,7 +306,7 @@ class Battlefield {
                         if (isHidden) {
                             v = "";
                         } else {
-                            v =  (this.matrix[i][j].owner.type === SHIP_TYPE.GIGANT ? "ship-4" : ((this.matrix[i][j].owner.type === SHIP_TYPE.LARGE ? "ship-3" : ((this.matrix[i][j].owner.type === SHIP_TYPE.MID ? "ship-2" : "ship-1")))));
+                            v =  (this.matrix[i][j].owner.type === SHIP_TYPE.GIANT ? "ship-4" : ((this.matrix[i][j].owner.type === SHIP_TYPE.LARGE ? "ship-3" : ((this.matrix[i][j].owner.type === SHIP_TYPE.MID ? "ship-2" : "ship-1")))));
                         }
                         break;
                     case POINT_STATE.ENV:
@@ -319,7 +319,7 @@ class Battlefield {
                         // TODO: draw killed ship
                         v = "shot-hit";
                         if (this.matrix[i][j].owner.x === i && this.matrix[i][j].owner.y === j) {
-                            v += " " + (this.matrix[i][j].owner.type === SHIP_TYPE.GIGANT ? "ship-4" : ((this.matrix[i][j].owner.type === SHIP_TYPE.LARGE ? "ship-3" : ((this.matrix[i][j].owner.type === SHIP_TYPE.MID ? "ship-2" : "ship-1"))))) + (((this.matrix[i][j].owner.direction === DIRECTION.RIGHT) || (this.matrix[i][j].owner.direction === DIRECTION.UP)) ? "" : " ship-ver");  
+                            v += " " + (this.matrix[i][j].owner.type === SHIP_TYPE.GIANT ? "ship-4" : ((this.matrix[i][j].owner.type === SHIP_TYPE.LARGE ? "ship-3" : ((this.matrix[i][j].owner.type === SHIP_TYPE.MID ? "ship-2" : "ship-1"))))) + (((this.matrix[i][j].owner.direction === DIRECTION.RIGHT) || (this.matrix[i][j].owner.direction === DIRECTION.UP)) ? "" : " ship-ver");  
                         }
                         break;
                     default:
@@ -500,7 +500,7 @@ function getPossibleShipPositions(matrix, width, height, ship) {
     return positions;
 }
 
-function placeAllShipsAuto(matrix, ships = [SHIP_TYPE.GIGANT, SHIP_TYPE.LARGE, SHIP_TYPE.LARGE, SHIP_TYPE.MID, SHIP_TYPE.MID, SHIP_TYPE.MID, SHIP_TYPE.SMALL, SHIP_TYPE.SMALL, SHIP_TYPE.SMALL, SHIP_TYPE.SMALL]){
+function placeAllShipsAuto(matrix, ships = [SHIP_TYPE.GIANT, SHIP_TYPE.LARGE, SHIP_TYPE.LARGE, SHIP_TYPE.MID, SHIP_TYPE.MID, SHIP_TYPE.MID, SHIP_TYPE.SMALL, SHIP_TYPE.SMALL, SHIP_TYPE.SMALL, SHIP_TYPE.SMALL]){
     let battleShips = [];
     for (let s = 0; s < ships.length; s++) {
         let posiblePositions = getPossibleShipPositions(matrix, 10, 10, ships[s]);
@@ -723,7 +723,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //let possibleShipsPosition = [];
     function getSelectedShip(shipId) {
-        return (shipId === 0 ? SHIP_TYPE.SMALL : (shipId === 1 ? SHIP_TYPE.MID : (shipId === 2 ? SHIP_TYPE.LARGE : SHIP_TYPE.GIGANT)));
+        return (shipId === 0 ? SHIP_TYPE.SMALL : (shipId === 1 ? SHIP_TYPE.MID : (shipId === 2 ? SHIP_TYPE.LARGE : SHIP_TYPE.GIANT)));
     }
     function actionMouseClick(event) {
         //let t = event.target;
@@ -778,7 +778,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     targetShip.erase(battlefield_player.getMatrix());
                     battlefield_player.update();
                     battlefield_player.draw(false, true, 'c');
-                    let removedIdx = (targetShip.type === SHIP_TYPE.GIGANT ? 3 : (targetShip.type === SHIP_TYPE.LARGE ? 2 : (targetShip.type === SHIP_TYPE.MID ? 1 : 0)));
+                    let removedIdx = (targetShip.type === SHIP_TYPE.GIANT ? 3 : (targetShip.type === SHIP_TYPE.LARGE ? 2 : (targetShip.type === SHIP_TYPE.MID ? 1 : 0)));
                     preparedShips[removedIdx]++;
                     if (preparedShips[removedIdx] > 0) 
                         document.querySelectorAll('.prepare_cell')[removedIdx].className = document.querySelectorAll('.prepare_cell')[removedIdx].className.replace(" prepare_cell--mute", "");

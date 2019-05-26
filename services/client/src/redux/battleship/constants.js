@@ -5,15 +5,32 @@ const battleshipConstants = {
     SET_OPPONENT: 'SET_OPPONENT',
 
     SELECT_SHIP_SIZE: 'SELECT_SHIP_SIZE',
-    TOGGLE_SHIP_ROTATE: 'TOGGLE_SHIP_ROTATE'
+    TOGGLE_SHIP_ROTATE: 'TOGGLE_SHIP_ROTATE',
+    ADD_SHIP: 'ADD_SHIP',
+    CLEAR_SHIP: 'CLEAR_SHIP',
+
+    UPDATE_GAME_STATE: 'UPDATE_GAME_STATE'
 };
 
 
 export const ShipSize  =  {
-    GIGANT    : 4,
-    LARGE     : 3,
-    MID       : 2,
-    SMALL     : 1
+    GIANT    : 'GIANT',
+    LARGE     : 'LARGE',
+    MID       : 'MID',
+    SMALL     : 'SMALL'
+}
+
+
+export const BoardState = {
+    MISS: -1,
+    HIDDEN: 0,
+    HIT: 1,
+    DESTROYED: 2
+}
+
+
+export const MessageEvent = {
+    UPDATE_GAME_STATE: "update_boards"
 }
 
 export default battleshipConstants;

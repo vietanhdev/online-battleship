@@ -12,6 +12,8 @@ import { battleshipActions } from '../../../redux/battleship';
 
 import { withRouter } from "react-router";
 
+import Utilities from '../../../redux/battleship/utilities'
+
 export class BattleShipGame extends Component {
 
 
@@ -20,15 +22,79 @@ export class BattleShipGame extends Component {
     }
 
 
+    clickBoard = (x, y, board) => {
+
+        const gameState = this.props.gameState;
+        const isArranging = gameState.isMyRoom && !gameState.player1.shipsReady;
+
+        if (isArranging && board === 1) { // Click on board 1 in arranging mode
+
+            // Put a ship in board
+            this.props.putShip(x, y);
+
+        }
+
+    }
+
+
+    createBoard = (height, width, data, ships, board) => {
+        let table = []
+    
+        // Outer loop to create parent row
+        for (let y = 0; y < height; y++) {
+            let children = []
+
+            // Inner loop to create cols
+            for (let x = 0; x < width; x++) {
+
+                // Check for ships
+                let shipClasses = ""; // style classes for ship
+                for (let i = 0; i < ships.length; ++i) {
+                    if (ships[i].x == x && ships[i].y == y) {
+                        switch (ships[i].size) {
+                            case ShipSize.GIANT: shipClasses += " ship-4"; break
+                            case ShipSize.LARGE: shipClasses += " ship-3"; break
+                            case ShipSize.MID: shipClasses += " ship-2"; break
+                            default: shipClasses += " ship-1";
+                        }
+
+                        if (ships[i].vertical) shipClasses += " ship-ver";
+                    }
+                }
+
+                children.push(<div key={x} className={"game_grid-cell" + shipClasses} onClick={() => {this.clickBoard(x, y, board)}}></div>)
+            }
+
+            //Create the parent and add the children
+            table.push(<div key={y} className="game_grid-row"><div key={-1} className="game_grid-nav">{y}</div>{children}</div>)
+
+        }
+        return table;
+    }
+
     render() {
 
+        
         const selectShipSize = this.props.shipArrangement.selectedShipSize
+        const player1 = this.props.gameState.player1;
+        const player2 = this.props.gameState.player2;
+        const gameState = this.props.gameState;
+        const maxNumberOfShips = gameState.maxNumberOfShips;
+        let ships = gameState.player1.ships;
+
+        const showArrangementScreen = gameState.isMyRoom && !player1.shipsReady; // Show arrangment or not. Only show it if this is user's room and ships have not been arranged
+
+        let remainingSmallShips = maxNumberOfShips[ShipSize.SMALL] - Utilities.countShip(ships, ShipSize.SMALL);
+        let remainingMidShips = maxNumberOfShips[ShipSize.MID] - Utilities.countShip(ships, ShipSize.MID);
+        let remainingLargeShips = maxNumberOfShips[ShipSize.LARGE] - Utilities.countShip(ships, ShipSize.LARGE);
+        let remainingGiantShips = maxNumberOfShips[ShipSize.GIANT] - Utilities.countShip(ships, ShipSize.GIANT);
+
         return (
 
             <Card small className="mb-4">
                         <CardHeader className="border-bottom">
                             <h4 className="text-center">BattleShip</h4>
-                            <h5 className="text-center">{this.props.user.fullname} vs. ??</h5>
+                            <h5 className="text-center">Captain [{player1.fullname}] <span style={{fontWeight: "bold"}}>VS.</span> Captain [{player2.fullname !== "" ? player2.fullname : "  . . . "}]</h5>
                         </CardHeader>
                         <CardBody className="p-0 pb-3">
                         <div className="battleship_game_wrapper">
@@ -42,7 +108,7 @@ export class BattleShipGame extends Component {
 
                                 <div className="col">
                                     <div className="game_field">
-                                    <p className="game_field-title">My fleets</p>
+                                    <p className="game_field-title">{gameState.isMyRoom ? "My fleets" : player1.fullname}</p>
 
                                     <div className="game_grid game_grid-player">
                                         <div className="game_grid-row">
@@ -58,143 +124,16 @@ export class BattleShipGame extends Component {
                                             <div className="game_grid-nav">I</div>
                                             <div className="game_grid-nav">J</div>
                                         </div>
-                                        <div className="game_grid-row">
-                                            <div className="game_grid-nav">1</div>
-                                            <div className="game_grid-cell" id="c0_0"></div>
-                                            <div className="game_grid-cell" id="c0_1"></div>
-                                            <div className="game_grid-cell" id="c0_2"></div>
-                                            <div className="game_grid-cell" id="c0_3"></div>
-                                            <div className="game_grid-cell" id="c0_4"></div>
-                                            <div className="game_grid-cell" id="c0_5"></div>
-                                            <div className="game_grid-cell" id="c0_6"></div>
-                                            <div className="game_grid-cell" id="c0_7"></div>
-                                            <div className="game_grid-cell" id="c0_8"></div>
-                                            <div className="game_grid-cell" id="c0_9"></div>
-                                        </div>
-                                        <div className="game_grid-row">
-                                            <div className="game_grid-nav">2</div>
-                                            <div className="game_grid-cell" id="c1_0"></div>
-                                            <div className="game_grid-cell" id="c1_1"></div>
-                                            <div className="game_grid-cell" id="c1_2"></div>
-                                            <div className="game_grid-cell" id="c1_3"></div>
-                                            <div className="game_grid-cell" id="c1_4"></div>
-                                            <div className="game_grid-cell" id="c1_5"></div>
-                                            <div className="game_grid-cell" id="c1_6"></div>
-                                            <div className="game_grid-cell" id="c1_7"></div>
-                                            <div className="game_grid-cell" id="c1_8"></div>
-                                            <div className="game_grid-cell" id="c1_9"></div>
-                                        </div>
-                                        <div className="game_grid-row">
-                                            <div className="game_grid-nav">3</div>
-                                            <div className="game_grid-cell" id="c2_0"></div>
-                                            <div className="game_grid-cell" id="c2_1"></div>
-                                            <div className="game_grid-cell" id="c2_2"></div>
-                                            <div className="game_grid-cell" id="c2_3"></div>
-                                            <div className="game_grid-cell" id="c2_4"></div>
-                                            <div className="game_grid-cell" id="c2_5"></div>
-                                            <div className="game_grid-cell" id="c2_6"></div>
-                                            <div className="game_grid-cell" id="c2_7"></div>
-                                            <div className="game_grid-cell" id="c2_8"></div>
-                                            <div className="game_grid-cell" id="c2_9"></div>
-                                        </div>
-                                        <div className="game_grid-row">
-                                            <div className="game_grid-nav">4</div>
-                                            <div className="game_grid-cell" id="c3_0"></div>
-                                            <div className="game_grid-cell" id="c3_1"></div>
-                                            <div className="game_grid-cell" id="c3_2"></div>
-                                            <div className="game_grid-cell" id="c3_3"></div>
-                                            <div className="game_grid-cell" id="c3_4"></div>
-                                            <div className="game_grid-cell" id="c3_5"></div>
-                                            <div className="game_grid-cell" id="c3_6"></div>
-                                            <div className="game_grid-cell" id="c3_7"></div>
-                                            <div className="game_grid-cell" id="c3_8"></div>
-                                            <div className="game_grid-cell" id="c3_9"></div>
-                                        </div>
-                                        <div className="game_grid-row">
-                                            <div className="game_grid-nav">5</div>
-                                            <div className="game_grid-cell" id="c4_0"></div>
-                                            <div className="game_grid-cell" id="c4_1"></div>
-                                            <div className="game_grid-cell" id="c4_2"></div>
-                                            <div className="game_grid-cell" id="c4_3"></div>
-                                            <div className="game_grid-cell" id="c4_4"></div>
-                                            <div className="game_grid-cell" id="c4_5"></div>
-                                            <div className="game_grid-cell" id="c4_6"></div>
-                                            <div className="game_grid-cell" id="c4_7"></div>
-                                            <div className="game_grid-cell" id="c4_8"></div>
-                                            <div className="game_grid-cell" id="c4_9"></div>
-                                        </div>
-                                            <div className="game_grid-row">
-                                            <div className="game_grid-nav">6</div>
-                                            <div className="game_grid-cell" id="c5_0"></div>
-                                            <div className="game_grid-cell" id="c5_1"></div>
-                                            <div className="game_grid-cell" id="c5_2"></div>
-                                            <div className="game_grid-cell" id="c5_3"></div>
-                                            <div className="game_grid-cell" id="c5_4"></div>
-                                            <div className="game_grid-cell" id="c5_5"></div>
-                                            <div className="game_grid-cell" id="c5_6"></div>
-                                            <div className="game_grid-cell" id="c5_7"></div>
-                                            <div className="game_grid-cell" id="c5_8"></div>
-                                            <div className="game_grid-cell" id="c5_9"></div>
-                                        </div>
-                                        <div className="game_grid-row">
-                                            <div className="game_grid-nav">7</div>
-                                            <div className="game_grid-cell" id="c6_0"></div>
-                                            <div className="game_grid-cell" id="c6_1"></div>
-                                            <div className="game_grid-cell" id="c6_2"></div>
-                                            <div className="game_grid-cell" id="c6_3"></div>
-                                            <div className="game_grid-cell" id="c6_4"></div>
-                                            <div className="game_grid-cell" id="c6_5"></div>
-                                            <div className="game_grid-cell" id="c6_6"></div>
-                                            <div className="game_grid-cell" id="c6_7"></div>
-                                            <div className="game_grid-cell" id="c6_8"></div>
-                                            <div className="game_grid-cell" id="c6_9"></div>
-                                        </div>
-                                        <div className="game_grid-row">
-                                            <div className="game_grid-nav">8</div>
-                                            <div className="game_grid-cell" id="c7_0"></div>
-                                            <div className="game_grid-cell" id="c7_1"></div>
-                                            <div className="game_grid-cell" id="c7_2"></div>
-                                            <div className="game_grid-cell" id="c7_3"></div>
-                                            <div className="game_grid-cell" id="c7_4"></div>
-                                            <div className="game_grid-cell" id="c7_5"></div>
-                                            <div className="game_grid-cell" id="c7_6"></div>
-                                            <div className="game_grid-cell" id="c7_7"></div>
-                                            <div className="game_grid-cell" id="c7_8"></div>
-                                            <div className="game_grid-cell" id="c7_9"></div>
-                                        </div>
-                                        <div className="game_grid-row">
-                                            <div className="game_grid-nav">9</div>
-                                            <div className="game_grid-cell" id="c8_0"></div>
-                                            <div className="game_grid-cell" id="c8_1"></div>
-                                            <div className="game_grid-cell" id="c8_2"></div>
-                                            <div className="game_grid-cell" id="c8_3"></div>
-                                            <div className="game_grid-cell" id="c8_4"></div>
-                                            <div className="game_grid-cell" id="c8_5"></div>
-                                            <div className="game_grid-cell" id="c8_6"></div>
-                                            <div className="game_grid-cell" id="c8_7"></div>
-                                            <div className="game_grid-cell" id="c8_8"></div>
-                                            <div className="game_grid-cell" id="c8_9"></div>
-                                        </div>
-                                        <div className="game_grid-row">
-                                            <div className="game_grid-nav">10</div>
-                                            <div className="game_grid-cell" id="c9_0"></div>
-                                            <div className="game_grid-cell" id="c9_1"></div>
-                                            <div className="game_grid-cell" id="c9_2"></div>
-                                            <div className="game_grid-cell" id="c9_3"></div>
-                                            <div className="game_grid-cell" id="c9_4"></div>
-                                            <div className="game_grid-cell" id="c9_5"></div>
-                                            <div className="game_grid-cell" id="c9_6"></div>
-                                            <div className="game_grid-cell" id="c9_7"></div>
-                                            <div className="game_grid-cell" id="c9_8"></div>
-                                            <div className="game_grid-cell" id="c9_9"></div>
-                                        </div>
+
+                                        {this.createBoard(gameState.boardHeight, gameState.boardWidth, player1.data, player1.ships, 1)}
+                                
                                     </div>
                                     </div>
                                 </div>
 
                                 <div className="col">
                                     <div className="game_field">
-                                        <p className="game_field-title">Ship Arrangement</p>
+                                        <p className="game_field-title">{showArrangementScreen ?  "Ship Arrangement" : ( gameState.isMyRoom ? "Opponent's fleets" : player2.fullname)}</p>
                                         <div className="game_grid game_grid-opponent hidden">
                                             <div className="game_grid-row">
                                                 <div className="game_grid-corner"></div>
@@ -209,159 +148,32 @@ export class BattleShipGame extends Component {
                                                 <div className="game_grid-nav">I</div>
                                                 <div className="game_grid-nav">J</div>
                                             </div>
-                                            <div className="game_grid-row">
-                                                <div className="game_grid-nav">1</div>
-                                                <div className="game_grid-cell" id="o0_0"></div>
-                                                <div className="game_grid-cell" id="o0_1"></div>
-                                                <div className="game_grid-cell" id="o0_2"></div>
-                                                <div className="game_grid-cell" id="o0_3"></div>
-                                                <div className="game_grid-cell" id="o0_4"></div>
-                                                <div className="game_grid-cell" id="o0_5"></div>
-                                                <div className="game_grid-cell" id="o0_6"></div>
-                                                <div className="game_grid-cell" id="o0_7"></div>
-                                                <div className="game_grid-cell" id="o0_8"></div>
-                                                <div className="game_grid-cell" id="o0_9"></div>
-                                            </div>
-                                            <div className="game_grid-row">
-                                                <div className="game_grid-nav">2</div>
-                                                <div className="game_grid-cell" id="o1_0"></div>
-                                                <div className="game_grid-cell" id="o1_1"></div>
-                                                <div className="game_grid-cell" id="o1_2"></div>
-                                                <div className="game_grid-cell" id="o1_3"></div>
-                                                <div className="game_grid-cell" id="o1_4"></div>
-                                                <div className="game_grid-cell" id="o1_5"></div>
-                                                <div className="game_grid-cell" id="o1_6"></div>
-                                                <div className="game_grid-cell" id="o1_7"></div>
-                                                <div className="game_grid-cell" id="o1_8"></div>
-                                                <div className="game_grid-cell" id="o1_9"></div>
-                                            </div>
-                                            <div className="game_grid-row">
-                                                <div className="game_grid-nav">3</div>
-                                                <div className="game_grid-cell" id="o2_0"></div>
-                                                <div className="game_grid-cell" id="o2_1"></div>
-                                                <div className="game_grid-cell" id="o2_2"></div>
-                                                <div className="game_grid-cell" id="o2_3"></div>
-                                                <div className="game_grid-cell" id="o2_4"></div>
-                                                <div className="game_grid-cell" id="o2_5"></div>
-                                                <div className="game_grid-cell" id="o2_6"></div>
-                                                <div className="game_grid-cell" id="o2_7"></div>
-                                                <div className="game_grid-cell" id="o2_8"></div>
-                                                <div className="game_grid-cell" id="o2_9"></div>
-                                            </div>
-                                            <div className="game_grid-row">
-                                                <div className="game_grid-nav">4</div>
-                                                <div className="game_grid-cell" id="o3_0"></div>
-                                                <div className="game_grid-cell" id="o3_1"></div>
-                                                <div className="game_grid-cell" id="o3_2"></div>
-                                                <div className="game_grid-cell" id="o3_3"></div>
-                                                <div className="game_grid-cell" id="o3_4"></div>
-                                                <div className="game_grid-cell" id="o3_5"></div>
-                                                <div className="game_grid-cell" id="o3_6"></div>
-                                                <div className="game_grid-cell" id="o3_7"></div>
-                                                <div className="game_grid-cell" id="o3_8"></div>
-                                                <div className="game_grid-cell" id="o3_9"></div>
-                                            </div>
-                                            <div className="game_grid-row">
-                                                <div className="game_grid-nav">5</div>
-                                                <div className="game_grid-cell" id="o4_0"></div>
-                                                <div className="game_grid-cell" id="o4_1"></div>
-                                                <div className="game_grid-cell" id="o4_2"></div>
-                                                <div className="game_grid-cell" id="o4_3"></div>
-                                                <div className="game_grid-cell" id="o4_4"></div>
-                                                <div className="game_grid-cell" id="o4_5"></div>
-                                                <div className="game_grid-cell" id="o4_6"></div>
-                                                <div className="game_grid-cell" id="o4_7"></div>
-                                                <div className="game_grid-cell" id="o4_8"></div>
-                                                <div className="game_grid-cell" id="o4_9"></div>
-                                            </div>
-                                            <div className="game_grid-row">
-                                                <div className="game_grid-nav">6</div>
-                                                <div className="game_grid-cell" id="o5_0"></div>
-                                                <div className="game_grid-cell" id="o5_1"></div>
-                                                <div className="game_grid-cell" id="o5_2"></div>
-                                                <div className="game_grid-cell" id="o5_3"></div>
-                                                <div className="game_grid-cell" id="o5_4"></div>
-                                                <div className="game_grid-cell" id="o5_5"></div>
-                                                <div className="game_grid-cell" id="o5_6"></div>
-                                                <div className="game_grid-cell" id="o5_7"></div>
-                                                <div className="game_grid-cell" id="o5_8"></div>
-                                                <div className="game_grid-cell" id="o5_9"></div>
-                                            </div>
-                                            <div className="game_grid-row">
-                                                <div className="game_grid-nav">7</div>
-                                                <div className="game_grid-cell" id="o6_0"></div>
-                                                <div className="game_grid-cell" id="o6_1"></div>
-                                                <div className="game_grid-cell" id="o6_2"></div>
-                                                <div className="game_grid-cell" id="o6_3"></div>
-                                                <div className="game_grid-cell" id="o6_4"></div>
-                                                <div className="game_grid-cell" id="o6_5"></div>
-                                                <div className="game_grid-cell" id="o6_6"></div>
-                                                <div className="game_grid-cell" id="o6_7"></div>
-                                                <div className="game_grid-cell" id="o6_8"></div>
-                                                <div className="game_grid-cell" id="o6_9"></div>
-                                            </div>
-                                            <div className="game_grid-row">
-                                                <div className="game_grid-nav">8</div>
-                                                <div className="game_grid-cell" id="o7_0"></div>
-                                                <div className="game_grid-cell" id="o7_1"></div>
-                                                <div className="game_grid-cell" id="o7_2"></div>
-                                                <div className="game_grid-cell" id="o7_3"></div>
-                                                <div className="game_grid-cell" id="o7_4"></div>
-                                                <div className="game_grid-cell" id="o7_5"></div>
-                                                <div className="game_grid-cell" id="o7_6"></div>
-                                                <div className="game_grid-cell" id="o7_7"></div>
-                                                <div className="game_grid-cell" id="o7_8"></div>
-                                                <div className="game_grid-cell" id="o7_9"></div>
-                                            </div>
-                                            <div className="game_grid-row">
-                                                <div className="game_grid-nav">9</div>
-                                                <div className="game_grid-cell" id="o8_0"></div>
-                                                <div className="game_grid-cell" id="o8_1"></div>
-                                                <div className="game_grid-cell" id="o8_2"></div>
-                                                <div className="game_grid-cell" id="o8_3"></div>
-                                                <div className="game_grid-cell" id="o8_4"></div>
-                                                <div className="game_grid-cell" id="o8_5"></div>
-                                                <div className="game_grid-cell" id="o8_6"></div>
-                                                <div className="game_grid-cell" id="o8_7"></div>
-                                                <div className="game_grid-cell" id="o8_8"></div>
-                                                <div className="game_grid-cell" id="o8_9"></div>
-                                            </div>
-                                            <div className="game_grid-row">
-                                                <div className="game_grid-nav">10</div>
-                                                <div className="game_grid-cell" id="o9_0"></div>
-                                                <div className="game_grid-cell" id="o9_1"></div>
-                                                <div className="game_grid-cell" id="o9_2"></div>
-                                                <div className="game_grid-cell" id="o9_3"></div>
-                                                <div className="game_grid-cell" id="o9_4"></div>
-                                                <div className="game_grid-cell" id="o9_5"></div>
-                                                <div className="game_grid-cell" id="o9_6"></div>
-                                                <div className="game_grid-cell" id="o9_7"></div>
-                                                <div className="game_grid-cell" id="o9_8"></div>
-                                                <div className="game_grid-cell" id="o9_9"></div>
-                                            </div>
+
+                                            {this.createBoard(gameState.boardHeight, gameState.boardWidth, player2.data, player2.ships, 2)}
+                                            
                                         </div>
-                                        <div className={ this.props.shipArrangement.rotateShip ? "prepare_field--rotate" : "prepare_field"}>
+                                        <div className={"prepare_field" + (this.props.shipArrangement.vertical ? " prepare_field--rotate" : "")}>
 
                                             <div className="prepare_cell-wrapper">
-                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.SMALL ? " prepare_cell--active" : "")} onClick={() => {this.props.selectShipSize(ShipSize.SMALL)}}>
-                                                    <div className="prepare_cell-counter">x4</div>
+                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.SMALL ? " prepare_cell--active" : "") + (remainingSmallShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.SMALL)}}>
+                                                    <div className="prepare_cell-counter">x{remainingSmallShips}</div>
                                                     <img src={Images.ship_1_player} alt=""
                                                     className="prepare_cell-ship"></img>
                                                 </div>
 
-                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.MID ? " prepare_cell--active" : "")} onClick={() => {this.props.selectShipSize(ShipSize.MID)}}>
-                                                    <div className="prepare_cell-counter">x3</div>
+                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.MID ? " prepare_cell--active" : "") + (remainingMidShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.MID)}}>
+                                                    <div className="prepare_cell-counter">x{remainingMidShips}</div>
                                                     <img src={Images.ship_2_player} alt=""
                                                     className="prepare_cell-ship"></img>
                                                 </div>
 
-                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.LARGE ? " prepare_cell--active" : "")} onClick={() => {this.props.selectShipSize(ShipSize.LARGE)}}>
-                                                <div className="prepare_cell-counter">x2</div>
+                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.LARGE ? " prepare_cell--active" : "") + (remainingLargeShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.LARGE)}}>
+                                                <div className="prepare_cell-counter">x{remainingLargeShips}</div>
                                                     <img src={Images.ship_3_player} alt="" className="prepare_cell-ship"></img>
                                                 </div>
 
-                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.GIGANT ? " prepare_cell--active" : "")} onClick={() => {this.props.selectShipSize(ShipSize.GIGANT)}}>
-                                                <div className="prepare_cell-counter">x1</div>
+                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.GIANT ? " prepare_cell--active" : "") + (remainingGiantShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.GIANT)}}>
+                                                <div className="prepare_cell-counter">x{remainingGiantShips}</div>
                                                     <img src={Images.ship_4_player} alt=""
                                                     className="prepare_cell-ship"></img>
                                                 </div>
@@ -375,8 +187,8 @@ export class BattleShipGame extends Component {
                                             </div>
 
                                             <div className="prepare_field-buttons">
-                                            <Button theme="light" id="auto"> Random arrangement</Button>
-                                            <Button theme="warning"
+                                            <Button theme="warning" id="auto" onClick={this.props.clearArrangement}> Clear All </Button>
+                                            <Button theme="danger"
                                                 id="start">TO BATTLE!</Button>
                                             </div>
                                         </div>
@@ -409,12 +221,15 @@ export class BattleShipGame extends Component {
 const mapStateToProps = (state) => ({
     user: state.userReducer,
     shipArrangement: state.battleshipReducer.shipArrangement,
+    gameState: state.battleshipReducer.gameState
 })
 
 const mapDispatchToProps = {
     toggleShipRotate: battleshipActions.toggleShipRotate,
     selectShipSize: battleshipActions.selectShipSize,
-    initSocket: battleshipActions.initSocket
+    initSocket: battleshipActions.initSocket,
+    putShip: battleshipActions.putShip,
+    clearArrangement: battleshipActions.clearArrangement
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BattleShipGame))
