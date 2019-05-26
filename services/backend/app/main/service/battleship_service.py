@@ -110,10 +110,91 @@ def get_data(user, room):
     return data
 
 
+def get_list_squares(ship):
+    list_squares = []
+    x = ship.get('x')
+    y = ship.get('y')
+    vertical = ship.get('vertical')
+    len_ship = ship.get('len_ship')
+
+    if vertical is False:
+        delta_x = 1
+        delta_y = 0
+    else:
+        delta_x = 0
+        delta_y = 1
+
+    for i in range(0, len_ship):
+        x_pos = x + delta_x * i
+        y_pos = y + delta_y * i
+        list_squares.append({
+            'x': x_pos,
+            'y': y_pos
+        })
+
+    return list_squares
+
+
 def shoot(user, room, x, y):
+    rival = room.get_rival(user)
+    if rival is None:
+        return False
+
     history = json.loads(room.history)
     hist = history.get('hist')
     turn = history.get('turn')
+    # check if your turn
+    if turn!=user.id:
+        return False
+    
+    for i in range(0, len(hist)):
+        sub_hist = hist[i]
+        if sub_hist.get('user_id') == rival.id:
+            board = sub_hist.get('board')
+            ships = sub_hist.get('ships')
+            break
+    
+    if board is None or ships is None:
+        return False
+
+    # return False if the square is hitted before
+    if board[y][x] != 0:
+        return False
+    
+    board[y][x] = -1
+
+    # check if hit the ship, then change state of square to 1
+    for j in range(0, len(ships)):
+        ship = ships[j]
+        list_squares = get_list_squares(ship)
+        # check if ship is hitted
+        for square in list_squares:
+            if square['x'] == x and square['y'] == y:
+                board[y][x] = 1
+                break
+    
+        if board[y][x] == 1:
+            # check is ship is sinked
+            sink = True
+            for square in list_squares:
+                x_pos = square['x']
+                y_pos = square['y']
+                if board[y_pos][x_pos] == 0:
+                    sink = False
+                    break
+            ships[j]['sink'] = sink
+        elif board[y][x] == -1:
+            # change turn when you miss a shot
+            turn = rival.id
+
+    
+    hist[i]['board'] = board
+    hist[i]['ships'] = ships
+    history['hist'] = hist
+    history['turn'] = turn
+    room.history = json.dumps(history)
+    save_changes(room)
+    return True
 
 
 def process_command(user, room, command):
@@ -125,11 +206,15 @@ def process_command(user, room, command):
         result = init_ships(ships)
         if result:
             save_new_ships(user, room, ships)
-        return result
-    # if command.get('name') == 'shoot':
-    #     x = command.get('x')
-    #     y = command.get('y')
-    #     result = shoot(user, room, x, y)
+        broadcast_in_room = None
+        return result, broadcast_in_room
+    elif command.get('name') == 'shoot':
+        x = command.get('x')
+        y = command.get('y')
+        # shoot and save to history
+        result = shoot(user, room, x, y)
+        broadcast_in_room = None
+        return result, None
 
     return False
 

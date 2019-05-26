@@ -193,19 +193,26 @@ def delete_follower(follower, user):
     return response_object, 400
 
 
+def check_friend(user_1, user_2):
+    association_1 = FollowerUser.query.filter_by(follower_id=user_1.id, user_id=user_2.id).first()
+    association_2 = FollowerUser.query.filter_by(follower_id=user_2.id, user_id=user_1.id).first()
+    if association_1 is not None and association_2 is not None:
+        return True
+    return False
+
+
 def get_all_followers(user):
-    print(user.id)
     list_association = FollowerUser.query.filter_by(user_id=user.id).all()
-    data = {}
+    data = []
     print(list_association)
     if list_association is not None:
         for association in list_association:
             follower_id = association.follower_id
-            user = get_a_user_by_id(follower_id)
-            if user is None:
-                data[follower_id] = None
-            else:
-                data[follower_id] = user.get_user_information()
+            follower = get_a_user_by_id(follower_id)
+            if follower is not None:
+                infor_follower = follower.get_user_information()
+                infor_follower['is_friend'] = check_friend(follower, user)
+                data.append(infor_follower)
     response_object = {
         'status': 'success',
         'data': data
@@ -218,10 +225,12 @@ def get_all_followings(user):
     data = []
     if list_association is not None:
         for association in list_association:
-            user_id = association.user_id
-            user = get_a_user_by_id(user_id)
-            if user:
-                data.append(user.get_user_information())
+            following_id = association.following_id
+            following = get_a_following_by_id(following_id)
+            if following is not None:
+                infor_following = following.get_user_information()
+                infor_following['is_friend'] = check_friend(following, user)
+                data.append(infor_following)
     response_object = {
         'status': 'success',
         'data': data
