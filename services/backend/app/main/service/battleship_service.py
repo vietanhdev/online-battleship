@@ -105,7 +105,7 @@ def get_data(user, room):
     data['boards'] = boards
     turn_user = get_a_user_by_id(turn)
     data['turn'] = turn_user.public_id
-    data['data'] = room.get_room_information()
+    data['room_data'] = room.get_room_information()
 
     return data
 
