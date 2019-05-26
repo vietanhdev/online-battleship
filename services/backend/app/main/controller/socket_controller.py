@@ -210,19 +210,24 @@ def newCommand(request_object):
             }
 		else:
 			command = request_object.get('command')
-
-			result, broadcast_in_room = process_command(user, room, command)
-			if result is False:
+			if command is None:
 				response_object = {
 					'status': 'fail',
-					'message': 'Please check your command'
+					'message': 'Can not find your command'
 				}
 			else:
-				emit('users_in_room', response_object, room=room.public_id, namespace='/rooms')
+				result = process_command(user, room, command)
+				if result is False:
+					response_object = {
+						'status': 'fail',
+						'message': 'Please check your command'
+					}
+				else:
+					emit('users_in_room', response_object, room=room.public_id, namespace='/rooms')
 
-			list_users = get_list_users_in_room(room)
-			for user in list_users:
-				update_boards(user, room)
+				list_users = get_list_users_in_room(room)
+				for user in list_users:
+					update_boards(user, room)
 
     # Notify sender response result
 	emit('response_command', response_object, broadcast=False, namespace='/rooms')
