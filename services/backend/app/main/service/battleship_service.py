@@ -101,6 +101,7 @@ def get_data(user, room):
             'ships': visible_ships,
             'turn': turn==player.id
         })
+    data['my_public_id'] = user.public_id
     data['boards'] = boards
     turn_user = get_a_user_by_id(turn)
     data['turn'] = turn_user.public_id
