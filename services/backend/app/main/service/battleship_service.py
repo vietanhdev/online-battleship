@@ -105,6 +105,7 @@ def get_data(user, room):
     data['boards'] = boards
     turn_user = get_a_user_by_id(turn)
     data['turn'] = turn_user.public_id
+    data['data'] = room.get_room_information()
 
     return data
 
@@ -125,10 +126,10 @@ def process_command(user, room, command):
         if result:
             save_new_ships(user, room, ships)
         return result
-    if command.get('name') == 'shoot':
-        x = command.get('x')
-        y = command.get('y')
-        result = shoot(user, room, x, y)
+    # if command.get('name') == 'shoot':
+    #     x = command.get('x')
+    #     y = command.get('y')
+    #     result = shoot(user, room, x, y)
 
     return False
 
