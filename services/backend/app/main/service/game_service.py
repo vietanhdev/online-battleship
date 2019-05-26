@@ -95,6 +95,12 @@ def save_new_player(room, user):
     save_new_player_battleship(user, room)
 
 
+def save_winner(room, user):
+    room_user = RoomUser.query.filter_by(room_id=room.id, user_id=user.id).first()
+    room_user.is_win = True
+    save_changes()
+
+
 def check_player_or_viewer(room, user):
     a =  RoomUser.query.filter_by(room_id=room.id, user_id=user.id).first()
     if a is not None:

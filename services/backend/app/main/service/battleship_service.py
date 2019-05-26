@@ -1,6 +1,7 @@
 from app.main import db
 import json
 from .user_service import get_a_user_by_id
+from .game_service import save_winner
 
 
 def save_new_player_battleship(user, room):
@@ -78,6 +79,7 @@ def get_data(user, room):
     data = {}
     data['is_enough_player'] = room.is_enough_players()
     data['is_player'] = room.check_exist_player(user)
+    data['is_winner'] = room.is_winner(user)
     history = json.loads(room.history)
     hist = history.get('hist') 
     turn = history.get('turn')
@@ -201,6 +203,7 @@ def shoot(user, room, x, y):
             end_game = False
             break
     if end_game == True:
+        save_winner(room, user)
         turn = None
     
     hist[i]['board'] = board

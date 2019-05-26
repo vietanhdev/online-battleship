@@ -33,6 +33,7 @@ class Room(db.Model):
             user = room_user.user
             user_infor = user.get_user_information()
             user_infor['creator'] = room_user.creator
+            user_infor['winner'] = room_user.is_win 
             data['players'].append(user_infor)
         return data
     
@@ -68,6 +69,15 @@ class Room(db.Model):
         for room_user in room_users:
             player = room_user.user
             if user == player:
+                return True
+        return False
+
+    def is_winner(self, user):
+        room_users = self.users
+        for room_user in room_users:
+            player = room_user.user
+            is_win = room_user.is_win
+            if user == player and is_win:
                 return True
         return False
 
