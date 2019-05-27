@@ -14,11 +14,11 @@ export class FriendList extends Component {
   }
 
   render = () => {
-    const friends = this.props.friends;
+    const followings = this.props.followings;
     return (
         <div className="m-2" style={{ overflow: "auto", maxHeight: "24rem"}}>
-            {friends.map(function(friend, i){
-               return <Friend data={friend} key={i}></Friend>
+            {followings.map(function(following, i){
+               return <Friend data={following} key={i}></Friend>
              })}
         </div>
     )
@@ -26,7 +26,7 @@ export class FriendList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  friends: state.friendReducer.friends
+  followings: state.friendReducer.followings
 })
 
 const mapDispatchToProps = {

@@ -10,13 +10,28 @@ export const friendActions = {
         .then(function (response) {
             let friends = response.data.data;
             dispatch({
-                type: friendConstants.FETCH_FRIENDS_SUCCESS,
+                type: friendConstants.FETCH_FOLLOWINGS_SUCCESS,
                 payload: friends
             });
         })
         .catch(function (error) {
             dispatch({
-                type: friendConstants.FETCH_FRIENDS_FAIL,
+                type: friendConstants.FETCH_FOLLOWINGS_FAIL,
+                payload: error
+            });
+        });
+
+        request.get('/users/followers')
+        .then(function (response) {
+            let friends = response.data.data;
+            dispatch({
+                type: friendConstants.FETCH_FOLLOWERS_SUCCESS,
+                payload: friends
+            });
+        })
+        .catch(function (error) {
+            dispatch({
+                type: friendConstants.FETCH_FOLLOWERS_FAIL,
                 payload: error
             });
         })

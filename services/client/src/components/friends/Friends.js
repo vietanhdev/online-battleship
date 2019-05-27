@@ -12,7 +12,7 @@ export class Friends extends Component {
     return (
       <Card small className="mb-4" style={{maxWidth: "20rem", minWidth: "15rem", minHeight: "32rem"}}>
         <CardHeader className="border-bottom">
-          <h6 className="m-0">Friends</h6>
+          <h6 className="m-0">Followings</h6>
         </CardHeader>
         <CardBody className="p-0 pb-3">
             <FindUser></FindUser>
