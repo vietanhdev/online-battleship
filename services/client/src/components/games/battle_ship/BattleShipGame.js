@@ -95,6 +95,8 @@ export class BattleShipGame extends Component {
         const gameState = this.props.gameState;
         const maxNumberOfShips = gameState.maxNumberOfShips;
         let ships = gameState.player1.ships;
+        const gameOver = this.props.gameState.gameOver;
+        const winner = this.props.gameOver.winnerId === player1.playerPublicId ? player1 : player2; // Only use if game Over
 
         const showArrangementScreen = gameState.isMyRoom && !player1.shipsReady; // Show arrangment or not. Only show it if this is user's room and ships have not been arranged
 
@@ -102,6 +104,18 @@ export class BattleShipGame extends Component {
         let remainingMidShips = maxNumberOfShips[ShipSize.MID] - Utilities.countShip(ships, ShipSize.MID);
         let remainingLargeShips = maxNumberOfShips[ShipSize.LARGE] - Utilities.countShip(ships, ShipSize.LARGE);
         let remainingGiantShips = maxNumberOfShips[ShipSize.GIANT] - Utilities.countShip(ships, ShipSize.GIANT);
+
+
+        let notification = "";
+        if (gameOver) {
+            notification = "Game Over! Winner: " + winner.fullname;
+        } else if (showArrangementScreen) {
+            notification = "Place your fleet on the field";
+        } else if (!gameState.isEnoughPlayer) {
+            notification = "Waiting for your component...";
+        } else if (!player2.shipsReady) {
+            notification = "Waiting for your component to arrange fleets";
+        }
 
         return (
 
@@ -116,7 +130,7 @@ export class BattleShipGame extends Component {
 
                                 <header className="header">
                                 
-                                <p className="header-title">{showArrangementScreen? "Place your fleet on the field" : (!gameState.isEnoughPlayer ? "Waiting for your component..." : (!player2.shipsReady ? "Waiting for your component to arrange fleets" : ""))}</p>
+                                <p className="header-title">{notification}</p>
                                 </header>
 
                                 <main className="game_wrapper">
@@ -220,7 +234,6 @@ export class BattleShipGame extends Component {
                                     <button
                                         className="btn btn-white overlay-btn overlay-btn--no">No</button>
                                     </div>
-
                                 </div>
 
                                 </main>

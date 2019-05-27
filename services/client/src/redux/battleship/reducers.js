@@ -12,6 +12,8 @@ const getInitState = () => {
             selectedShipSize: ShipSize.GIANT
         },
         gameState: {
+            gameOver: false,
+            winnerId: "",
             boardWidth: 10,
             boardHeight: 10,
             maxNumberOfShips: {
@@ -128,6 +130,8 @@ export const battleshipReducer = (state = getInitState(), action) =>  {
                 myPublicId: myId,
                 gameState: {
                     ...state.gameState,
+                    gameOver: action.payload.game_over,
+                    winnerId: action.payload.winner,
                     isEnoughPlayer: action.payload.is_enough_player,
                     isMyRoom: action.payload.is_player,
                     gameName: action.payload.room_data.game.name,
@@ -137,6 +141,8 @@ export const battleshipReducer = (state = getInitState(), action) =>  {
                     player2: player2
                 }
             }
+
+            console.log(newState)
 
             return newState
         default:

@@ -1,7 +1,7 @@
 import request, {
     requestStatus
 } from '../../utilities/http'
-import battleshipConstants, {MessageEvent} from './constants'
+import battleshipConstants, {MessageEvent, BoardState} from './constants'
 
 import {
     notifierActions
@@ -173,7 +173,6 @@ export const battleshipActions = {
 
 
     updateGameState: (gameState) => dispatch => {
-        console.log(gameState)
         dispatch({
             type: battleshipConstants.UPDATE_GAME_STATE,
             payload: gameState
@@ -185,21 +184,33 @@ export const battleshipActions = {
     fire: (x, y) => {
         return (dispatch, getState, socket) => {
 
-            dispatch({
-                type: 'PLAY_SOUND',
-                meta: {
-                    sound: {
-                        play :'missed'
-                    }
-                }
-            })
-            
-            socket.gameRoom.emit('request_command', {"command": {
-                "name": "shoot",
-                "x": x,
-                "y": y
-            }}) 
+            let data = getState().battleshipReducer.gameState.player1.data;
 
+            // Fire if the cell is hidden
+            // if (data[y][x] == BoardState.HIDDEN) {
+                socket.gameRoom.emit('request_command', {"command": {
+                    "name": "shoot",
+                    "x": x,
+                    "y": y
+                }})
+
+                setTimeout(() => {
+                    socket.gameRoom.emit('request_command', {"command": {
+                        "name": "request_update"
+                    }})
+                }, 500)
+                
+
+                dispatch({
+                    type: 'PLAY_SOUND',
+                    meta: {
+                        sound: {
+                            play :'fire'
+                        }
+                    }
+                })
+            // }
+            
             console.log({"command": {
                 "name": "shoot",
                 "x": x,

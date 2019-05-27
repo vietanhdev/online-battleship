@@ -53,7 +53,7 @@ const soundsData = {
     click: require('../components/games/battle_ship/sounds/click.ogg'),
     gameStarted: require('../components/games/battle_ship/sounds/game_started.ogg'),
     lose: require('../components/games/battle_ship/sounds/lose.ogg'),
-    missed: require('../components/games/battle_ship/sounds/missed.ogg'),
+    fire: require('../components/games/battle_ship/sounds/missed.ogg'),
     win: require('../components/games/battle_ship/sounds/win.ogg'),
     wounded: require('../components/games/battle_ship/sounds/wounded.ogg'),
   
