@@ -99,7 +99,7 @@ export class BattleShipGame extends Component {
         const maxNumberOfShips = gameState.maxNumberOfShips;
         let ships = gameState.player1.ships;
         const gameOver = this.props.gameState.gameOver;
-        const winner = this.props.winnerId === player1.playerPublicId ? player1 : player2; // Only use if game Over
+        const winner = this.props.gameState.winnerId === player1.playerPublicId ? player1 : player2; // Only use if game Over
 
         const showArrangementScreen = gameState.isMyRoom && !player1.shipsReady; // Show arrangment or not. Only show it if this is user's room and ships have not been arranged
 
