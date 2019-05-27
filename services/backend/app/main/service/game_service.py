@@ -9,8 +9,6 @@ from app.main.model.room_user import RoomUser
 
 from .battleship_service import save_new_player_battleship
 
-from . import battleship_service
-
 
 def get_all_rooms(offset, limit):
     if offset.isdigit() and limit.isdigit():
@@ -93,12 +91,6 @@ def save_new_player(room, user):
     room.users.append(a)
     save_changes()
     save_new_player_battleship(user, room)
-
-
-def save_winner(room, user):
-    room_user = RoomUser.query.filter_by(room_id=room.id, user_id=user.id).first()
-    room_user.is_win = True
-    save_changes()
 
 
 def check_player_or_viewer(room, user):

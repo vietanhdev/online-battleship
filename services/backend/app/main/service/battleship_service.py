@@ -1,8 +1,11 @@
 from app.main import db
 import json
 from .user_service import get_a_user_by_id
-from .game_service import save_winner
 
+def save_winner(room, user):
+    room_user = RoomUser.query.filter_by(room_id=room.id, user_id=user.id).first()
+    room_user.is_win = True
+    save_changes()
 
 def save_new_player_battleship(user, room):
     history = json.loads(room.history)
