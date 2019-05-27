@@ -27,6 +27,10 @@ const getInitState = () => {
             gameName: "BattleShip",
             roomId: "",
             isMyTurn: false,
+            turn: {
+                fullname: "",
+                playerPublicId: ""
+            },
             player1: {
                 fullname: "",
                 playerPublicId: "", 
@@ -90,6 +94,7 @@ export const battleshipReducer = (state = getInitState(), action) =>  {
             let player1 = getInitState().gameState.player1;
             let player2 = getInitState().gameState.player2;
             let players = action.payload.room_data.players;
+            let turn = {};
             for (let i = 0; i < boards.length; ++i) {
                 let board = boards[i];
                 let userId = board.user_public_id;
@@ -126,6 +131,16 @@ export const battleshipReducer = (state = getInitState(), action) =>  {
                 }
             }
 
+            for (let j = 0; j < players.length; ++j) {
+                if (players[j].public_id === action.payload.turn) {
+                    turn = {
+                        fullname: players[j].username,
+                        playerPublicId: players[j].public_id,
+                    }
+                }
+            }
+
+
             newState = {...state, 
                 myPublicId: myId,
                 gameState: {
@@ -137,6 +152,7 @@ export const battleshipReducer = (state = getInitState(), action) =>  {
                     gameName: action.payload.room_data.game.name,
                     roomId: action.payload.room_data.room_public_id,
                     isMyTurn: action.payload.turn === myId,
+                    turn: turn,
                     player1: player1,
                     player2: player2
                 }

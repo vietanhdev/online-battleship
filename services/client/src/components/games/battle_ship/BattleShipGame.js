@@ -111,13 +111,15 @@ export class BattleShipGame extends Component {
 
         let notification = "";
         if (gameOver) {
-            notification = "Game Over! Winner: " + winner.fullname;
+            notification = "Game Over! Winner: Captain " + winner.fullname;
         } else if (showArrangementScreen) {
             notification = "Place your fleet on the field";
         } else if (!gameState.isEnoughPlayer) {
             notification = "Waiting for your component...";
         } else if (!player2.shipsReady) {
             notification = "Waiting for your component to arrange fleets";
+        } else {
+            notification = "This turn: Captain " + gameState.turn.fullname;
         }
 
         return (

@@ -104,6 +104,12 @@ export const battleshipActions = {
             "ships": shipsForServer
         }})
 
+        setTimeout(() => {
+            socket.gameRoom.emit('request_command', {"command": {
+                "name": "request_update"
+            }})
+        }, 500)
+
     },
 
 
