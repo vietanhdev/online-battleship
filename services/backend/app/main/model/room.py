@@ -72,14 +72,14 @@ class Room(db.Model):
                 return True
         return False
 
-    def is_winner(self, user):
+    def get_winner_id(self):
         room_users = self.users
         for room_user in room_users:
             player = room_user.user
             is_win = room_user.is_win
-            if user == player and is_win:
-                return True
-        return False
+            if is_win:
+                return player.public_id
+        return ''
 
     def get_rival(self, user):
         room_users = self.users

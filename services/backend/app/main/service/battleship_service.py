@@ -82,7 +82,6 @@ def get_data(user, room):
     data = {}
     data['is_enough_player'] = room.is_enough_players()
     data['is_player'] = room.check_exist_player(user)
-    data['is_winner'] = room.is_winner(user)
     history = json.loads(room.history)
     hist = history.get('hist') 
     turn = history.get('turn')
@@ -112,8 +111,9 @@ def get_data(user, room):
     data['my_public_id'] = user.public_id
     data['boards'] = boards
     if turn is None:
-        data['turn'] = None
+        data['turn'] = ''
         data['game_over'] = True
+        data['winner'] = room.get_winner_id()
     else:
         turn_user = get_a_user_by_id(turn)
         data['turn'] = turn_user.public_id
