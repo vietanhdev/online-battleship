@@ -226,7 +226,7 @@ def get_all_followings(user):
     if list_association is not None:
         for association in list_association:
             following_id = association.user_id
-            following = get_a_following_by_id(following_id)
+            following = get_a_user_by_id(following_id)
             if following is not None:
                 infor_following = following.get_user_information()
                 infor_following['is_friend'] = check_friend(following, user)
