@@ -22,7 +22,7 @@ export const userActions = {
             notifierActions.showError(error);
         })
     },
-    login: (email, password, history)  => dispatch => {
+    login: (email, password, history)  => (dispatch, getState) => {
         request.post('/auth',
             {
                 "email": email,
@@ -34,11 +34,15 @@ export const userActions = {
 
             let user = {
                 fullname: response.data["data"]["username"],
-                bio: response.data["data"]["bio"],
+                bio: response.data["data"]["bio"] || "",
                 email: response.data["data"]["email"],
                 token:  response.data["data"]["token"],
-                public_id: response.data["data"]["public_id"]
+                public_id: response.data["data"]["public_id"],
+                isLoggedIn: true
             }
+
+            // Save info in session storage
+            localStorage.setItem("user", JSON.stringify(user));
 
             dispatch({
                 type: userConstants.LOGIN_SUCCESS,
@@ -81,7 +85,7 @@ export const userActions = {
         notifierActions.dismissAlert();
         notifierActions.showMessage("Successfully logged out! Please login again to continue.");
     },
-    update: (user)  => dispatch => {
+    update: (user)  => (dispatch, getState) => {
         if (user.new_password === "" || user.old_password === "") {
             delete user.new_password;
             delete user.old_password;
@@ -95,6 +99,13 @@ export const userActions = {
 
             notifierActions.dismissAlert();
             notifierActions.showMessage("Successfully updated user profile!");
+
+            // Save info in session storage
+            let newUserInfo = Object.assign({}, getState().userReducer);
+            newUserInfo.fullname = user.fullname;
+            newUserInfo.bio = user.bio || "";
+            newUserInfo.email = user.email;
+            localStorage.setItem("user", JSON.stringify(newUserInfo));
 
             dispatch({
                 type: userConstants.UPDATE_SUCCESS,
