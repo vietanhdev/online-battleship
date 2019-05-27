@@ -17,7 +17,14 @@ export const battleshipActions = {
         socket.gameRoom.emit('request_login', {
             'authorization': getState().userReducer.token,
             'room_public_id': roomId
-        }) 
+        })
+
+        // Request to get game data after login
+        setTimeout(() => {
+            socket.gameRoom.emit('request_command', {"command": {
+                "name": "request_update"
+            }})
+        }, 500)
     },
 
     // Select ship size in UI
