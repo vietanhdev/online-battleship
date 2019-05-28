@@ -123,7 +123,7 @@ export class Games extends Component {
                 </Card>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col md="12">
                 <Card small className="mb-4">
                   <CardHeader className="border-bottom">
@@ -151,7 +151,7 @@ export class Games extends Component {
                   </CardBody>
                 </Card>
               </Col>
-            </Row>
+            </Row> */}
           </Col>
           <Col md="3">
             <Friends></Friends>
