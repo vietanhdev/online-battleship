@@ -112,9 +112,9 @@ export class BattleShipGame extends Component {
         } else if (showArrangementScreen) {
             notification = "Place your fleet on the field";
         } else if (!gameState.isEnoughPlayer) {
-            notification = "Waiting for your component...";
+            notification = "Waiting for your opponent...";
         } else if (!player2.shipsReady) {
-            notification = "Waiting for your component to arrange fleets";
+            notification = "Waiting for your opponent to arrange fleets";
         } else {
             notification = "This turn: Captain " + gameState.turn.fullname;
         }
