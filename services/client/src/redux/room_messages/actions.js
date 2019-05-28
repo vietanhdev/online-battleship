@@ -47,7 +47,7 @@ export const messageActions = {
 
     sendMessage: (roomId, content) => (dispatch, getState, socket) => {
         let msgContent =  {
-            'content': content
+            'content': getState().userReducer.fullname + ": " + content
           };
           socket.gameRoomMessage.emit("send_message", msgContent);
     },
