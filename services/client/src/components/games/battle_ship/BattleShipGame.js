@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Card, CardHeader, CardBody, Button, Container, Row, Col } from "shards-react";
+import { Card, CardHeader, CardBody, Button, Container, Row, Col, InputGroup, InputGroupAddon, InputGroupText, FormInput} from "shards-react";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 import Images from './Images'
-
 import {ShipSize, BoardState} from '../../../redux/battleship/constants'
-
 import './styles.scss'
 import { battleshipActions } from '../../../redux/battleship';
-
 import { withRouter } from "react-router";
-
 import Utilities from '../../../redux/battleship/utilities'
 
 export class BattleShipGame extends Component {
@@ -128,6 +125,22 @@ export class BattleShipGame extends Component {
                         <CardHeader className="border-bottom">
                             <h4 className="text-center">BattleShip</h4>
                             <h5 className="text-center">Captain [{player1.fullname}] <span style={{fontWeight: "bold"}}><img alt="VS" style={{width: "2rem", height: "2rem"}} src={Images.VS}></img></span> Captain [{player2.fullname !== "" ? player2.fullname : "  . . . "}]</h5>
+                        
+                            <div style={{display: (gameState.isMyRoom && !gameState.isEnoughPlayer) ? "block" : "none"}}>
+                                <p className="text-center" style={{marginBottom: "0"}}>Copy below link and send to your friend to invite them to this game.</p>
+                                <InputGroup>
+                                    <InputGroupAddon type="prepend">
+                                    <InputGroupText>Link to this game</InputGroupText>
+                                    </InputGroupAddon>
+                                    <FormInput placeholder="Link to this game" readOnly value={window.location.href} ref={(FormInput) => this.gameLink = FormInput}/>
+                                    <InputGroupAddon type="append">
+                                    <CopyToClipboard text={window.location.href}>
+                                        <Button theme="secondary">Copy</Button>
+                                    </CopyToClipboard>
+                                    </InputGroupAddon>
+                                </InputGroup>
+                            </div>
+
                         </CardHeader>
                         <CardBody className="p-0 pb-3">
                         <div className="battleship_game_wrapper">

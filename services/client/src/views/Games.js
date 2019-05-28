@@ -103,7 +103,6 @@ export class Games extends Component {
                                   break;
                               }
                             }
-                            
 
                             return (
                             <tr key={index}>
