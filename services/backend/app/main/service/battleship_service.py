@@ -1,6 +1,7 @@
 from app.main import db
 import json
 from .user_service import get_a_user_by_id
+from app.main.model.room_user import RoomUser
 
 def save_winner(room, user):
     room_user = RoomUser.query.filter_by(room_id=room.id, user_id=user.id).first()
