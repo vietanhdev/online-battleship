@@ -1,4 +1,3 @@
-
 import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import Friends from "../components/friends/Friends"
@@ -6,6 +5,7 @@ import Friends from "../components/friends/Friends"
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from "react-router";
+import { Link } from 'react-router-dom'
 
 import { gameActions } from '../redux/games/actions'
 import { appActions } from '../redux/app/actions'
@@ -67,6 +67,9 @@ export class Games extends Component {
                             Created time
                           </th>
                           <th scope="col" className="border-0">
+                            Status
+                          </th>
+                          <th scope="col" className="border-0">
                             Action
                           </th>
                         </tr>
@@ -109,7 +112,8 @@ export class Games extends Component {
                               <td>{numOfPlayers}</td>
                               <td>{creator.fullname}</td>
                               <td>{createdTime}</td>
-                              <td><Button theme="success" size="sm">Join</Button></td>
+                              <td>{room.finished ? "Finished" : (room.enough_players ? "Playing" : "Waiting")}</td>
+                              <td><Link to={"/games/" + room.game.public_id + "/" + room.room_public_id}><Button theme="success" size="sm">{room.enough_players ? "View" : "Join"}</Button></Link></td>
                             </tr>)
                           })
                         }
@@ -131,13 +135,13 @@ export class Games extends Component {
                         <li style={{listStyle: "none", marginLeft: "2rem"}} key={id}>
 
                           <div className="mb-3">
-                                      <img
-                                        className="rounded-circle"
-                                        src={require('../images/battleship.svg')}
-                                        alt={game.name}
-                                        width="55"
-                                      />
-                                    </div>
+                              <img
+                                className="rounded-circle"
+                                src={require('../images/battleship.svg')}
+                                alt={game.name}
+                                width="55"
+                              />
+                            </div>
                         
                           {game.name}
                         
