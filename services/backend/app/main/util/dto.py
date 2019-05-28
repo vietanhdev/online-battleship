@@ -54,14 +54,3 @@ class GameDto:
 
 class FileDto:
     api = Namespace('file', description="file related operation")
-
-# class ApiDto:
-#     def __init__(self, status, message=None, data=None):
-#         if status == True:
-#             self.status = 'success'
-#         else:
-#             self.status = 'fail'
-#         if message != None:
-#             self.message = message
-#         if data != None:
-#             self.data = data

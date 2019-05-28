@@ -7,7 +7,6 @@ from .main.controller.auth_controller import api as auth_ns
 from .main.controller.message_controller import api as message_ns
 from .main.controller.game_controller import api as game_ns
 from .main.controller.socket_controller import *
-# from .main.controller.file_controller import api as file_ns
 
 
 blueprint = Blueprint('api', __name__)
@@ -22,4 +21,3 @@ api.add_namespace(user_ns, path='/api/users')
 api.add_namespace(auth_ns, path='/api/auth')
 api.add_namespace(message_ns, path='/api/messages')
 api.add_namespace(game_ns, path='/api/games')
-# api.add_namespace(file_ns, path='/api/files')
