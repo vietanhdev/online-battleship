@@ -39,6 +39,9 @@ class AuthDto:
 
 class MessageDto:
     api = Namespace('message', description='messages related operation')
+    send_game_req = api.model('send game request', {
+        'invitation_link': fields.String(required=True, description='link game request')
+    })
 
 
 class GameDto:
