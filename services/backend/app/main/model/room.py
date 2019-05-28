@@ -42,7 +42,7 @@ class Room(db.Model):
             data['players'].append(user_infor)
 
         data['finished'] = end_game
-        data['is_enough_players'] = self.is_enough_players()
+        data['enough_players'] = self.is_enough_players()
         return data
     
     def get_dict_id(self):
