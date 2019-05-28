@@ -184,8 +184,22 @@ export const battleshipActions = {
         }
     },
 
+    // Update game state
+    updateGameState: (gameState) => (dispatch, getState) => {
 
-    updateGameState: (gameState) => dispatch => {
+        // Play sound on game over
+        let currentGameState = getState().battleshipReducer;
+        if (gameState.game_over && !currentGameState.gameState.gameOver){
+            dispatch({
+                type: 'PLAY_SOUND',
+                meta: {
+                    sound: {
+                        play :'win'
+                    }
+                }
+            })
+        }
+
         dispatch({
             type: battleshipConstants.UPDATE_GAME_STATE,
             payload: gameState
