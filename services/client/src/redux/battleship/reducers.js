@@ -117,20 +117,31 @@ export const battleshipReducer = (state = getInitState(), action) =>  {
                     });
                 }
 
-                let data = {
-                    fullname: playerInfo.username,
-                    playerPublicId: playerInfo.public_id, 
-                    data: board.board,
-                    ships: ships,
-                    shipsReady: board.ships_ready
-                }
-                if (board.user_public_id === myId) {
-                    player1 = data;
+                if (board.user_public_id === myId || (board.user_public_id !== myId && i == 0)) {
+
+                    // Only update ships of player 1 when the shipsReady changed from false to true.
+                    // This prevent the board from reseting when player 2 finishes the arrangement before player 1
+                    let updatedArrangement = board.ships_ready && !state.gameState.player1.shipsReady;
+                    player1 = {
+                        fullname: playerInfo.username,
+                        playerPublicId: playerInfo.public_id, 
+                        data: board.board,
+                        ships: updatedArrangement ? ships : state.gameState.player1.ships,
+                        shipsReady: board.ships_ready
+                    };
+                    
                 } else {
-                    player2 = data;
+                    player2 = {
+                        fullname: playerInfo.username,
+                        playerPublicId: playerInfo.public_id, 
+                        data: board.board,
+                        ships: ships,
+                        shipsReady: board.ships_ready
+                    };
                 }
             }
 
+            // The player playing this turn
             for (let j = 0; j < players.length; ++j) {
                 if (players[j].public_id === action.payload.turn) {
                     turn = {
