@@ -4,7 +4,7 @@ from flask_restplus import Resource
 from ..util.dto import GameDto
 from ..util.decorator import admin_token_required, token_required
 
-from ..service.game_service import get_all_rooms, save_new_room, get_all_games, get_a_room, save_new_player
+from ..service.game_service import get_all_rooms, save_new_room, get_all_games, get_a_room, save_new_player, get_ranking_list
 
 from flask_socketio import send, emit
 from .. import socketio
@@ -23,11 +23,33 @@ ol_parser.add_argument('limit', type=int,
                     location='args',
                     help='limit')
 
+rank_parser = api.parser()
+rank_parser.add_argument('delta', type=int,
+                    location='args',
+                    help='from delta')
+rank_parser.add_argument('top', type=int,
+                    location='args',
+                    help='from top')
+
+
 auth_parser = api.parser()
 auth_parser.add_argument('Authorization', type=str,
                     location='headers',
                     help='Bearer Access Token',
                     required=True)
+
+
+
+@api.route('/rankings')
+class Rank(Resource):
+    @api.doc('get ranking', parser=rank_parser, validate=True)
+    def get(self):
+        """Get ranking list"""
+        # Get arguments
+        delta = request.args.get('delta') or '0'
+        top = request.args.get('top') or '0'
+        
+        return get_ranking_list(delta, top)
 
 
 @api.route('/rooms')
@@ -59,7 +81,12 @@ class RoomWithId(Resource):
         user = g.user
         room = get_a_room(room_public_id)
         if not room:
-            api.abort(404)
+            # api.abort(404)
+            response_object = {
+                'status': 'fail',
+                'message': 'page not found'
+            }
+            return response_object, 404
         else:
             # Add user until game room have enough players
             joined = False

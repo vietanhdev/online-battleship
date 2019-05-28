@@ -65,7 +65,12 @@ class MessageList(Resource):
         elif room is not None:
             return get_room_messages(public_id, offset, limit)
         else:
-            api.abort(404)
+            # api.abort(404)
+            response_object = {
+                'status': 'fail',
+                'message': 'page not found'
+            }
+            return response_object, 404
 
 
 @api.route('/invitations/<public_id>')
@@ -85,7 +90,12 @@ class Invitations(Resource):
         if partner is not None:
             return send_invitation(user, partner, invitation_link)
         else:
-            api.abort(404)
+            # api.abort(404)
+            response_object = {
+                'status': 'fail',
+                'message': 'page not found'
+            }
+            return response_object, 404
 
 
 @api.route('/test', '/test/')
