@@ -91,6 +91,7 @@ export const battleshipReducer = (state = getInitState(), action) =>  {
             // ========== Parse data from server response ==========
             let myId = action.payload.my_public_id;
             let boards = action.payload.boards;
+            let amIPlayer = action.payload.is_player;
             let player1 = getInitState().gameState.player1;
             let player2 = getInitState().gameState.player2;
             let players = action.payload.room_data.players;
@@ -117,7 +118,10 @@ export const battleshipReducer = (state = getInitState(), action) =>  {
                     });
                 }
 
-                if (board.user_public_id === myId || (board.user_public_id !== myId && i == 0)) {
+
+                // If I am a player, I am the player1, otherwise player with i = 0 will be assigned as player1
+                let isPlayer1 = board.user_public_id === myId || (!amIPlayer && i === 0);
+                if ( isPlayer1 ) {
 
                     // Only update ships of player 1 when the shipsReady changed from false to true.
                     // This prevent the board from reseting when player 2 finishes the arrangement before player 1
