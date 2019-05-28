@@ -26,8 +26,6 @@ export const friendReducer = (state = initState, action) =>  {
                 action.payload[i].fullname = action.payload[i].username;
             }
 
-            console.log(action.payload)
-
             return {...state, followers: action.payload}
         default:
             return state
