@@ -34,3 +34,5 @@ See ```OnlineGames.postman_collection.json``` for ```Postman``` API examples.
 - Sample project get from [this article](https://medium.freecodecamp.org/structuring-a-flask-restplus-web-service-for-production-builds-c2ec676de563), [github link](https://github.com/cosmic-byte/flask-restplus-boilerplate)
 
 - Game assets from: https://opengameart.org/content/sea-warfare-set-ships-and-more
+
+- <div>Icons made by <a href="https://www.flaticon.com/authors/vitaly-gorbachev" title="Vitaly Gorbachev">Vitaly Gorbachev</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>

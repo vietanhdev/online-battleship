@@ -127,7 +127,7 @@ export class BattleShipGame extends Component {
             <Card small className="mb-4">
                         <CardHeader className="border-bottom">
                             <h4 className="text-center">BattleShip</h4>
-                            <h5 className="text-center">Captain [{player1.fullname}] <span style={{fontWeight: "bold"}}>VS.</span> Captain [{player2.fullname !== "" ? player2.fullname : "  . . . "}]</h5>
+                            <h5 className="text-center">Captain [{player1.fullname}] <span style={{fontWeight: "bold"}}><img alt="VS" style={{width: "2rem", height: "2rem"}} src={Images.VS}></img></span> Captain [{player2.fullname !== "" ? player2.fullname : "  . . . "}]</h5>
                         </CardHeader>
                         <CardBody className="p-0 pb-3">
                         <div className="battleship_game_wrapper">
