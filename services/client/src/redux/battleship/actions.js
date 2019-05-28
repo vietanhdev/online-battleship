@@ -65,8 +65,15 @@ export const battleshipActions = {
         }
 
         // Check ship collision
-        let coverageBoard = Utilities.createCoverageBoard(boardWidth, boardheight, ships);
-        if (coverageBoard[x][y]) {
+        let newShip = {
+            x: x,
+            y: y,
+            vertical: shipVertical,
+            size: selectedShipSize
+        };
+
+        
+        if (Utilities.checkShipCollision(boardWidth, boardheight, ships, newShip)) {
             notifierActions.showError("We cannot put other ship here.");
             return;
         }
@@ -74,12 +81,7 @@ export const battleshipActions = {
         // Add ship to the board
         dispatch({
             type: battleshipConstants.ADD_SHIP,
-            payload: {
-                x: x,
-                y: y,
-                vertical: shipVertical,
-                size: selectedShipSize
-            }
+            payload: newShip
         });
 
     },

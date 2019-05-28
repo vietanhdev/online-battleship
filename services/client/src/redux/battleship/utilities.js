@@ -53,10 +53,45 @@ const Utilities = {
             }
         }
 
-        console.log(board)
-
         return board;
+    },
+
+    // Board collision
+    // Return true if 2 coverage board have common point with value true
+    checkCoverageBoardCollision: (board1, board2) => {
+
+        let board1Height = board1.length;
+        let board1Width = board1[0].length;
+        let board2Height = board2.length;
+        let board2Width = board2[0].length;
+
+        // Common area
+        let cols = Math.min(board1Width, board2Width);
+        let rows = Math.min(board1Height, board2Height);
+
+        for (let i = 0; i < rows; ++i) {
+            for (let j = 0; j < cols; ++j) {
+                if (board1[i][j] === true  && board2[i][j] === true) {
+                    return true;
+                }
+            }   
+        }
+
+        return false;
+    },
+
+
+    // Check ship collision.
+    // Use this to check if we can put a new ship in a board with other ships
+    // Return false if we can put the new ship into board
+    checkShipCollision: (boardWidth, boardheight, ships, newShip) => {
+
+        let coverageBoard = Utilities.createCoverageBoard(boardWidth, boardheight, ships);
+        let newShipCoverageBoard = Utilities.createCoverageBoard(boardWidth, boardheight, [newShip]);
+
+        return Utilities.checkCoverageBoardCollision(coverageBoard, newShipCoverageBoard)
     }
+
 }
 
 export default Utilities
