@@ -33,7 +33,7 @@ export class Friend extends Component {
                 Play
               </Button>
             </div>
-            <img alt="status" src={friend.online? online : offline} style={{position: "absolute", top: "1rem", right: "1rem"}}></img>
+            {/* <img alt="status" src={friend.online? online : offline} style={{position: "absolute", top: "1rem", right: "1rem"}}></img> */}
         </div>
     )
   }

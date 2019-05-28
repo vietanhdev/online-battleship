@@ -12,11 +12,11 @@ class Messages extends React.Component {
    
     render () {
 
-        const  { friends } = this.props;
+        const  { followings } = this.props;
         // Show message box of the first friend in friend list
         // If friend list is not empty
-        if (friends.length !== 0) {
-          this.props.history.push("/messages/" + friends[0].public_id);
+        if (followings.length !== 0) {
+          this.props.history.push("/messages/" + followings[0].public_id);
         }
 
         return (
@@ -49,7 +49,7 @@ class Messages extends React.Component {
 
 
 const mapStateToProps = (state) => ({
-  friends: state.friendReducer.friends
+  followings: state.friendReducer.followings
 })
 
 const mapDispatchToProps = {

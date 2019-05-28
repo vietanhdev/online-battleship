@@ -8,32 +8,30 @@ export const friendActions = {
     fetchFriendList: ()  => dispatch => {
         request.get('/users/followings')
         .then(function (response) {
-            let friends = response.data.data;
+            let followings = response.data.data;
+            if (followings === null) followings = []; 
             dispatch({
                 type: friendConstants.FETCH_FOLLOWINGS_SUCCESS,
-                payload: friends
+                payload: followings
             });
         })
         .catch(function (error) {
-            dispatch({
-                type: friendConstants.FETCH_FOLLOWINGS_FAIL,
-                payload: error
-            });
+            notifierActions.showError(error);
+            console.log(error);
         });
 
         request.get('/users/followers')
         .then(function (response) {
-            let friends = response.data.data;
+            let followers = response.data.data;
+            if (followers === null) followers = []; 
             dispatch({
                 type: friendConstants.FETCH_FOLLOWERS_SUCCESS,
-                payload: friends
+                payload: followers
             });
         })
         .catch(function (error) {
-            dispatch({
-                type: friendConstants.FETCH_FOLLOWERS_FAIL,
-                payload: error
-            });
+            notifierActions.showError(error);
+            console.log(error);
         })
     },
 
@@ -48,19 +46,10 @@ export const friendActions = {
                 type: friendConstants.FOLLOW_FRIENDS_SUCCESS,
                 payload: friends
             });
-            
             notifierActions.showInfo("Followed new friend.");
-
             dispatch(friendActions.fetchFriendList());
         })
         .catch((error) => {
-            dispatch({
-                type: friendConstants.FOLLOW_FRIENDS_FAIL,
-                payload: error
-            });
-
-            console.log(error);
-
             notifierActions.showError(error);
         })
     }
