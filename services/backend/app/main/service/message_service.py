@@ -6,6 +6,7 @@ from .user_service import get_a_user
 
 from sqlalchemy import or_, and_
 
+
 def get_list_chat_friends(user):
     set_chat_friends_public_id = set()
     
@@ -92,6 +93,15 @@ def save_new_message(sender_public_id, receiver_public_id, content):
     save_changes(new_message)
 
     return new_message
+
+
+def send_invitation(user, partner, link):
+    new_message = save_new_message(user.public_id, partner.public_id, link)
+    if new_message:
+        return {
+            'status': 'success',
+            'message': 'send invitation successfully'
+        }
 
 
 def save_changes(data=None):
