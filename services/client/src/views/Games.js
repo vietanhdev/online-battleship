@@ -44,7 +44,7 @@ export class Games extends Component {
                     <h6 className="m-0">Current Matches</h6>
                     <div style={{display: "flex", flexDirection: "row-reverse"}}>
                       <Button onClick={() => {this.props.createRoom("battle_ship", this.props.history)}} theme="accent" className="ml-2"><i className="material-icons">add_location</i> New Game</Button>
-                      <Button theme="accent" className="ml-2" outline><i className="material-icons">compare_arrows</i> Quick match</Button>
+                      {/* <Button theme="accent" className="ml-2" outline><i className="material-icons">compare_arrows</i> Quick match</Button> */}
                     </div>
                   </CardHeader>
                   <CardBody className="p-0 pb-3" style={{maxHeight: "25rem", overflow: "auto"}}>
