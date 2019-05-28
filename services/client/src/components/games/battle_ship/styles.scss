@@ -291,7 +291,8 @@
     cursor: default;
   }
   .game_grid-cell {
-    background: #75B4CC;
+    border: 2px solid #75B4CC;
+    background: #fff;
   }
   .game_grid-cell:hover {
     border: 2px solid red;
