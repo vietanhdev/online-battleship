@@ -28,6 +28,7 @@ export const gameActions = {
 
     },
 
+    // Create new game room
     createRoom: (gameId, history)  => dispatch => {
 
         // Show loading sreen first
@@ -41,6 +42,53 @@ export const gameActions = {
                 type: gameConstants.CREATE_GAME_ROOM_SUCCESS,
                 payload: room_public_id
             });
+
+            // Close loading screen
+            dispatch(appActions.closeLoadingScreen());
+
+            // Open playing page
+            history.push("/games/" + gameId + "/" + room_public_id)
+        })
+        .catch(function (error) {
+            notifierActions.showError("Creating new game failed: " + error);
+
+            // Close loading screen
+            dispatch(appActions.closeLoadingScreen());
+        })
+
+    },
+
+
+    // Send friend an invitation to game room
+    inviteFriend: (roomId, friendId)  => dispatch => {
+        // Invite friend using message
+        request.post('/messages/invitations/' + friendId, {invitation_link: window.location.protocol + "//" + window.location.hostname + "/games/battle_ship/" + roomId})
+        .then(function (response) {
+            
+        })
+        .catch(function (error) {
+            notifierActions.showError("Could not invite your friend: " + error);
+        })
+    },
+
+
+    // Create new game room and invite friend to that room
+    createRoomWithFriend: (gameId, friendId, history)  => dispatch => {
+
+        // Show loading sreen first
+        dispatch(appActions.openLoadingScreen());
+
+        // Create new room
+        request.post('/games/rooms', {game_public_id: gameId})
+        .then(function (response) {
+            let room_public_id = response.data.room_public_id;
+            dispatch({
+                type: gameConstants.CREATE_GAME_ROOM_SUCCESS,
+                payload: room_public_id
+            });
+
+            // Send invitation to friend
+            dispatch(gameActions.inviteFriend(room_public_id, friendId));
 
             // Close loading screen
             dispatch(appActions.closeLoadingScreen());

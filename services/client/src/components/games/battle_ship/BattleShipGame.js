@@ -33,7 +33,7 @@ export class BattleShipGame extends Component {
             // Put a ship in board
             this.props.putShip(x, y);
 
-        } else if (isMyTurn && board === 2) {
+        } else if (isMyTurn && gameState.player1.shipsReady && gameState.player1.shipsReady && board === 2) {
 
             // Fire
             this.props.fire(x, y);

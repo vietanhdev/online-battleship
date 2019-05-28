@@ -4,8 +4,10 @@ import { Button } from 'shards-react'
 
 import { withRouter } from "react-router";
 
-const online = require('../../images/friends/online.jpg')
-const offline = require('../../images/friends/offline.jpg')
+// const online = require('../../images/friends/online.jpg')
+// const offline = require('../../images/friends/offline.jpg')
+
+import {gameActions} from '../../redux/games/actions' 
 
 export class Friend extends Component {
 
@@ -29,7 +31,7 @@ export class Friend extends Component {
               <Button onClick={() => {history.push("/messages/" + friend.public_id)}} theme="light" size="sm" style={{ marginLeft: "0.1rem"}}>
                 <i className="material-icons">mail</i>
               </Button>
-              <Button theme="light" size="sm" style={{ marginLeft: "0.1rem"}}>
+              <Button theme="light" size="sm" style={{ marginLeft: "0.1rem"}} onClick={() => {this.props.createRoomWithFriend("battle_ship", friend.public_id, this.props.history)}}>
                 Play
               </Button>
             </div>
@@ -44,7 +46,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  
+  createRoomWithFriend: gameActions.createRoomWithFriend
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Friend))
