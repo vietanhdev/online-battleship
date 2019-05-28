@@ -41,7 +41,7 @@ class Room(db.Model):
             user_infor['winner'] = is_win
             data['players'].append(user_infor)
 
-        data['finnished'] = end_game
+        data['finished'] = end_game
         data['is_enough_players'] = self.is_enough_players()
         return data
     
