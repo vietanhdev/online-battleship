@@ -28,14 +28,14 @@ export class PlayGame extends Component {
         <img alt="Loading Icon" src={loading_icon}></img>
       </div>
       <Row>
-          <Col md="8">
+          <Col lg="8">
           <Row>
               <Col>
               <BattleShipGame room={this.props.match.params.room_id} history={this.props.history}></BattleShipGame>
               </Col>
           </Row>
           </Col>
-          <Col md="4">
+          <Col lg="4">
               <Messages></Messages>
           </Col>
       </Row>
