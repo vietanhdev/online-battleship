@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Card, CardHeader, CardBody, Button } from "shards-react";
+import { Card, CardHeader, CardBody, Button, Container, Row, Col } from "shards-react";
 
 import Images from './Images'
 
 import {ShipSize, BoardState} from '../../../redux/battleship/constants'
 
-import './files/styles.scss'
+import './styles.scss'
 import { battleshipActions } from '../../../redux/battleship';
 
 import { withRouter } from "react-router";
@@ -139,107 +139,100 @@ export class BattleShipGame extends Component {
                                 </header>
 
                                 <main className="game_wrapper">
+                                    
+                                    <Container fluid className="main-content-container px-4 mt-4">
+                                        <Row>
+                                            <Col lg="6">
+                                                <div className="game_field">
+                                                <p className="game_field-title">{gameState.isMyRoom ? "My fleets" : player1.fullname}</p>
 
-                                <div className="col">
-                                    <div className="game_field">
-                                    <p className="game_field-title">{gameState.isMyRoom ? "My fleets" : player1.fullname}</p>
+                                                <div className="game_grid game_grid-player">
+                                                    <div className="game_grid-row">
+                                                        <div className="game_grid-corner"></div>
+                                                        <div className="game_grid-nav">A</div>
+                                                        <div className="game_grid-nav">B</div>
+                                                        <div className="game_grid-nav">C</div>
+                                                        <div className="game_grid-nav">D</div>
+                                                        <div className="game_grid-nav">E</div>
+                                                        <div className="game_grid-nav">F</div>
+                                                        <div className="game_grid-nav">G</div>
+                                                        <div className="game_grid-nav">H</div>
+                                                        <div className="game_grid-nav">I</div>
+                                                        <div className="game_grid-nav">J</div>
+                                                    </div>
 
-                                    <div className="game_grid game_grid-player">
-                                        <div className="game_grid-row">
-                                            <div className="game_grid-corner"></div>
-                                            <div className="game_grid-nav">A</div>
-                                            <div className="game_grid-nav">B</div>
-                                            <div className="game_grid-nav">C</div>
-                                            <div className="game_grid-nav">D</div>
-                                            <div className="game_grid-nav">E</div>
-                                            <div className="game_grid-nav">F</div>
-                                            <div className="game_grid-nav">G</div>
-                                            <div className="game_grid-nav">H</div>
-                                            <div className="game_grid-nav">I</div>
-                                            <div className="game_grid-nav">J</div>
-                                        </div>
-
-                                        {this.createBoard(gameState.boardHeight, gameState.boardWidth, player1.data, player1.ships, 1)}
-                                
-                                    </div>
-                                    </div>
-                                </div>
-
-                                <div className="col">
-                                    <div className="game_field">
-                                        <p className="game_field-title">{showArrangementScreen ?  "Ship Arrangement" : ( gameState.isMyRoom ? "Opponent's fleets" : player2.fullname)}</p>
-                                        <div className={"game_grid game_grid-opponent " + (showArrangementScreen ? " hidden" : "")}>
-                                            <div className="game_grid-row">
-                                                <div className="game_grid-corner"></div>
-                                                <div className="game_grid-nav">A</div>
-                                                <div className="game_grid-nav">B</div>
-                                                <div className="game_grid-nav">C</div>
-                                                <div className="game_grid-nav">D</div>
-                                                <div className="game_grid-nav">E</div>
-                                                <div className="game_grid-nav">F</div>
-                                                <div className="game_grid-nav">G</div>
-                                                <div className="game_grid-nav">H</div>
-                                                <div className="game_grid-nav">I</div>
-                                                <div className="game_grid-nav">J</div>
-                                            </div>
-
-                                            {this.createBoard(gameState.boardHeight, gameState.boardWidth, player2.data, player2.ships, 2)}
+                                                    {this.createBoard(gameState.boardHeight, gameState.boardWidth, player1.data, player1.ships, 1)}
                                             
-                                        </div>
-                                        <div className={"prepare_field" + (this.props.shipArrangement.vertical ? " prepare_field--rotate" : "") + (showArrangementScreen ? "" : " hidden")}>
-
-                                            <div className="prepare_cell-wrapper">
-                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.SMALL ? " prepare_cell--active" : "") + (remainingSmallShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.SMALL)}}>
-                                                    <div className="prepare_cell-counter">x{remainingSmallShips}</div>
-                                                    <img src={Images.ship_1_player} alt=""
-                                                    className="prepare_cell-ship"></img>
                                                 </div>
-
-                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.MID ? " prepare_cell--active" : "") + (remainingMidShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.MID)}}>
-                                                    <div className="prepare_cell-counter">x{remainingMidShips}</div>
-                                                    <img src={Images.ship_2_player} alt=""
-                                                    className="prepare_cell-ship"></img>
                                                 </div>
+                                            </Col>
 
-                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.LARGE ? " prepare_cell--active" : "") + (remainingLargeShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.LARGE)}}>
-                                                <div className="prepare_cell-counter">x{remainingLargeShips}</div>
-                                                    <img src={Images.ship_3_player} alt="" className="prepare_cell-ship"></img>
+                                            <Col lg="6">
+                                                <div className="game_field">
+                                                    <p className="game_field-title">{showArrangementScreen ?  "Ship Arrangement" : ( gameState.isMyRoom ? "Opponent's fleets" : player2.fullname)}</p>
+                                                    <div className={"game_grid game_grid-opponent " + (showArrangementScreen ? " hidden" : "")}>
+                                                        <div className="game_grid-row">
+                                                            <div className="game_grid-corner"></div>
+                                                            <div className="game_grid-nav">A</div>
+                                                            <div className="game_grid-nav">B</div>
+                                                            <div className="game_grid-nav">C</div>
+                                                            <div className="game_grid-nav">D</div>
+                                                            <div className="game_grid-nav">E</div>
+                                                            <div className="game_grid-nav">F</div>
+                                                            <div className="game_grid-nav">G</div>
+                                                            <div className="game_grid-nav">H</div>
+                                                            <div className="game_grid-nav">I</div>
+                                                            <div className="game_grid-nav">J</div>
+                                                        </div>
+
+                                                        {this.createBoard(gameState.boardHeight, gameState.boardWidth, player2.data, player2.ships, 2)}
+                                                        
+                                                    </div>
+                                                    <div className={"prepare_field" + (this.props.shipArrangement.vertical ? " prepare_field--rotate" : "") + (showArrangementScreen ? "" : " hidden")}>
+
+                                                        <div className="prepare_cell-wrapper">
+                                                            <div className={"prepare_cell" + (selectShipSize === ShipSize.SMALL ? " prepare_cell--active" : "") + (remainingSmallShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.SMALL)}}>
+                                                                <div className="prepare_cell-counter">x{remainingSmallShips}</div>
+                                                                <img src={Images.ship_1_player} alt=""
+                                                                className="prepare_cell-ship"></img>
+                                                            </div>
+
+                                                            <div className={"prepare_cell" + (selectShipSize === ShipSize.MID ? " prepare_cell--active" : "") + (remainingMidShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.MID)}}>
+                                                                <div className="prepare_cell-counter">x{remainingMidShips}</div>
+                                                                <img src={Images.ship_2_player} alt=""
+                                                                className="prepare_cell-ship"></img>
+                                                            </div>
+
+                                                            <div className={"prepare_cell" + (selectShipSize === ShipSize.LARGE ? " prepare_cell--active" : "") + (remainingLargeShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.LARGE)}}>
+                                                            <div className="prepare_cell-counter">x{remainingLargeShips}</div>
+                                                                <img src={Images.ship_3_player} alt="" className="prepare_cell-ship"></img>
+                                                            </div>
+
+                                                            <div className={"prepare_cell" + (selectShipSize === ShipSize.GIANT ? " prepare_cell--active" : "") + (remainingGiantShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.GIANT)}}>
+                                                            <div className="prepare_cell-counter">x{remainingGiantShips}</div>
+                                                                <img src={Images.ship_4_player} alt=""
+                                                                className="prepare_cell-ship"></img>
+                                                            </div>
+
+                                                            <button className="prepare_field-rotate_btn" onClick={this.props.toggleShipRotate}></button>
+                                                        </div>
+
+                                                        <div className="prepare_overlay">
+                                                        <p className="prepare_overlay-text">You are completely ready to sea battle! Starting, Captain?</p>
+                                                        <p className="prepare_overlay-text--small">Or do you want to change arrangement of ships?</p>
+                                                        </div>
+
+                                                        <div className="prepare_field-buttons">
+                                                        <Button theme="warning" id="auto" onClick={this.props.clearArrangement}> Clear All </Button>
+                                                        <Button theme="danger"
+                                                            id="start" onClick={this.props.submitShips}>TO BATTLE!</Button>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
-
-                                                <div className={"prepare_cell" + (selectShipSize === ShipSize.GIANT ? " prepare_cell--active" : "") + (remainingGiantShips === 0 ? " prepare_cell--mute": "")} onClick={() => {this.props.selectShipSize(ShipSize.GIANT)}}>
-                                                <div className="prepare_cell-counter">x{remainingGiantShips}</div>
-                                                    <img src={Images.ship_4_player} alt=""
-                                                    className="prepare_cell-ship"></img>
-                                                </div>
-
-                                                <button className="prepare_field-rotate_btn" onClick={this.props.toggleShipRotate}></button>
-                                            </div>
-
-                                            <div className="prepare_overlay">
-                                            <p className="prepare_overlay-text">You are completely ready to sea battle! Starting, Captain?</p>
-                                            <p className="prepare_overlay-text--small">Or do you want to change arrangement of ships?</p>
-                                            </div>
-
-                                            <div className="prepare_field-buttons">
-                                            <Button theme="warning" id="auto" onClick={this.props.clearArrangement}> Clear All </Button>
-                                            <Button theme="danger"
-                                                id="start" onClick={this.props.submitShips}>TO BATTLE!</Button>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div className="overlay">
-                                    <div className="overlay-text">Do you really want to start a new game?
-                                    </div>
-                                    <div className="overlay-btn_wrap">
-                                    <button
-                                        className="btn btn-white overlay-btn overlay-btn--yes">Yes</button>
-                                    <button
-                                        className="btn btn-white overlay-btn overlay-btn--no">No</button>
-                                    </div>
-                                </div>
+                                            </Col>
+                                        </Row>
+                                    </Container>
 
                                 </main>
 

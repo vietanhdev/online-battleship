@@ -4,14 +4,13 @@
   display: flex;
   align-content: center;
   justify-content: center;
-  height: 30rem;
+  margin-bottom: 2rem;
 
   [hidden],
   .hidden {
     display: none !important;
   }
-  /* Reboot.end
-  ---------------------------------------------------*/
+
   /* Forms
   ---------------------------------------------------*/
   .input {
@@ -125,7 +124,7 @@
     display: flex;
     position: relative;
     width: 660px;
-    height: 600px;
+    // height: 600px;
     overflow: hidden;
   }
   .header {
@@ -210,7 +209,7 @@
     height: 25px;
     top: -12px;
     margin: 0 auto;
-    background: url("img/game_field-title.svg") center no-repeat;
+    background: url("images/game_field-title.svg") center no-repeat;
     line-height: 25px;
     font-weight: 700;
     font-size: 13px;
@@ -251,7 +250,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url("img/aim.png") center no-repeat;
+    background: url("images/aim.png") center no-repeat;
     z-index: 20;
   }
   .game_grid-opponent .game_grid-cell--hover.game_grid-nav,
@@ -292,7 +291,7 @@
     cursor: default;
   }
   .game_grid-cell {
-    background: #00b6c6;
+    background: #75B4CC;
   }
   .game_grid-cell:hover {
     border: 2px solid red;
@@ -312,19 +311,19 @@
   }
   .ship-1:before {
     width: 24px;
-    background-image: url("img/ship-1--player.png");
+    background-image: url("images/ship-1--player.png");
   }
   .ship-2:before {
     width: 49px;
-    background-image: url("img/ship-2--player.png");
+    background-image: url("images/ship-2--player.png");
   }
   .ship-3:before {
     width: 74px;
-    background-image: url("img/ship-3--player.png");
+    background-image: url("images/ship-3--player.png");
   }
   .ship-4:before {
     width: 99px;
-    background-image: url("img/ship-4--player.png");
+    background-image: url("images/ship-4--player.png");
   }
   .ship-ver:before {
     -webkit-transform-origin: 12px 12px;
@@ -347,16 +346,16 @@
     background-color: #d09ca0;
   }
   .game_grid-opponent .ship-1:before {
-    background-image: url("img/ship-1--opponent.png");
+    background-image: url("images/ship-1--opponent.png");
   }
   .game_grid-opponent .ship-2:before {
-    background-image: url("img/ship-2--opponent.png");
+    background-image: url("images/ship-2--opponent.png");
   }
   .game_grid-opponent .ship-3:before {
-    background-image: url("img/ship-3--opponent.png");
+    background-image: url("images/ship-3--opponent.png");
   }
   .game_grid-opponent .ship-4:before {
-    background-image: url("img/ship-4--opponent.png");
+    background-image: url("images/ship-4--opponent.png");
   }
   .shot-mark:before {
     content: '';
@@ -387,17 +386,17 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url("img/shot-hit.png") center no-repeat;
+    background: url("images/shot-hit.png") center no-repeat;
     z-index: 20;
   }
   .game_grid-player .shot-miss:before {
-    background: url("img/shot-miss--opponent.png") center no-repeat;
+    background: url("images/shot-miss--opponent.png") center no-repeat;
   }
   .game_grid-opponent .shot-miss:before {
-    background: url("img/shot-miss--player.png") center no-repeat;
+    background: url("images/shot-miss--player.png") center no-repeat;
   }
   .game_grid-opponent .shot-hit:hover:after {
-    background: url("img/aim.png") center no-repeat, url("img/shot-hit.png") center no-repeat;
+    background: url("images/aim.png") center no-repeat, url("images/shot-hit.png") center no-repeat;
   }
   /*   game field.end */
   /*   prepare field */
@@ -417,7 +416,7 @@
     padding: 0;
     border: 2px solid #3a4552;
     border-radius: 50%;
-    background: url("img/rotate.svg") center no-repeat #d8d8d8;
+    background: url("images/rotate.svg") center no-repeat #d8d8d8;
     cursor: pointer;
     -webkit-transition: -webkit-transform 0.2s ease-in-out;
     transition: -webkit-transform 0.2s ease-in-out;
@@ -460,7 +459,7 @@
     padding-left: 46px;
     padding-right: 20px;
     margin-left: 5px;
-    background: url("img/btn-ship.png") 19px center no-repeat #76c47d;
+    background: url("images/btn-ship.png") 19px center no-repeat #76c47d;
   }
   .prepare_field--rotate .prepare_cell-ship {
     max-width: 80px;
