@@ -27,14 +27,22 @@ class Room(db.Model):
         data['game']['public_id'] = self.game.public_id
         data['players'] = []
         data['created_at'] = json.dumps(self.created_at, default = default)
+        end_game = False
+
         room_users = self.users
         for room_user in room_users:
             # print("id ", room_user.id)
             user = room_user.user
             user_infor = user.get_user_information()
             user_infor['creator'] = room_user.creator
-            user_infor['winner'] = room_user.is_win 
+            is_win = room_user.is_win
+            if is_win:
+                end_game = True
+            user_infor['winner'] = is_win
             data['players'].append(user_infor)
+
+        data['finnished'] = end_game
+        data['is_enough_players'] = room.is_enough_players()
         return data
     
     def get_dict_id(self):

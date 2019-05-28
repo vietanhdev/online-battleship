@@ -42,7 +42,7 @@ class MessageDto:
 
 
 class GameDto:
-    api = Namespace('game', description='game related operantion')
+    api = Namespace('game', description='game related operation')
     create_room_req = api.model('room', {
         'game_public_id': fields.String(required=True, description='game indentifier')
     })
@@ -50,6 +50,10 @@ class GameDto:
         'name': fields.String(requrired=True, description='name of game'),
         'num_players': fields.Integer(required=True, description='number of player for one game')
     })
+
+
+class FileDto:
+    api = Namespace('file', description="file related operation")
 
 # class ApiDto:
 #     def __init__(self, status, message=None, data=None):

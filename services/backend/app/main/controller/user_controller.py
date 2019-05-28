@@ -164,4 +164,3 @@ class FollowUser(Resource):
         if not user:
             abort(404, 'User ID not found!')
         return delete_follower(follower, user)
-        

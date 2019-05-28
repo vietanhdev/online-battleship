@@ -92,5 +92,3 @@ class Test(Resource):
     def get(self):
         headers = {'Content-Type': 'text/html'}
         return make_response(render_template('games.html'), 200, headers)
-
-
