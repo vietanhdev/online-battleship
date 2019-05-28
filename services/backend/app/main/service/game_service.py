@@ -1,5 +1,6 @@
 import uuid
 import datetime
+import time
 
 from app.main import db
 from app.main.model.user import User
@@ -8,6 +9,58 @@ from app.main.model.game import Game
 from app.main.model.room_user import RoomUser
 
 from .battleship_service import save_new_player_battleship
+
+
+def get_ranking_list(delta, top):
+    if delta.isdigit() and top.isdigit():
+        delta = int(delta)
+        top = int(top)
+        try:
+            datetime_object = datetime.datetime.fromtimestamp(time.time() - delta)
+        except:
+            response_object = {
+                'state': 'fail',
+                'message': 'delta of time not right'
+            }
+            return response_object, 400
+
+        rooms = Room.query.filter(Room.created_at >= datetime_object).all()
+        count_win = {}
+        count_total = {}
+        for room in rooms:
+            room_users =  RoomUser.query.filter_by(room_id=room.id).all()
+            for room_user in room_users:
+                user_id = room_user.user_id
+                is_win = room_user.is_win
+                if user_id not in count_win:
+                    count_win[user_id] = 0
+                    count_total[user_id] = 0
+                elif is_win:
+                    count_win[user_id] = count_win[user_id] + 1
+                    count_total[user_id] = count_total[user_id] + 1
+                else:
+                    count_total[user_id] = count_total[user_id] + 1
+    
+        data = []
+        for user_id, num_win in sorted(count_win.items(), key=lambda kv: kv[1], reverse=True):
+            user = User.query.filter_by(id=user_id).first()
+            sub_data = user.get_user_information()
+            sub_data['num_win'] = count_win[user_id]
+            sub_data['num_total'] = count_total[user_id]
+            data.append(sub_data)
+
+        response_object = {
+            'data': data[:top]
+        }
+
+        return response_object, 200
+    
+
+    response_object = {
+        'status': 'fail',
+        'message': 'day, month, year and top must be a positive integer'
+    }
+    return response_object, 400 
 
 
 def get_all_rooms(offset, limit):
