@@ -60,14 +60,10 @@ services:
     volumes:
       - './services/client:/usr/src/app'
       - '/usr/src/app/node_modules'
-    expose:
-      - 80
     environment:
       - NODE_ENV=development
     depends_on:
       - backend
-    networks:
-      - igz
 
   nginx:
     image: vietanhdev/ict-gaming-zone-nginx
@@ -75,8 +71,6 @@ services:
       context: ./services/nginx
       dockerfile: Dockerfile-prod
     restart: always
-    ports:
-      - 80:80
     depends_on:
       - backend
       - client
