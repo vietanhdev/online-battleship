@@ -71,6 +71,8 @@ services:
       context: ./services/nginx
       dockerfile: Dockerfile-prod
     restart: always
+    expose:
+      80
     depends_on:
       - backend
       - client
