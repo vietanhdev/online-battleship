@@ -91,6 +91,7 @@ if os.getenv('RECREATE_DB') == "true":
     recreate_db()
 
 # Init battleship game and admin account
+db.create_all()
 init_db()
 
 
