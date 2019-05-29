@@ -222,8 +222,6 @@ def newCommand(request_object):
 						'status': 'fail',
 						'message': 'Please check your command'
 					}
-				else:
-					emit('users_in_room', response_object, room=room.public_id, namespace='/rooms')
 
 				list_users = get_list_users_in_room(room)
 				for user in list_users:
