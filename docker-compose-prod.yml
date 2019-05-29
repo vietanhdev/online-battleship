@@ -3,6 +3,7 @@ version: '3.7'
 services:
 
   backend:
+    image: vietanhdev/ict-gaming-zone-backend
     restart: always
     build:
       context: ./services/backend
@@ -51,6 +52,7 @@ services:
       - igz
 
   client:
+    image: vietanhdev/ict-gaming-zone-client
     restart: always
     build:
       context: ./services/client
@@ -68,6 +70,7 @@ services:
       - igz
 
   nginx:
+    image: vietanhdev/ict-gaming-zone-nginx
     build:
       context: ./services/nginx
       dockerfile: Dockerfile-prod
