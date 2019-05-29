@@ -42,6 +42,17 @@ class Messages extends React.Component {
 
     render () {
 
+      let usersInRoom = this.props.usersInRoom;
+      let listUsersInRoom = "";
+
+      switch (usersInRoom.length) {
+        case 0: break;
+        case 1: listUsersInRoom = usersInRoom[0].fullname + " is in room."; break;
+        case 2: listUsersInRoom = usersInRoom[0].fullname + " and " + usersInRoom[1].fullname + " are in room."; break 
+        case 3: listUsersInRoom = usersInRoom[0].fullname + " and " + usersInRoom[1].fullname + " and 1 other person are in room."; break;
+        default: listUsersInRoom = usersInRoom[0].fullname + " and " + usersInRoom[1].fullname + " and " + (usersInRoom.length - 2) + " others are in room."; break;
+      }
+
       return (
 
           <Card small className="mb-4">
@@ -52,7 +63,7 @@ class Messages extends React.Component {
               <div className="app__content">
                   <div className="message_window">
                       <MessageList user_id={this.props.user.public_id} messages={this.props.messages}/>
-                      <Input sendMessage={this.sendNewMessage.bind(this)}/>
+                      <Input usersInRoom={listUsersInRoom}/>
                   </div>
               </div>
               </CardBody>
@@ -66,7 +77,8 @@ class Messages extends React.Component {
 const mapStateToProps = (state) => ({
   user: state.userReducer,
   friends: state.friendReducer.friends,
-  messages: state.roomMessageReducer.messages
+  messages: state.roomMessageReducer.messages,
+  usersInRoom: state.roomMessageReducer.users
 })
 
 const mapDispatchToProps = {

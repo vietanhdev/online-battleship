@@ -1,7 +1,8 @@
 import messageConstants from './constants'
 
 const initState = {
-    messages: []
+    messages: [],
+    users: []
 }
 
 export const roomMessageReducer = (state = initState, action) =>  {
@@ -12,6 +13,8 @@ export const roomMessageReducer = (state = initState, action) =>  {
             return {...state, messages: action.payload}
         case messageConstants.PUSH_NEW_MESSAGE:
             return {...state, messages: [...state.messages, action.payload]}
+        case messageConstants.UPDATE_USERS_IN_ROOM:
+                return {...state, users: action.payload}
         default:
             return state
     }

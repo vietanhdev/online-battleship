@@ -40,8 +40,31 @@ export const messageActions = {
                 dispatch(messageActions.pushNewMessage(message));
             });
 
+
+            // Users in room
+            socket.gameRoomMessage.on('users_in_room', (data) => {
+                let usersInRoom = data.users_in_room;
+                dispatch(messageActions.updateUsersInRoom(usersInRoom));
+            });
+
+
             dispatch(messageActions.login(roomId));
         }
+    },
+
+
+    // Update list of users in room
+    updateUsersInRoom: (usersInRoom) => (dispatch, getState, socket) => {
+
+        // Change username => fullname
+        for (let i = 0; i < usersInRoom.length; ++i) {
+            usersInRoom[i].fullname = usersInRoom[i].username;
+        }
+
+        dispatch({
+            type: messageConstants.UPDATE_USERS_IN_ROOM,
+            payload: usersInRoom
+        });
     },
 
 
