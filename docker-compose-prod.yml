@@ -20,6 +20,8 @@ services:
     depends_on:
       - database
       - redis
+    networks:
+      - igz
 
   database:
     image: mariadb
@@ -35,6 +37,8 @@ services:
     volumes:
       - ./conf/mariadb-conf.d:/etc/mysql/mariadb.conf.d
       - ./conf/conf.d:/etc/mysql/conf.d/
+    networks:
+      - igz
 
   redis:
     restart: always
@@ -43,6 +47,8 @@ services:
     hostname: redis
     volumes:
       - redis-data:/data
+    networks:
+      - igz
 
   client:
     restart: always
@@ -58,6 +64,8 @@ services:
       - NODE_ENV=development
     depends_on:
       - backend
+    networks:
+      - igz
 
   nginx:
     build:
@@ -69,6 +77,12 @@ services:
     depends_on:
       - backend
       - client
+    networks:
+      - igz
 
 volumes:
   redis-data:
+
+networks:
+  igz:
+    driver: overlay
