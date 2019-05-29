@@ -64,7 +64,7 @@ class Notifications extends React.Component {
           </DropdownItem>
           {
             oneWayFollowers.map((follower, index) =>
-              <DropdownItem>
+              <DropdownItem key={index}>
                 <div className="notification__content" style={{width: "70%"}}>
                   <h5>{follower.fullname}</h5>
                 </div>
