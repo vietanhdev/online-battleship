@@ -63,7 +63,7 @@ class Messages extends React.Component {
               <div className="app__content">
                   <div className="message_window">
                       <MessageList user_id={this.props.user.public_id} messages={this.props.messages}/>
-                      <Input usersInRoom={listUsersInRoom}/>
+                      <Input usersInRoom={listUsersInRoom} sendMessage={this.sendNewMessage.bind(this)}/>
                   </div>
               </div>
               </CardBody>
