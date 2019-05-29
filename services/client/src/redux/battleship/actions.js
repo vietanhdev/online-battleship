@@ -186,6 +186,15 @@ export const battleshipActions = {
         }
     },
 
+
+    requestUpdateGameState: () => (dispatch, getState, socket) => {
+        setTimeout(() => {
+            socket.gameRoom.emit('request_command', {"command": {
+                "name": "request_update"
+            }})
+        }, 500)
+    } ,
+
     // Update game state
     updateGameState: (gameState) => (dispatch, getState) => {
 

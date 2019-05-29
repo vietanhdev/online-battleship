@@ -18,6 +18,14 @@ export class BattleShipGame extends Component {
         this.props.initSocket(this.props.match.params.room_id);
     }
 
+    componentWillReceiveProps = (nextProps) => {
+        let nextRoom = nextProps.room;
+        if (this.room !== nextRoom) {
+            this.room = nextRoom;
+            this.props.requestUpdateGameState();
+        }
+    }
+
 
     clickBoard = (x, y, board) => {
 
@@ -271,6 +279,7 @@ const mapDispatchToProps = {
     clearArrangement: battleshipActions.clearArrangement,
     submitShips: battleshipActions.submitShips,
     fire: battleshipActions.fire,
+    requestUpdateGameState: battleshipActions.requestUpdateGameState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BattleShipGame))
