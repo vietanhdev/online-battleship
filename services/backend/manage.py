@@ -90,6 +90,9 @@ import os
 if os.getenv('RECREATE_DB') == "true":
     recreate_db()
 
+# Init battleship game and admin account
+init_db()
+
 
 if __name__ == '__main__':
     manager.run()
