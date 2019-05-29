@@ -44,7 +44,11 @@ export const messageActions = {
             // Users in room
             socket.gameRoomMessage.on('users_in_room', (data) => {
                 let usersInRoom = data.users_in_room;
-                dispatch(messageActions.updateUsersInRoom(usersInRoom));
+
+                if (typeof usersInRoom !== "undefined") {
+                    dispatch(messageActions.updateUsersInRoom(usersInRoom));
+                }
+                
             });
 
 
