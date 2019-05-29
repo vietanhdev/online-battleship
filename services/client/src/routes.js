@@ -22,7 +22,7 @@ export default [
     path: "/",
     exact: true,
     layout: DefaultLayout,
-    type: RouteType.NORMAL_ROUTE,
+    type: RouteType.PROTECTED_ROUTE,
     component: () => <Redirect to="/games" />
   },
   {
@@ -39,19 +39,19 @@ export default [
   },
   {
     path: "/messages/:room_id",
-    type: RouteType.NORMAL_ROUTE,
+    type: RouteType.PROTECTED_ROUTE,
     layout: DefaultLayout,
     component: Messages
   },
   {
     path: "/messages",
-    type: RouteType.NORMAL_ROUTE,
+    type: RouteType.PROTECTED_ROUTE,
     layout: DefaultLayout,
     component: RootMessages
   },
   {
     path: "/user-profile",
-    type: RouteType.NORMAL_ROUTE,
+    type: RouteType.PROTECTED_ROUTE,
     layout: DefaultLayout,
     component: UserProfile
   },
