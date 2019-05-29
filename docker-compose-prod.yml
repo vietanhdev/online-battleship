@@ -72,7 +72,7 @@ services:
       dockerfile: Dockerfile-prod
     restart: always
     expose:
-      80
+      - 80
     depends_on:
       - backend
       - client
