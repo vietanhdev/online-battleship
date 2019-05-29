@@ -1,7 +1,7 @@
 import request, {
     requestStatus
 } from '../../utilities/http'
-import battleshipConstants, {MessageEvent, BoardState} from './constants'
+import battleshipConstants, {MessageEvent} from './constants'
 
 import {
     notifierActions
@@ -212,8 +212,6 @@ export const battleshipActions = {
     // Give a shot
     fire: (x, y) => {
         return (dispatch, getState, socket) => {
-
-            let data = getState().battleshipReducer.gameState.player1.data;
 
             // Fire if the cell is hidden
             // if (data[y][x] == BoardState.HIDDEN) {

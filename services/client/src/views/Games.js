@@ -24,7 +24,7 @@ export class Games extends Component {
 
   render() {
 
-    const { gameList, roomList } = this.props;
+    const { roomList } = this.props;
 
     TimeAgo.addLocale(en);
 
