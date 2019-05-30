@@ -38,6 +38,10 @@ services:
     volumes:
       - ./conf/mariadb-conf.d:/etc/mysql/mariadb.conf.d
       - ./conf/conf.d:/etc/mysql/conf.d/
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
     networks:
       - igz
 
