@@ -38,8 +38,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build:prod": "cross-env REACT_APP_BASENAME=/ yarn run build",
-    "build": "cross-env REACT_APP_BASENAME=/ react-scripts build",
+    "build:prod": "cross-env REACT_APP_BASENAME=/ PUBLIC_URL=http://gg.cdnapps.net yarn run build",
+    "build": "cross-env REACT_APP_BASENAME=/ PUBLIC_URL=http://gg.cdnapps.net react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
