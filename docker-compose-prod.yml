@@ -8,8 +8,6 @@ services:
     build:
       context: ./services/backend
       dockerfile: Dockerfile-prod
-    volumes:
-      - './services/backend:/usr/src/app'
     environment:
       - FLASK_ENV=production
       - APP_ENV=production
@@ -52,6 +50,10 @@ services:
     hostname: redis
     volumes:
       - redis-data:/data
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
     networks:
       - igz
 
@@ -61,9 +63,6 @@ services:
     build:
       context: ./services/client
       dockerfile: Dockerfile-prod
-    volumes:
-      - './services/client:/usr/src/app'
-      - '/usr/src/app/node_modules'
     expose:
       - 80
     environment:
