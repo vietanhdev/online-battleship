@@ -112,7 +112,7 @@ export class Games extends Component {
                               <td>{creator.fullname}</td>
                               <td>{createdTime}</td>
                               <td>{room.finished ? "Finished" : (room.enough_players ? "Playing" : "Waiting")}</td>
-                              <td><Link to={"/games/" + room.game.public_id + "/" + room.room_public_id}><Button theme="success" size="sm">{room.enough_players ? "View" : "Join"}</Button></Link></td>
+                              <td><a target="_blank noopener noreferrer" href={"/games/" + room.game.public_id + "/" + room.room_public_id}><Button theme="success" size="sm">{room.enough_players ? "View" : "Join"}</Button></a></td>
                             </tr>)
                           })
                         }

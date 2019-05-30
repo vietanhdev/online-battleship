@@ -47,7 +47,8 @@ export const gameActions = {
             dispatch(appActions.closeLoadingScreen());
 
             // Open playing page
-            history.push("/games/" + gameId + "/" + room_public_id)
+            // history.push("/games/" + gameId + "/" + room_public_id)
+            window.open("/games/" + gameId + "/" + room_public_id, '_blank');
         })
         .catch(function (error) {
             notifierActions.showError("Creating new game failed: " + error);
