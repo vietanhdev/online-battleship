@@ -8,9 +8,9 @@ This project is a Battleship Online game system.
 - Friend list management.
 
 
-![screenshots/1.png](screenshots/1.png)
+![Gaming screen](../screenshots/1.png)
 
-![screenshots/2.png](screenshots/2.png)
+![Chat](../screenshots/2.png)
 
 ## 1. Prerequites
 
