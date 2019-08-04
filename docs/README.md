@@ -7,6 +7,11 @@ This project is a Battleship Online game system.
 - Online chatting.
 - Friend list management.
 
+
+![screenshots/1.png](screenshots/1.png)
+
+![screenshots/2.png](screenshots/2.png)
+
 ## 1. Prerequites
 
 - python3
