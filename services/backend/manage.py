@@ -1,5 +1,7 @@
 import os
 import unittest
+import pymysql
+pymysql.install_as_MySQLdb()
 
 import datetime
 

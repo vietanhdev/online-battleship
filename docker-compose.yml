@@ -9,13 +9,13 @@ services:
       dockerfile: Dockerfile
     volumes:
       - './services/backend:/usr/src/app'
-    ports:
-      - 5001:5000
     environment:
       - FLASK_ENV=development
       - APP_ENV=development
-      - DATABASE_DEV_URL=mysql+pymysql://tryon:secret_password@database:3306/tryon_db
-      - DATABASE_PROD_URL=mysql+pymysql://tryon:secret_password@database:3306/tryon_db
+      # - DATABASE_DEV_URL=mysql+pymysql://tryon:secret_password@database:3306/tryon_db
+      # - DATABASE_PROD_URL=mysql+pymysql://tryon:secret_password@database:3306/tryon_db
+      - DATABASE_DEV_URL=sqlite:///database.db
+      - DATABASE_PROD_URL=sqlite:///database.db
       - SECRET_KEY=my_precious_secret_key
       - ADMIN_SECRET_KEY=admin_precious_secret_key
       - RECREATE_DB=true # true/false
@@ -31,8 +31,6 @@ services:
       MYSQL_USER: tryon
       MYSQL_PASSWORD: secret_password
       MYSQL_DATABASE: tryon_db
-    ports:
-      - 3307:3306
     volumes:
       - ./conf/mariadb-conf.d:/etc/mysql/mariadb.conf.d
       - ./conf/conf.d:/etc/mysql/conf.d/

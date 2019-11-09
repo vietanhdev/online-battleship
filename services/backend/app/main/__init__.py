@@ -10,6 +10,7 @@ import redis
 import eventlet
 
 db = SQLAlchemy()
+
 r_db = redis.Redis(host='redis', port=6379, db=0)
 r_db.flushdb()
 flask_bcrypt = Bcrypt()

@@ -9,7 +9,6 @@ class Config:
     CORS_ENABLED = False
     CORS_HEADERS = 'Content-Type'
     SQLALCHEMY_POOL_RECYCLE = 60
-    SQLALCHEMY_POOL_TIMEOUT = 60
     MYSQL_DATABASE_CHARSET = 'utf8mb4'
 
 
