@@ -20,18 +20,7 @@ from flask_cors import CORS
 app = create_app(os.getenv('APP_ENV') or 'development')
 
 def init_db():
-    # create new game when run app
-    battle_ship = Game.query.filter_by(public_id="battle_ship").first()
 
-    if battle_ship is None:
-        battle_ship = Game(
-            public_id="battle_ship",
-            name="Battle Ship",
-            num_players=2
-        )
-        db.session.add(battle_ship)
-        db.session.commit()
-    
     # create admin account when run app
     admin = User.query.filter_by(public_id="admin").first()
 

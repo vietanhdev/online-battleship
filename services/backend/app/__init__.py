@@ -8,7 +8,6 @@ from .main.controller.message_controller import api as message_ns
 from .main.controller.game_controller import api as game_ns
 from .main.controller.socket_controller import *
 
-
 blueprint = Blueprint('api', __name__)
 
     

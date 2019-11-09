@@ -14,11 +14,11 @@ services:
     environment:
       - FLASK_ENV=development
       - APP_ENV=development
-      - DATABASE_DEV_URL=mysql+pymysql://online_games:Flask#123@database:3306/online_games_db?charset=utf8mb4
-      - DATABASE_PROD_URL=mysql+pymysql://online_games:Flask#123@database:3306/online_games_db?charset=utf8mb4
+      - DATABASE_DEV_URL=mysql+pymysql://tryon:secret_password@database:3306/tryon_db
+      - DATABASE_PROD_URL=mysql+pymysql://tryon:secret_password@database:3306/tryon_db
       - SECRET_KEY=my_precious_secret_key
       - ADMIN_SECRET_KEY=admin_precious_secret_key
-      - RECREATE_DB=false # true/false
+      - RECREATE_DB=true # true/false
     depends_on:
       - database
       - redis
@@ -27,15 +27,12 @@ services:
     image: mariadb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: Flask#123
-      MYSQL_USER: online_games
-      MYSQL_PASSWORD: Flask#123
-      MYSQL_DATABASE: online_games_db
+      MYSQL_ROOT_PASSWORD: secret_password
+      MYSQL_USER: tryon
+      MYSQL_PASSWORD: secret_password
+      MYSQL_DATABASE: tryon_db
     ports:
       - 3307:3306
-    command:
-      - "--character-set-server=utf8mb4"
-      - "--collation-server=utf8mb4_unicode_ci"
     volumes:
       - ./conf/mariadb-conf.d:/etc/mysql/mariadb.conf.d
       - ./conf/conf.d:/etc/mysql/conf.d/
@@ -48,31 +45,17 @@ services:
     volumes:
       - redis-data:/data
 
-  client:
-    restart: always
-    build:
-      context: ./services/client
-      dockerfile: Dockerfile
-    volumes:
-      - './services/client:/usr/src/app'
-      - '/usr/src/app/node_modules'
-    ports:
-      - 3007:3000
-    environment:
-      - NODE_ENV=development
-    depends_on:
-      - backend
-
   nginx:
     build:
       context: ./services/nginx
       dockerfile: Dockerfile
+    volumes:
+      - './services/client:/usr/share/nginx/html'
     restart: always
     ports:
       - 80:80
     depends_on:
       - backend
-      - client
 
 volumes:
   redis-data:

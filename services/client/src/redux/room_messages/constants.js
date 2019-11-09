@@ -1,8 +1,0 @@
-const messageConstants = {
-    CLEAR_MESSAGES: 'CLEAR_MESSAGES',
-    FETCH_MESSAGES_SUCCESS: 'FETCH_MESSAGES_SUCCESS',
-    PUSH_NEW_MESSAGE: 'PUSH_NEW_MESSAGE',
-    UPDATE_USERS_IN_ROOM: 'UPDATE_USERS_IN_ROOM'
-};
-
-export default messageConstants;
