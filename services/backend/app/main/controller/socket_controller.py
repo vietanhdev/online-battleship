@@ -44,12 +44,6 @@ def disconnectClient():
 		update_list_users_in_room(list_users_in_room, room)
 
 
-	# Check with user
-	# if user is not None:
-	# 	list_online_followings = user_offline(user)
-	# 	update_list_online_followings(list_online_following, user)
-
-
 @socketio.on('request_login', namespace='/')
 def registerUserId(request_object):
 	user, response_object = login_socket(request_object)
