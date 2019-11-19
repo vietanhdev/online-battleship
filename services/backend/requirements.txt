@@ -34,3 +34,11 @@ SQLAlchemy==1.2.5
 Werkzeug==0.14.1
 gunicorn
 eventlet
+
+opencv-python
+Pillow
+
+tensorflow==2.0.0
+keras==2.3.1
+scikit-learn
+imageio

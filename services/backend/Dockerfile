@@ -4,6 +4,7 @@ FROM python:3.7.2-slim
 # install netcat
 RUN apt-get update && \
     apt-get -y install netcat && \
+    apt-get -y install libgtk2.0-dev && \
     apt-get clean
 
 # set working directory

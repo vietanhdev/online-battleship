@@ -7,227 +7,50 @@ from .. import socketio
 
 from flask_socketio import disconnect, join_room, leave_room, emit, rooms
 
+from ..service.blazeface.blazeface_service import BlazeFaceService
+
 import json
 
+import base64
+from PIL import Image
+import cv2
+from io import StringIO
+import numpy as np
+
+
+blazeface_service = BlazeFaceService()
 
 @socketio.on('connect')
 def connectClient():
-	print(">>>>>>>>> Client connected on rooth path with session id " + request.sid)
+    print(">>>>>>>>> Client connected on rooth path with session id " + request.sid)
 
+def readb64(uri):
+    uri_parts = uri.split(',')
+    if len(uri_parts) != 2:
+        return None
+    encoded_data = uri.split(',')[1]
+    nparr = np.fromstring(base64.b64decode(encoded_data), np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    return img
 
-def update_list_users_in_room(list_users_in_room, room):
-	response_object = {
-		'users_in_room': list_users_in_room
-	}
-	emit('users_in_room', response_object, room=room.public_id, namespace='/rooms')
+@socketio.on('image', namespace='/')
+def newImage(request_object):
+    data = request_object['data']
 
+    if data is None or data == "":
+        return
 
-# def update_list_online_followings(list_online_followings, user):
-# 	response_object = {
-# 		'online_followings': list_online_followings
-# 	}
-# 	emit('online_followings', response_object, room=user.id, namespace='/')
+    cvimg = readb64(data)
 
+    img_rgb = cv2.cvtColor(cvimg, cv2.COLOR_BGR2RGB)
+    draw = blazeface_service.inference(img_rgb)
+    draw_bgr = cv2.cvtColor(draw, cv2.COLOR_RGB2BGR)
 
-@socketio.on('disconnect')
-def disconnectClient():
-	print(">>>>>>>>> Client disconnected on rooth path with session id " + request.sid)
-	# Check with room
-	list_user_id = rooms(sid=request.sid, namespace="/user_id")
-	list_room_id = rooms(sid=request.sid, namespace="/room_id")
-
-	user = get_user_by_sid(list_user_id)
-	room = get_room_by_sid(list_room_id)
-
-	if user is not None and room is not None:
-		list_users_in_room = user_get_out_room(user, room)
-		update_list_users_in_room(list_users_in_room, room)
-
-
-@socketio.on('request_login', namespace='/')
-def registerUserId(request_object):
-	user, response_object = login_socket(request_object)
-	# Notify sender response result
-	emit('response_login', response_object, broadcast=False, namespace='/')
-	
-	if user is not None:
-		# join room to authenticate
-		join_room(room=user.id, namespace='/user_id')
-		# join room to get message
-		join_room(room=user.id, namespace='/')
-
-		# list_online_followings = user_online(user)
-		# update_list_online_followings(list_online_followings, user)
-
-
-@socketio.on('request_login', namespace='/rooms')
-def registerUserRoomID(request_object):
-	user, room, response_object = login_room_socket(request_object)
-	# Notify sender response result
-	emit('response_login', response_object, broadcast=False, namespace='/rooms')
-
-	if user is not None and room is not None:
-		# join room to authenticate
-		join_room(room=user.id, namespace='/user_id')
-		join_room(room=room.id, namespace='/room_id')
-		# join room to get message and event
-		join_room(room=room.public_id, namespace='/rooms')
-		join_room(room=user.public_id, namespace='/rooms')
-		join_room(room=user.id, namespace='/')
-
-		list_users_in_room = user_get_in_room(user, room)
-		update_list_users_in_room(list_users_in_room, room)
-
-		update_boards(user, room)
-
-
-@socketio.on('send_message', namespace='/')
-def newPrivateMessage(request_object):
-	# Check authenticate session id
-	list_user_id = rooms(sid=request.sid, namespace="/user_id")
-	receiver_public_id = request_object.get('receiver_public_id')
-	user, receiver = get_user_and_receiver(list_user_id, receiver_public_id)
-
-	if user is None:
-		response_object = {
-			'status': 'false',
-			'message': 'Fail to authenticate'
-		}
-	elif receiver is None:
-		response_object = {
-			'status': 'false',
-			'message': 'Receiver public id not found'
-		}
-	else:
-		response_object = {
-			'status': 'success',
-			'message': 'Send message successfully'
-		}
-		# Save new message to database
-		content = request_object.get('content')
-		new_message = save_new_message(sender_public_id=user.public_id, receiver_public_id=receiver.public_id, content=content)
-		# Send new message to all receiver in that room
-		receive_object = new_message.get_message_information()
-		emit('new_message', receive_object, room=user.id, namespace='/')
-		emit('new_message', receive_object, room=receiver.id, namespace='/')
-
-	# Notify sender response result
-	emit('response_send_message', response_object, broadcast=False, namespace='/')
-
-
-@socketio.on('send_message', namespace='/rooms')
-def newRoomMessage(request_object):
-	# Check authenticate session id
-	list_user_id = rooms(sid=request.sid, namespace="/user_id")
-	list_room_id = rooms(sid=request.sid, namespace="/room_id")
-
-	user = get_user_by_sid(list_user_id)
-	room = get_room_by_sid(list_room_id)
-
-	if user is None:
-		response_object = {
-			'status': 'false',
-			'message': 'Fail to authenticate'
-		}
-	elif room is None:
-		response_object = {
-			'status': 'false',
-			'message': 'Room not found'
-		}
-	else:
-		response_object = {
-			'status': 'success',
-			'message': 'Send message successfully'
-		}
-		# Save new message to database
-		content = request_object.get('content')
-		new_message = save_new_message(sender_public_id=user.public_id, receiver_public_id=room.public_id, content=content)
-		# Send new message to all receiver in that room
-		receive_object = new_message.get_message_information()
-		emit('new_message', receive_object, room=room.public_id, namespace='/rooms')
-
-	# Notify sender response result
-	emit('response_send_message', response_object, broadcast=False, namespace='/rooms')
-
-
-@socketio.on('request_update', namespace='/rooms')
-def update():
-	# Check authenticate session id
-	list_user_id = rooms(sid=request.sid, namespace="/user_id")
-	list_room_id = rooms(sid=request.sid, namespace="/room_id")
-
-	user = get_user_by_sid(list_user_id)
-	room = get_room_by_sid(list_room_id)
-
-	if user is None:
-		response_object = {
-			'status': 'false',
-			'message': 'Fail to authenticate'
-		}
-	elif room is None:
-		response_object = {
-			'status': 'false',
-			'message': 'Room not found'
-		}
-	else:
-		update_boards(user, room)
-
-
-@socketio.on('request_command', namespace='/rooms')
-def newCommand(request_object):
-	# Check authenticate session id
-	list_user_id = rooms(sid=request.sid, namespace="/user_id")
-	list_room_id = rooms(sid=request.sid, namespace="/room_id")
-
-	user = get_user_by_sid(list_user_id)
-	room = get_room_by_sid(list_room_id)
-
-	if user is None:
-		response_object = {
-			'status': 'false',
-			'message': 'Fail to authenticate'
-		}
-	elif room is None:
-		response_object = {
-			'status': 'false',
-			'message': 'Room not found'
-		}
-	else:
-		response_object = {
-			'status': 'success',
-			'message': 'Send command successfully'
-		}
-		if room.check_exist_player(user) == False:
-			response_object = {
-                'status': 'fail',
-                'message': 'You are not player of this room'
-            }
-		else:
-			command = request_object.get('command')
-			if command is None:
-				response_object = {
-					'status': 'fail',
-					'message': 'Can not find your command'
-				}
-			else:
-				result = process_command(user, room, command)
-				if result is False:
-					response_object = {
-						'status': 'fail',
-						'message': 'Please check your command'
-					}
-
-				list_users = get_list_users_in_room(room)
-				for user in list_users:
-					update_boards(user, room)
+    retval, buffer = cv2.imencode('.jpg', draw_bgr)
+    draw_base64 = "data:image/png;base64,{}".format(base64.b64encode(buffer).decode("utf-8"))
+    
+    cv2.imshow("Debug", draw_bgr)
+    cv2.waitKey(1)
 
     # Notify sender response result
-	emit('response_command', response_object, broadcast=False, namespace='/rooms')
-
-
-def update_boards(user, room):
-	data = get_data(user, room)
-	data['name'] = 'update_boards'
-	emit('receive_event', data, room=user.public_id, namespace='/rooms')
-
-
+    emit('image_back', draw_base64, broadcast=False, namespace='/')

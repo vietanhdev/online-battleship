@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+
+    <video autoplay></video>
+    <img src="">
+
+    <script>
+        // get video dom element
+        const video = document.querySelector('video');
+        
+        // request access to webcam
+        navigator.mediaDevices.getUserMedia({video: {width: 128, height: 128}}).then((stream) => video.srcObject = stream);
+        
+        // returns a frame encoded in base64
+        const getFrame = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            const data = canvas.toDataURL('image/png');
+            return data;
+        }
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            var address = io.connect('http://localhost/rooms');
+
+            var socket = io.connect(address);
+
+            socket.on('connect', function(){
+                console.log('connected to server on root');
+            });
+
+            socket.on('disconnect', function(){
+                console.log('disconnected to server on root');
+            });
+
+            const img = document.querySelector('img');
+            socket.on('image_back', function(response_object){
+                console.log(response_object);
+                
+                msg = JSON.stringify(response_object)
+                console.log(msg);
+                img.src = response_object;
+            })
+            
+            setInterval(() => {
+                socket.emit('image', {'data': getFrame()});
+            }, 20)
+
+        });
+    </script>
+</body>
+</html>

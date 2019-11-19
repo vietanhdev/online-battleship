@@ -9,8 +9,6 @@ online_dict = {}
 
 def get_online_followings(user):
     list_followings = get_list_followings(user)
-    # print(">>>>>>>>>> list online ", list_online)
-    # print(">>>>>>>>>> list followings ", list_followings)
     online_followings = []
     for following in list_followings:
         online_followings.append(following.get_user_information())
