@@ -13,13 +13,6 @@ import numpy as np
 
 from .models.keras_blazeface import blazeface
 from .keras_loss_function.keras_ssd_loss import SSDLoss
-from .keras_layers.keras_layer_AnchorBoxesBlazeFace import AnchorBoxes
-from .keras_layers.keras_layer_DecodeDetections import DecodeDetections
-from .keras_layers.keras_layer_DecodeDetectionsFast import DecodeDetectionsFast
-from .keras_layers.keras_layer_L2Normalization import L2Normalization
-
-from .ssd_encoder_decoder.ssd_output_decoder_blazeface import decode_detections, decode_detections_fast
-
 import cv2
 
 class BlazeFaceService:

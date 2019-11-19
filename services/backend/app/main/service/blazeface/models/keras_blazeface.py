@@ -282,7 +282,7 @@ def blazeface(image_size,
 
     # Generate the anchor boxes
     # Output shape of `anchors`: `(batch, height, width, n_boxes, 8)`
-    anchors16x16 = AnchorBoxes(img_height, img_width, scales=scales[0],                 aspect_ratios=aspect_ratios[0], this_steps=steps[0], this_offsets=offsets[0],
+    anchors16x16 = AnchorBoxes(img_height, img_width, scales=scales[0], aspect_ratios=aspect_ratios[0], this_steps=steps[0], this_offsets=offsets[0],
                            clip_boxes=clip_boxes, variances=variances, coords=coords, normalize_coords=normalize_coords, name='anchors16x16')(boxes16x16)
     anchors8x8 = AnchorBoxes(img_height, img_width, scales=scales[1], aspect_ratios=aspect_ratios[1], this_steps=steps[1], this_offsets=offsets[1],
                            clip_boxes=clip_boxes, variances=variances, coords=coords, normalize_coords=normalize_coords, name='anchors8x8')(boxes8x8)
