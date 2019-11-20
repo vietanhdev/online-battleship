@@ -16,18 +16,35 @@
     <script>
         // get video dom element
         const video = document.querySelector('video');
+        const canvas = document.createElement('canvas');
         
         // request access to webcam
-        navigator.mediaDevices.getUserMedia({video: {width: 128, height: 128}}).then((stream) => video.srcObject = stream);
+        navigator.mediaDevices.getUserMedia({video: {width: 300, height: 300}}).then((stream) => video.srcObject = stream);
         
         // returns a frame encoded in base64
         const getFrame = () => {
-            const canvas = document.createElement('canvas');
+        
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            const data = canvas.toDataURL('image/png');
-            return data;
+            let ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+
+            let chunks = canvas.toDataURL('image/jpeg').split(',');
+            let binaryString;
+            if (chunks[0].indexOf('base64') >= 0) {
+                binaryString = atob(chunks[1]);
+            }
+            else {
+                binaryString = unescape(chunks[1]);
+            }
+
+            let length = binaryString.length;
+            var array = new Array(length);
+            for(i = 0; i < length; i++) {
+                array[i] = binaryString.charCodeAt(i);
+            }
+
+            return array
         }
     </script>
 
@@ -47,16 +64,13 @@
 
             const img = document.querySelector('img');
             socket.on('image_back', function(response_object){
-                console.log(response_object);
-                
                 msg = JSON.stringify(response_object)
-                console.log(msg);
                 img.src = response_object;
             })
             
             setInterval(() => {
                 socket.emit('image', {'data': getFrame()});
-            }, 1000/5)
+            }, 1000/20)
 
         });
     </script>

@@ -24,25 +24,18 @@ blazeface_service = BlazeFaceService()
 def connectClient():
     print(">>>>>>>>> Client connected on rooth path with session id " + request.sid)
 
-def readb64(uri):
-    uri_parts = uri.split(',')
-    if len(uri_parts) != 2:
-        return None
-    encoded_data = uri.split(',')[1]
-    nparr = np.fromstring(base64.b64decode(encoded_data), np.uint8)
-    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    return img
 
 @socketio.on('image', namespace='/')
 def newImage(request_object):
     data = request_object['data']
 
-    if data is None or data == "":
+    if data is None or len(data)==0:
         return
 
-    cvimg = readb64(data)
+    nparr = np.array(data, np.uint8)
+    cv_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
-    img_rgb = cv2.cvtColor(cvimg, cv2.COLOR_BGR2RGB)
+    img_rgb = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
     draw = blazeface_service.inference(img_rgb)
     draw_bgr = cv2.cvtColor(draw, cv2.COLOR_RGB2BGR)
 
