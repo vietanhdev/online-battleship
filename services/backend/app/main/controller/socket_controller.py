@@ -41,7 +41,6 @@ def newImage(request_object):
 
     img_rgb = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
 
-    print(FACE_DETECTOR_MODEL)
     if FACE_DETECTOR_MODEL == "faceboxes":
         draw = faceboxes_service.inference(img_rgb)
     else:
