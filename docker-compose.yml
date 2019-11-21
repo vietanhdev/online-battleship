@@ -8,12 +8,11 @@ services:
       context: ./services/backend
       dockerfile: Dockerfile
     volumes:
-      - './services/backend:/usr/src/app'
+      - './services/backend:/usr/src/backend'
+      - './services/client:/usr/src/client'
     environment:
       - FLASK_ENV=development
       - APP_ENV=development
-      # - DATABASE_DEV_URL=mysql+pymysql://tryon:secret_password@database:3306/tryon_db
-      # - DATABASE_PROD_URL=mysql+pymysql://tryon:secret_password@database:3306/tryon_db
       - DATABASE_DEV_URL=sqlite:///database.db
       - DATABASE_PROD_URL=sqlite:///database.db
       - SECRET_KEY=my_precious_secret_key
