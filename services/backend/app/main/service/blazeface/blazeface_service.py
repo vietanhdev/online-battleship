@@ -2,6 +2,7 @@ import tensorflow as tf
 for gpu in tf.config.experimental.list_physical_devices('GPU'):
     tf.compat.v2.config.experimental.set_memory_growth(gpu, True)
     
+import os
 import math
 import keras
 from keras import backend as K
@@ -23,8 +24,7 @@ class BlazeFaceService:
         self.img_height = 128
         self.img_width = 128
 
-        # TODO: Set the path to the `.h5` file of the model to be loaded.
-        model_path = '/mnt/DATA/GR/MAIN_STREAM/Server/services/backend/app/main/ml_models/blazeface_epoch-154.h5'
+        model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'trained_models/blazeface_epoch-154.h5')
 
         K.clear_session() # Clear previous models from memory.
 
