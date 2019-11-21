@@ -6,7 +6,7 @@ Note that we have only one label (it is 'face'),
 so num_classes = 1.
 """
 
-from train_config import config as cfg
+from .....train_config import config as cfg
 
 def localization_loss(predictions, targets, weights,sigma=1.):
     """A usual L1 smooth loss.

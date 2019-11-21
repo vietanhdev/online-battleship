@@ -1,5 +1,5 @@
 import tensorflow as tf
-from train_config import config as cfg
+from ......train_config import config as cfg
 
 
 def batch_non_max_suppression(

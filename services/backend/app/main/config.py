@@ -2,6 +2,8 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+FACE_DETECTOR_MODEL = "faceboxes" # faceboxes or blazeface
+
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious_secret_key')
     ADMIN_KEY = os.getenv('ADMIN_SECRET_KEY', 'admin_precious_secret_key')

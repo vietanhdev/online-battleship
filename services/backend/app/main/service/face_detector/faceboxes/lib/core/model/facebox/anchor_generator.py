@@ -5,7 +5,7 @@ import numpy as np
 try:
     from lib.core.model.facebox.utils.box_utils import to_minmax_coordinates
 except:
-    from utils.box_utils import to_minmax_coordinates
+    from .utils.box_utils import to_minmax_coordinates
 ANCHOR_SPECIFICATIONS = [
     [(32, 1.0, 4), (64, 1.0, 2), (128, 1.0, 1)],  # scale 0
     [(256, 1.0, 1)],  # scale 1

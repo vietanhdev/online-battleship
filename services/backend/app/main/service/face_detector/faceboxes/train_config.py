@@ -37,10 +37,8 @@ config.MODEL.num_anchors=21824  ##it should be
 config.MODEL.MATCHING_THRESHOLD = 0.35
 config.MODEL.max_negatives_per_positive= 3.0
 
-try:
-    from lib.core.model.facebox.anchor_generator import AnchorGenerator
-except:
-    from anchor_generator import AnchorGenerator
+from .lib.core.model.facebox.anchor_generator import AnchorGenerator
+
 anchorgenerator = AnchorGenerator()
 config.MODEL.anchors=anchorgenerator(config.MODEL.feature_maps_size, (config.MODEL.hin*2, config.MODEL.win*2))
 

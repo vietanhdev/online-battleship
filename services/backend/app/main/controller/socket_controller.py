@@ -7,7 +7,10 @@ from .. import socketio
 
 from flask_socketio import disconnect, join_room, leave_room, emit, rooms
 
-from ..service.blazeface.blazeface_service import BlazeFaceService
+from ..service.face_detector.blazeface.blazeface_service import BlazeFaceService
+from ..service.face_detector.faceboxes.faceboxes_service import FaceboxesService
+
+from ..config import FACE_DETECTOR_MODEL
 
 import json
 
@@ -19,6 +22,7 @@ import numpy as np
 
 
 blazeface_service = BlazeFaceService()
+faceboxes_service = BlazeFaceService()
 
 @socketio.on('connect')
 def connectClient():
@@ -36,7 +40,13 @@ def newImage(request_object):
     cv_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
     img_rgb = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
-    draw = blazeface_service.inference(img_rgb)
+
+    print(FACE_DETECTOR_MODEL)
+    if FACE_DETECTOR_MODEL == "faceboxes":
+        draw = faceboxes_service.inference(img_rgb)
+    else:
+        draw = blazeface_service.inference(img_rgb)
+
     draw_bgr = cv2.cvtColor(draw, cv2.COLOR_RGB2BGR)
 
     retval, buffer = cv2.imencode('.jpg', draw_bgr)

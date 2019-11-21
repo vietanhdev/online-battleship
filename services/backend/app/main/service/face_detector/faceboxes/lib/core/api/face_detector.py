@@ -3,8 +3,8 @@ import numpy as np
 import cv2
 import time
 
-from train_config import config as cfg
-from lib.core.model.facebox.net import FaceBoxes
+from ....train_config import config as cfg
+from ..model.facebox.net import FaceBoxes
 
 class FaceDetector:
     def __init__(self, model_path):
@@ -32,8 +32,6 @@ class FaceDetector:
         image_fornet,scale_x,scale_y=self.preprocess(image,target_width=cfg.MODEL.win,target_height=cfg.MODEL.hin)
 
         image_fornet = np.expand_dims(image_fornet, 0)
-
-
 
         start=time.time()
         res= self.model.inference(image_fornet)

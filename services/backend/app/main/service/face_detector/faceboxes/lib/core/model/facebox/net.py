@@ -4,11 +4,12 @@ sys.path.append('.')
 import tensorflow as tf
 import numpy as np
 import time
-from lib.core.model.facebox.losses_and_ohem import localization_loss, ohem_loss
-from lib.core.model.facebox.utils.box_utils import batch_decode
-from lib.core.model.facebox.utils.nms import batch_non_max_suppression
 
-from train_config import config as cfg
+from .losses_and_ohem import localization_loss, ohem_loss
+from .utils.box_utils import batch_decode
+from .utils.nms import batch_non_max_suppression
+
+from .....train_config import config as cfg
 
 
 
