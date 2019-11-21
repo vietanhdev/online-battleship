@@ -8,6 +8,7 @@ from .config import config_by_name
 import logging
 import redis
 import eventlet
+import os
 
 db = SQLAlchemy()
 
@@ -21,7 +22,10 @@ logging.getLogger('socketio').setLevel(logging.ERROR)
 logging.getLogger('engineio').setLevel(logging.ERROR)
 
 def create_app(config_name):
-    app = Flask(__name__, static_folder = '/mnt/DATA/GR/MAIN_STREAM/Server/services/backend/public')
+
+    client_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../client')
+    print(client_folder)
+    app = Flask(__name__, static_folder=client_folder)
     app.config.from_object(config_by_name[config_name])
     CORS(app)
     db.init_app(app)
