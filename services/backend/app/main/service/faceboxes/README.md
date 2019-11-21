@@ -1,5 +1,7 @@
 # [faceboxes](https://arxiv.org/abs/1708.05234)
 
+Original repository: <https://github.com/610265158/faceboxes-tensorflow>
+
 ## introduction
 
 A tensorflow 2.0 implement faceboxes. 
