@@ -18,14 +18,14 @@ def crop_face_loosely(shape, img, input_size):
     
     Lmax = int(max(Lx, Ly) * 2.0)
     
-    delta = Lmax // 2
+    delta = Lmax * 0.5
     
     center_x = (shape[2] + shape[0]) // 2
     center_y = (shape[3] + shape[1]) // 2
     start_x = int(center_x - delta)
-    start_y = int(center_y - delta - 30)
+    start_y = int(center_y - delta - 10)
     end_x = int(center_x + delta)
-    end_y = int(center_y + delta - 30)
+    end_y = int(center_y + delta - 10)
     
     if start_y < 0:
         start_y = 0
