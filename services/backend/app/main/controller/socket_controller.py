@@ -7,8 +7,10 @@ from .. import socketio
 
 from flask_socketio import disconnect, join_room, leave_room, emit, rooms
 
-from ..service.face_detector.blazeface.blazeface_service import BlazeFaceService
-from ..service.face_detector.faceboxes.faceboxes_service import FaceboxesService
+from ..service.face_detection.blazeface.blazeface_service import BlazeFaceService
+from ..service.face_detection.faceboxes.faceboxes_service import FaceboxesService
+
+from ..service.head_pose_estimation.deep_head_pose.headpose_service import DeepHeadPoseService
 
 from ..config import FACE_DETECTOR_MODEL
 
@@ -22,7 +24,9 @@ import numpy as np
 
 
 blazeface_service = BlazeFaceService()
-faceboxes_service = BlazeFaceService()
+faceboxes_service = FaceboxesService()
+
+headpose_service = DeepHeadPoseService()
 
 @socketio.on('connect')
 def connectClient():
@@ -42,17 +46,26 @@ def newImage(request_object):
     img_rgb = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
 
     if FACE_DETECTOR_MODEL == "faceboxes":
-        draw = faceboxes_service.inference(img_rgb)
+        face_boxes = faceboxes_service.inference(img_rgb)
     else:
-        draw = blazeface_service.inference(img_rgb)
+        face_boxes = blazeface_service.inference(img_rgb)
+
+    print(headpose_service.inference(img_rgb, face_boxes))
+
+    # Draw faces
+    draw = img_rgb.copy()
+    for box_index in range(face_boxes.shape[0]):
+        bbox = face_boxes[box_index]
+        cv2.rectangle(draw, (int(bbox[0]), int(bbox[1])),
+                        (int(bbox[2]), int(bbox[3])), (255, 0, 0), 4)
+
 
     draw_bgr = cv2.cvtColor(draw, cv2.COLOR_RGB2BGR)
-
-    retval, buffer = cv2.imencode('.jpg', draw_bgr)
-    draw_base64 = "data:image/png;base64,{}".format(base64.b64encode(buffer).decode("utf-8"))
     
     cv2.imshow("Debug", draw_bgr)
     cv2.waitKey(1)
 
     # Notify sender response result
-    emit('image_back', draw_base64, broadcast=False, namespace='/')
+    # retval, buffer = cv2.imencode('.jpg', draw_bgr)
+    # draw_base64 = "data:image/png;base64,{}".format(base64.b64encode(buffer).decode("utf-8"))
+    # emit('image_back', draw_base64, broadcast=False, namespace='/')
