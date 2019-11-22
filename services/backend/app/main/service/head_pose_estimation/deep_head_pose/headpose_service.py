@@ -29,44 +29,50 @@ class DeepHeadPoseService:
 
     def inference(self, image, face_boxes):
 
-        # start_time = time.time()
-
-        crop = crop_face_loosely(face_boxes[0], image, 224)
-
-        # print("Crop time: " + str(time.time() - start_time))
-
-        img = Image.fromarray(crop)
-
-        idx_tensor = [idx for idx in range(66)]
-        idx_tensor = torch.FloatTensor(idx_tensor)
-
         transformations = transforms.Compose([transforms.Scale(224),
         transforms.CenterCrop(224), transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
 
-        # Transform
-        img = transformations(img)
-        img_shape = img.size()
-        img = img.view(1, img_shape[0], img_shape[1], img_shape[2])
-        img = Variable(img)
+        preds = []
 
-        yaw, pitch, roll = self.model(img)
+        draw = image.copy()
 
-        # print("Predict time: " + str(time.time() - start_time))
+        start_time = time.time()
+        for i in range(len(face_boxes)):
+            crop = crop_face_loosely(face_boxes[i], image, 224)
+            img = Image.fromarray(crop)
+            idx_tensor = [idx for idx in range(66)]
+            idx_tensor = torch.FloatTensor(idx_tensor)
 
-        yaw_predicted = F.softmax(yaw, dim=1)
-        pitch_predicted = F.softmax(pitch, dim=1)
-        roll_predicted = F.softmax(roll, dim=1)
+            # Transform
+            img = transformations(img)
+            img_shape = img.size()
+            img = img.view(1, img_shape[0], img_shape[1], img_shape[2])
+            img = Variable(img)
 
-        # Get continuous predictions in degrees.
-        yaw_predicted = torch.sum(yaw_predicted.data[0] * idx_tensor) * 3 - 99
-        pitch_predicted = torch.sum(pitch_predicted.data[0] * idx_tensor) * 3 - 99
-        roll_predicted = torch.sum(roll_predicted.data[0] * idx_tensor) * 3 - 99
+            yaw, pitch, roll = self.model(img)
 
-        ploted_vis = plot_pose_cube(crop, yaw_predicted, pitch_predicted, roll_predicted)
+            
 
-        cv2.imshow("Debug-xx", ploted_vis)
+            yaw_predicted = F.softmax(yaw, dim=1)
+            pitch_predicted = F.softmax(pitch, dim=1)
+            roll_predicted = F.softmax(roll, dim=1)
+
+            # Get continuous predictions in degrees.
+            yaw_predicted = torch.sum(yaw_predicted.data[0] * idx_tensor) * 3 - 99
+            pitch_predicted = torch.sum(pitch_predicted.data[0] * idx_tensor) * 3 - 99
+            roll_predicted = torch.sum(roll_predicted.data[0] * idx_tensor) * 3 - 99
+
+            preds = list(face_boxes[i]) + [yaw_predicted.item(), pitch_predicted.item(), roll_predicted.item()]
+
+            center_x = (face_boxes[i][2] + face_boxes[i][0]) // 2
+            center_y = (face_boxes[i][3] + face_boxes[i][1]) // 2
+            max_x = min(face_boxes[i][2], image.shape[1])
+            ploted_vis = plot_pose_cube(draw, yaw_predicted, pitch_predicted, roll_predicted, center_x, center_y, size=2 * (max_x - center_x))
+
+        print("Predict time: " + str(time.time() - start_time))
+
+        cv2.imshow("Debug-xx", draw)
         cv2.waitKey(1)
 
-        # resized = cv2.resize(image, (224, 224))
-        return yaw_predicted.item(), pitch_predicted.item(), roll_predicted.item()
+        return preds
