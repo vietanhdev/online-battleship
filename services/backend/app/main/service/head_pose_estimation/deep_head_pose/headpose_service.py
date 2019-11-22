@@ -2,12 +2,8 @@ from . import hopenetlite_v2
 import torch
 import os
 import cv2
-
 import sys, os, argparse
-
 import numpy as np
-import cv2
-
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
