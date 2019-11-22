@@ -18,7 +18,7 @@ def crop_face_loosely(shape, img, input_size):
     
     Lmax = int(max(Lx, Ly) * 2.0)
     
-    delta = Lmax * 0.5
+    delta = Lmax * 0.4
     
     center_x = (shape[2] + shape[0]) // 2
     center_y = (shape[3] + shape[1]) // 2
@@ -37,8 +37,6 @@ def crop_face_loosely(shape, img, input_size):
         end_y = img.shape[0]
     
     crop_face = img[start_y:end_y, start_x:end_x]
-    
-    cv2.imshow('crop_face', crop_face)
     
     crop_face = cv2.resize(crop_face, (input_size, input_size))
 
