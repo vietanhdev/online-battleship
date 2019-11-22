@@ -30,7 +30,7 @@ headpose_service = DeepHeadPoseService()
 
 @socketio.on('connect')
 def connectClient():
-    print(">>>>>>>>> Client connected on rooth path with session id " + request.sid)
+    print("=> Client connected on rooth path with session id " + request.sid)
 
 
 @socketio.on('image', namespace='/')
@@ -57,8 +57,7 @@ def newImage(request_object):
     draw = img_rgb.copy()
     for box_index in range(face_boxes.shape[0]):
         bbox = face_boxes[box_index]
-        cv2.rectangle(draw, (int(bbox[0]), int(bbox[1])),
-                        (int(bbox[2]), int(bbox[3])), (255, 0, 0), 4)
+        cv2.rectangle(draw, (int(bbox[0]), int(bbox[1])), (int(bbox[2]), int(bbox[3])), (255, 0, 0), 4)
 
 
     draw_bgr = cv2.cvtColor(draw, cv2.COLOR_RGB2BGR)

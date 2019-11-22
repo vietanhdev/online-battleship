@@ -13,6 +13,7 @@ import torch.backends.cudnn as cudnn
 import torchvision
 import torch.nn.functional as F
 from PIL import Image
+import time
 
 from .utils import crop_face_loosely, plot_pose_cube
 
@@ -28,7 +29,11 @@ class DeepHeadPoseService:
 
     def inference(self, image, face_boxes):
 
+        # start_time = time.time()
+
         crop = crop_face_loosely(face_boxes[0], image, 224)
+
+        # print("Crop time: " + str(time.time() - start_time))
 
         img = Image.fromarray(crop)
 
@@ -47,6 +52,8 @@ class DeepHeadPoseService:
 
         yaw, pitch, roll = self.model(img)
 
+        # print("Predict time: " + str(time.time() - start_time))
+
         yaw_predicted = F.softmax(yaw)
         pitch_predicted = F.softmax(pitch)
         roll_predicted = F.softmax(roll)
@@ -57,6 +64,7 @@ class DeepHeadPoseService:
         roll_predicted = torch.sum(roll_predicted.data[0] * idx_tensor) * 3 - 99
 
         ploted_vis = plot_pose_cube(crop, yaw_predicted, pitch_predicted, roll_predicted)
+
         cv2.imshow("Debug-xx", ploted_vis)
         cv2.waitKey(1)
 
