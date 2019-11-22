@@ -3,58 +3,66 @@ import torch
 import os
 import cv2
 
-def crop_face_loosely(shape, img, input_size):
-    
-    max_x = min(shape[2], img.shape[1])
-    min_x = max(shape[0], 0)
-    max_y = min(shape[3], img.shape[0])
-    min_y = max(shape[1], 0)
-    
-    Lx = max_x - min_x
-    Ly = max_y - min_y
-    
-    Lmax = int(max(Lx, Ly) * 2.0)
-    
-    delta = Lmax // 2
-    
-    center_x = (shape[2] + shape[0]) // 2
-    center_y = (shape[3] + shape[1]) // 2
-    start_x = int(center_x - delta)
-    start_y = int(center_y - delta - 30)
-    end_x = int(center_x + delta)
-    end_y = int(center_y + delta - 30)
-    
-    if start_y < 0:
-        start_y = 0
-    if start_x < 0:
-        start_x = 0
-    if end_x > img.shape[1]:
-        end_x = img.shape[1]
-    if end_y > img.shape[0]:
-        end_y = img.shape[0]
-    
-    crop_face = img[start_y:end_y, start_x:end_x]
-    
-    cv2.imshow('crop_face', crop_face)
-    
-    crop_face = cv2.resize(crop_face, (input_size, input_size))
-    # input_img = np.asarray(crop_face, dtype=np.float32)
-    # normed_img = (input_img - input_img.mean()) / input_img.std()
-    
-    # return normed_img
+import sys, os, argparse
 
-    return crop_face
+import numpy as np
+import cv2
+
+import torch
+import torch.nn as nn
+from torch.autograd import Variable
+from torch.utils.data import DataLoader
+from torchvision import transforms
+import torch.backends.cudnn as cudnn
+import torchvision
+import torch.nn.functional as F
+from PIL import Image
+
+from .utils import crop_face_loosely, plot_pose_cube
 
 class DeepHeadPoseService:
 
     def __init__(self):
 
-        self.net = hopenetlite_v2.HopeNetLite()
+        self.model = hopenetlite_v2.HopeNetLite()
         model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model/hopenet_lite_6MB.pkl')
         saved_state_dict = torch.load(model_path, map_location="cpu")
-        self.net.load_state_dict(saved_state_dict, strict=False)
+        self.model.load_state_dict(saved_state_dict, strict=False)
+        self.model.eval()
 
     def inference(self, image, face_boxes):
+
         crop = crop_face_loosely(face_boxes[0], image, 224)
+
+        img = Image.fromarray(crop)
+
+        idx_tensor = [idx for idx in range(66)]
+        idx_tensor = torch.FloatTensor(idx_tensor)
+
+        transformations = transforms.Compose([transforms.Scale(224),
+        transforms.CenterCrop(224), transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
+
+        # Transform
+        img = transformations(img)
+        img_shape = img.size()
+        img = img.view(1, img_shape[0], img_shape[1], img_shape[2])
+        img = Variable(img)
+
+        yaw, pitch, roll = self.model(img)
+
+        yaw_predicted = F.softmax(yaw)
+        pitch_predicted = F.softmax(pitch)
+        roll_predicted = F.softmax(roll)
+
+        # Get continuous predictions in degrees.
+        yaw_predicted = torch.sum(yaw_predicted.data[0] * idx_tensor) * 3 - 99
+        pitch_predicted = torch.sum(pitch_predicted.data[0] * idx_tensor) * 3 - 99
+        roll_predicted = torch.sum(roll_predicted.data[0] * idx_tensor) * 3 - 99
+
+        ploted_vis = plot_pose_cube(crop, yaw_predicted, pitch_predicted, roll_predicted)
+        cv2.imshow("Debug-xx", ploted_vis)
+        cv2.waitKey(1)
+
         # resized = cv2.resize(image, (224, 224))
-        return self.net(torch.tensor(crop))
+        return yaw_predicted.item(), pitch_predicted.item(), roll_predicted.item()

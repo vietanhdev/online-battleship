@@ -36,7 +36,7 @@ class FaceDetector:
         start=time.time()
         res= self.model.inference(image_fornet)
 
-        print('xx',time.time()-start)
+        # print('xx',time.time()-start)
         boxes=res['boxes'].numpy()
         scores=res['scores'].numpy()
         num_boxes=res['num_boxes'].numpy()

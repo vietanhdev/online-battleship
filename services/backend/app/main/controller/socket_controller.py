@@ -50,7 +50,8 @@ def newImage(request_object):
     else:
         face_boxes = blazeface_service.inference(img_rgb)
 
-    print(headpose_service.inference(img_rgb, face_boxes))
+    if len(face_boxes) > 0:
+        print(headpose_service.inference(img_rgb, face_boxes))
 
     # Draw faces
     draw = img_rgb.copy()
