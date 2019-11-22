@@ -63,7 +63,9 @@ class DeepHeadPoseService:
             pitch_predicted = torch.sum(pitch_predicted.data[0] * idx_tensor) * 3 - 99
             roll_predicted = torch.sum(roll_predicted.data[0] * idx_tensor) * 3 - 99
 
-            preds = list(face_boxes[i]) + [yaw_predicted.item(), pitch_predicted.item(), roll_predicted.item()]
+            pred = list(face_boxes[i]) + [yaw_predicted.item(), pitch_predicted.item(), roll_predicted.item()]
+
+            preds.append(pred)
 
             center_x = (face_boxes[i][2] + face_boxes[i][0]) // 2
             center_y = (face_boxes[i][3] + face_boxes[i][1]) // 2
