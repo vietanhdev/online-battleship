@@ -11,7 +11,10 @@
 }
 
 .canvas-stack canvas {
-    position: absolute;
+    /* position: absolute;
     left: 0;
-    top: 0;
+    top: 0; */
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
