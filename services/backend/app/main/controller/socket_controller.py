@@ -58,14 +58,14 @@ def newImage(request_object):
         }
         for i in range(len(detections)):
             detection = {
-                "x_min": float(detections[i][0]),
-                "y_min": float(detections[i][1]),
-                "x_max": float(detections[i][2]),
-                "y_max": float(detections[i][3]),
-                "confidence": float(detections[i][4]),
-                "yaw": float(detections[i][5]),
-                "pitch": float(detections[i][6]),
-                "roll": float(detections[i][7]),
+                "x_min": float(detections[i]["bbox"][0]),
+                "y_min": float(detections[i]["bbox"][1]),
+                "x_max": float(detections[i]["bbox"][2]),
+                "y_max": float(detections[i]["bbox"][3]),
+                "confidence": float(detections[i]["confidence"]),
+                "yaw": float(detections[i]["yaw"]),
+                "pitch": float(detections[i]["pitch"]),
+                "roll": float(detections[i]["roll"]),
             }
             result["detections"].append(detection)
         

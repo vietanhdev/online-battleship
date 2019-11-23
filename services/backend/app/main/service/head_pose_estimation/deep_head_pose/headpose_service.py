@@ -14,6 +14,7 @@ import torchvision
 import torch.nn.functional as F
 from PIL import Image
 import time
+import dlib
 
 from .utils import crop_face_loosely, plot_pose_cube
 
@@ -63,7 +64,13 @@ class DeepHeadPoseService:
             pitch_predicted = torch.sum(pitch_predicted.data[0] * idx_tensor) * 3 - 99
             roll_predicted = torch.sum(roll_predicted.data[0] * idx_tensor) * 3 - 99
 
-            pred = list(face_boxes[i]) + [yaw_predicted.item(), pitch_predicted.item(), roll_predicted.item()]
+            pred = {
+                "bbox": face_boxes[i][:4],
+                "confidence": face_boxes[i][-1],
+                "yaw": yaw_predicted.item(),
+                "pitch": pitch_predicted.item(),
+                "roll": roll_predicted.item()
+            }
 
             preds.append(pred)
 
