@@ -8,7 +8,7 @@ let forwardTimes = []
 let withBoxes = true
 
 
-var address = io.connect('http://localhost/rooms');
+var address = io.connect();
 
 var socket = io.connect(address);
 
