@@ -1,0 +1,17 @@
+#tryon-canvas {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.canvas-stack {
+    position: relative;
+    height: 45rem;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.canvas-stack canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+}

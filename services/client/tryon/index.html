@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="content-language" content="en-EN" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Virtual 3D Glasses Try On</title>
+
+    <script type="text/javascript" src="libs/jquery/jquery-3.4.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+    <!-- OPENCV -->
+    <script type="text/javascript" src="libs/opencv/opencv.js"></script>
+
+    <!-- INCLUDE THREE.JS -->
+    <script type="text/javascript" src="libs/threejs/v106/three.min.js"></script>
+
+    <script src="libs/helpers/MediaStreamAPIHelper.js"></script>
+
+    <!-- INCLUDE RESIZER -->
+    <script type="text/javascript" src="libs/helpers/Resizer.js"></script>
+
+    <!-- INCLUDE  THREE.JS HELPER -->
+    <script type="text/javascript" src="libs/helpers/ThreejsHelper.js"></script>
+
+    <!-- INCLUDE ADDDRAGEVENTLISTENER.JS -->
+    <script src='libs/helpers/addDragEventListener.js'></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+
+    <!-- INCLUDE DEMO SCRIPT -->
+    <script src="./TryOnScene.js"></script>
+    <script type="text/javascript" src="./index.js"></script>
+
+    <link rel="stylesheet" href="style.css" type="text/css" />
+
+
+</head>
+
+<body onload="main()" style='color: white'>
+
+    <div id="navbar"></div>
+    <div class="center-content page-container">
+
+        <canvas width="600" height="600" id='stream-canvas'></canvas>
+        <div class="canvas-stack">
+            <canvas width="600" height="600" id='tryon-canvas'></canvas>
+            <canvas width="600" height="600" id='debug-canvas'></canvas>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
