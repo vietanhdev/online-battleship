@@ -30,6 +30,6 @@ def create_app(config_name):
     CORS(app)
     db.init_app(app)
     flask_bcrypt.init_app(app)
-    socketio.init_app(app, async_mode='eventlet', logger=False, engineio_logger=False)
+    socketio.init_app(app, async_mode='eventlet', logger=False, engineio_logger=False, cors_allowed_origins="*")
 
     return app

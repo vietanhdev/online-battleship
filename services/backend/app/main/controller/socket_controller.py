@@ -51,7 +51,25 @@ def newImage(request_object):
         face_boxes = blazeface_service.inference(img_rgb)
 
     if len(face_boxes) > 0:
-        print(headpose_service.inference(img_rgb, face_boxes))
+        detections = headpose_service.inference(img_rgb, face_boxes)
+        result = {
+            "image_size": {"width": 300, "height": 300},
+            "detections": []
+        }
+        for i in range(len(detections)):
+            detection = {
+                "x_min": float(detections[i][0]),
+                "y_min": float(detections[i][1]),
+                "x_max": float(detections[i][2]),
+                "y_max": float(detections[i][3]),
+                "confidence": float(detections[i][4]),
+                "yaw": float(detections[i][5]),
+                "pitch": float(detections[i][6]),
+                "roll": float(detections[i][7]),
+            }
+            result["detections"].append(detection)
+        
+        emit('response', result, broadcast=False, namespace='/')
 
     # Draw faces
     draw = img_rgb.copy()
@@ -65,7 +83,7 @@ def newImage(request_object):
     cv2.imshow("Debug", draw_bgr)
     cv2.waitKey(1)
 
-    # Notify sender response result
+    # # Notify sender response result
     # retval, buffer = cv2.imencode('.jpg', draw_bgr)
     # draw_base64 = "data:image/png;base64,{}".format(base64.b64encode(buffer).decode("utf-8"))
-    # emit('image_back', draw_base64, broadcast=False, namespace='/')
+    # emit('response', draw_base64, broadcast=False, namespace='/')
