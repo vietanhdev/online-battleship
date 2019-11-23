@@ -12,7 +12,7 @@ import os
 
 db = SQLAlchemy()
 
-r_db = redis.Redis(host='localhost', port=6379, db=0)
+r_db = redis.Redis(host=os.getenv("REDIS_HOST", "localhost"), port=os.getenv("REDIS_PORT", "localhost"), db=0)
 r_db.flushdb()
 flask_bcrypt = Bcrypt()
 socketio = SocketIO()
@@ -24,8 +24,7 @@ logging.getLogger('engineio').setLevel(logging.ERROR)
 def create_app(config_name):
 
     client_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../client')
-    print(client_folder)
-    app = Flask(__name__, static_folder=client_folder)
+    app = Flask(__name__, static_folder=os.getenv("STATIC_FOLDER", client_folder), static_url_path='')
     app.config.from_object(config_by_name[config_name])
     CORS(app)
     db.init_app(app)

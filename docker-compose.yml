@@ -17,9 +17,12 @@ services:
       - DATABASE_PROD_URL=sqlite:///database.db
       - SECRET_KEY=my_precious_secret_key
       - ADMIN_SECRET_KEY=admin_precious_secret_key
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - STATIC_FOLDER=${UNSET}
       - RECREATE_DB=true # true/false
     depends_on:
-      - database
+      # - database
       - redis
 
   # database:
