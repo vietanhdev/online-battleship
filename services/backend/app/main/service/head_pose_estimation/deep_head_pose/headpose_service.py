@@ -15,6 +15,7 @@ import torch.nn.functional as F
 from PIL import Image
 import time
 import dlib
+from imutils import face_utils
 
 from .utils import crop_face_loosely, plot_pose_cube
 
@@ -27,6 +28,9 @@ class DeepHeadPoseService:
         saved_state_dict = torch.load(model_path, map_location="cpu")
         self.model.load_state_dict(saved_state_dict, strict=False)
         self.model.eval()
+
+        landmark_model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model/shape_predictor_5_face_landmarks.dat')
+        self.landmark_predictor = dlib.shape_predictor(landmark_model_path)
 
     def inference(self, image, face_boxes):
 
@@ -53,8 +57,6 @@ class DeepHeadPoseService:
 
             yaw, pitch, roll = self.model(img)
 
-            
-
             yaw_predicted = F.softmax(yaw, dim=1)
             pitch_predicted = F.softmax(pitch, dim=1)
             roll_predicted = F.softmax(roll, dim=1)
@@ -64,12 +66,21 @@ class DeepHeadPoseService:
             pitch_predicted = torch.sum(pitch_predicted.data[0] * idx_tensor) * 3 - 99
             roll_predicted = torch.sum(roll_predicted.data[0] * idx_tensor) * 3 - 99
 
+
+            # Determine the facial landmarks for the face region, then
+            # convert the facial landmark (x, y)-coordinates to a NumPy
+            # array
+            landmark = self.landmark_predictor(image, dlib.rectangle(int(face_boxes[i][0]), 
+                        int(face_boxes[i][1]), int(face_boxes[i][2]), int(face_boxes[i][3])))
+            landmark = face_utils.shape_to_np(landmark)
+
             pred = {
                 "bbox": face_boxes[i][:4],
                 "confidence": face_boxes[i][-1],
                 "yaw": yaw_predicted.item(),
                 "pitch": pitch_predicted.item(),
-                "roll": roll_predicted.item()
+                "roll": roll_predicted.item(),
+                "landmark": landmark
             }
 
             preds.append(pred)
