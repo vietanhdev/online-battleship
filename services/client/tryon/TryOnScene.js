@@ -50,14 +50,12 @@ class TryOnScene {
             alert('Cannot get video bro :(');
         }, {
             video: {
-                width: 300,
-                height: 300
+                width: 600,
+                height: 600
             }, // mediaConstraints
             audio: false
         });
-
     }
-
 
     // callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
     detect_callback(isDetected) {
