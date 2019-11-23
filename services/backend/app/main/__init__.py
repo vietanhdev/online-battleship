@@ -12,7 +12,7 @@ import os
 
 db = SQLAlchemy()
 
-r_db = redis.Redis(host=os.getenv("REDIS_HOST", "localhost"), port=os.getenv("REDIS_PORT", "localhost"), db=0)
+r_db = redis.Redis(host=os.getenv("REDIS_HOST", "localhost"), port=os.getenv("REDIS_PORT", 6379), db=0)
 r_db.flushdb()
 flask_bcrypt = Bcrypt()
 socketio = SocketIO()
