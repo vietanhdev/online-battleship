@@ -53,7 +53,7 @@ def newImage(request_object):
     if len(face_boxes) > 0:
         detections = headpose_service.inference(img_rgb, face_boxes)
         result = {
-            "image_size": {"width": 300, "height": 300},
+            "image_size": {"width": 128, "height": 128},
             "detections": []
         }
         for i in range(len(detections)):

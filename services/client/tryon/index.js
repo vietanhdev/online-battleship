@@ -55,10 +55,10 @@ const getFrame = (videoEl) => {
 
     const canvas =  document.getElementById('stream-canvas');
     
-    canvas.width = videoEl.videoWidth;
-    canvas.height = videoEl.videoHeight;
+    canvas.width = 128;
+    canvas.height = 128;
     let ctx = canvas.getContext('2d');
-    ctx.drawImage(videoEl, 0, 0);
+    ctx.drawImage(videoEl, 0, 0, 128, 128);
 
     let chunks = canvas.toDataURL('image/jpeg').split(',');
     let binaryString;
