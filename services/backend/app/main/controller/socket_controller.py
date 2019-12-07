@@ -69,8 +69,6 @@ def newImage(request_object):
                 "landmark": detections[i]["landmark"],
             }
             result["detections"].append(detection)
-
-        print(result["detections"])
         
         emit('response', result, broadcast=False, namespace='/')
 

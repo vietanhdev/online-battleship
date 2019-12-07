@@ -85,7 +85,7 @@ async function onPlay(videoEl) {
 
     socket.emit('image', {'data': getFrame(videoEl)});
 
-    setTimeout(() => onPlay(videoEl), 1000/10)
+    setTimeout(() => onPlay(videoEl), 1000/5)
 }
 
 
@@ -98,6 +98,9 @@ socket.on('response', function(response_object){
         return
     }
 
+    console.log(result);
+    
+
     let face = result["detections"][0]
     let imWidth = result["image_size"]["width"];
     let imHeight = result["image_size"]["height"];
@@ -107,14 +110,14 @@ socket.on('response', function(response_object){
     let brY = face["y_max"];
     let landmark = face["landmark"]; // https://www.pyimagesearch.com/2018/04/02/faster-facial-landmark-detector-with-dlib/
 
-    let middleEyeX = (landmark[0][0] + landmark[2][0]) / 2;
-    let middleEyeY = (landmark[0][1] + landmark[2][1]) / 2;
-    let x = middleEyeX * 0.25 + landmark[4][0] * 0.75;
-    let y = middleEyeY * 0.25 + landmark[4][1] * 0.75;
+    let middleEyeX = (landmark[0][0] + landmark[1][0]) / 2;
+    let middleEyeY = (landmark[0][1] + landmark[1][1]) / 2;
+    let x = middleEyeX * 0.05 + landmark[2][0] * 0.95;
+    let y = middleEyeY * 0.05 + landmark[2][1] * 0.95;
     let xRelative = 2 * (x / imWidth) - 1;
     let yRelative = - 2 * (y / imHeight) + 1;
 
-    let faceSize = Math.abs(landmark[2][0] - landmark[0][0]) / imWidth * 1.3;
+    let faceSize = Math.abs(landmark[1][0] - landmark[0][0]) / imWidth * 2;
 
     let headPose = {
         detected: face["confidence"],

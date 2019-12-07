@@ -42,12 +42,20 @@ class DeepHeadPoseService:
 
         if len(face_crops) > 0:
             batch_yaw, batch_pitch, batch_roll, batch_landmark = self.model.predict_batch(face_crops)
+            batch_landmark = batch_landmark.tolist()[0]
 
             for i in range(batch_yaw.shape[0]):
                 yaw = batch_yaw[i]
                 pitch = batch_pitch[i]
                 roll = batch_roll[i]
-                landmark = batch_landmark[i]
+
+                landmark = []
+                for j in range(len(batch_landmark) // 2):
+                    x = batch_landmark[2 * j]
+                    y = batch_landmark[2 * j + 1]
+                    x, y = utils.get_original_landmark_point(x, y, face_boxes_loosen[i], self.INPUT_SIZE)
+                    draw = cv2.circle(draw, (x, y), 2, (255, 0, 0), 2)
+                    landmark.append([x, y])
 
                 pred = {
                     "bbox": face_boxes[i][:4],
