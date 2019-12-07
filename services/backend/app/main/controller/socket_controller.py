@@ -51,7 +51,7 @@ def newImage(request_object):
         face_boxes = blazeface_service.inference(img_rgb)
 
     if len(face_boxes) > 0:
-        detections = headpose_service.inference(img_rgb, face_boxes)
+        detections = headpose_service.inference(cv_img, face_boxes)
         result = {
             "image_size": {"width": img_rgb.shape[1], "height": img_rgb.shape[0]},
             "detections": []
@@ -66,9 +66,11 @@ def newImage(request_object):
                 "yaw": float(detections[i]["yaw"]),
                 "pitch": float(detections[i]["pitch"]),
                 "roll": float(detections[i]["roll"]),
-                "landmark": detections[i]["landmark"].tolist(),
+                "landmark": detections[i]["landmark"],
             }
             result["detections"].append(detection)
+
+        print(result["detections"])
         
         emit('response', result, broadcast=False, namespace='/')
 
