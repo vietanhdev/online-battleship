@@ -1,94 +1,69 @@
-from . import hopenetlite_v2
 import torch
 import os
 import cv2
 import sys, os, argparse
 import numpy as np
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
-from torch.utils.data import DataLoader
-from torchvision import transforms
-import torch.backends.cudnn as cudnn
-import torchvision
-import torch.nn.functional as F
 from PIL import Image
 import time
 import dlib
 from imutils import face_utils
 
 from .utils import crop_face_loosely, plot_pose_cube
+from . import models, utils
 
 class DeepHeadPoseService:
 
     def __init__(self):
 
-        self.model = hopenetlite_v2.HopeNetLite()
-        model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model/hopenet_lite_6MB.pkl')
-        saved_state_dict = torch.load(model_path, map_location="cpu")
-        self.model.load_state_dict(saved_state_dict, strict=False)
-        self.model.eval()
+        self.BIN_NUM = 66
+        self.INPUT_SIZE = 128
+        self.BATCH_SIZE = 16
 
-        landmark_model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model/shape_predictor_5_face_landmarks.dat')
-        self.landmark_predictor = dlib.shape_predictor(landmark_model_path)
+        model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model/shuffle_net_dhp_best_model.h5')
+        self.model = models.HeadPoseNet(None, self.BIN_NUM, batch_size=self.BATCH_SIZE, input_size=self.INPUT_SIZE)
+        self.model.train(model_path, load_weight=True)
 
     def inference(self, image, face_boxes):
-
-        transformations = transforms.Compose([transforms.Scale(224),
-        transforms.CenterCrop(224), transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
 
         preds = []
 
         draw = image.copy()
 
         start_time = time.time()
+
+        face_crops = []
+        face_boxes_loosen = []
         for i in range(len(face_boxes)):
-            crop = crop_face_loosely(face_boxes[i], image, 224)
-            img = Image.fromarray(crop)
-            idx_tensor = [idx for idx in range(66)]
-            idx_tensor = torch.FloatTensor(idx_tensor)
+            bbox = face_boxes[i]
+            face_crop = utils.crop_face_loosely(bbox, image, self.INPUT_SIZE)
+            face_box_loosen, _, _ = utils.get_loose_bbox(bbox, image, self.INPUT_SIZE)
+            face_boxes_loosen.append(face_box_loosen)
+            face_crops.append(face_crop)
 
-            # Transform
-            img = transformations(img)
-            img_shape = img.size()
-            img = img.view(1, img_shape[0], img_shape[1], img_shape[2])
-            img = Variable(img)
+        if len(face_crops) > 0:
+            batch_yaw, batch_pitch, batch_roll, batch_landmark = self.model.predict_batch(face_crops)
 
-            yaw, pitch, roll = self.model(img)
+            for i in range(batch_yaw.shape[0]):
+                yaw = batch_yaw[i]
+                pitch = batch_pitch[i]
+                roll = batch_roll[i]
+                landmark = batch_landmark[i]
 
-            yaw_predicted = F.softmax(yaw, dim=1)
-            pitch_predicted = F.softmax(pitch, dim=1)
-            roll_predicted = F.softmax(roll, dim=1)
+                pred = {
+                    "bbox": face_boxes[i][:4],
+                    "confidence": face_boxes[i][-1],
+                    "yaw": yaw,
+                    "pitch": pitch,
+                    "roll": roll,
+                    "landmark": landmark
+                }
 
-            # Get continuous predictions in degrees.
-            yaw_predicted = torch.sum(yaw_predicted.data[0] * idx_tensor) * 3 - 99
-            pitch_predicted = torch.sum(pitch_predicted.data[0] * idx_tensor) * 3 - 99
-            roll_predicted = torch.sum(roll_predicted.data[0] * idx_tensor) * 3 - 99
+                preds.append(pred)
 
-
-            # Determine the facial landmarks for the face region, then
-            # convert the facial landmark (x, y)-coordinates to a NumPy
-            # array
-            landmark = self.landmark_predictor(image, dlib.rectangle(int(face_boxes[i][0]), 
-                        int(face_boxes[i][1]), int(face_boxes[i][2]), int(face_boxes[i][3])))
-            landmark = face_utils.shape_to_np(landmark)
-
-            pred = {
-                "bbox": face_boxes[i][:4],
-                "confidence": face_boxes[i][-1],
-                "yaw": yaw_predicted.item(),
-                "pitch": pitch_predicted.item(),
-                "roll": roll_predicted.item(),
-                "landmark": landmark
-            }
-
-            preds.append(pred)
-
-            center_x = (face_boxes[i][2] + face_boxes[i][0]) // 2
-            center_y = (face_boxes[i][3] + face_boxes[i][1]) // 2
-            max_x = min(face_boxes[i][2], image.shape[1])
-            ploted_vis = plot_pose_cube(draw, yaw_predicted, pitch_predicted, roll_predicted, center_x, center_y, size=2 * (max_x - center_x))
+                center_x = (face_boxes[i][2] + face_boxes[i][0]) // 2
+                center_y = (face_boxes[i][3] + face_boxes[i][1]) // 2
+                max_x = min(face_boxes[i][2], image.shape[1])
+                ploted_vis = plot_pose_cube(draw, yaw, pitch, roll, center_x, center_y, size=2 * (max_x - center_x))
 
         print("Predict time: " + str(time.time() - start_time))
 
