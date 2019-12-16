@@ -9,7 +9,7 @@ seq = [None]
 
 def load_aug():
 
-	sometimes = lambda aug: iaa.Sometimes(0.5, aug)
+	sometimes = lambda aug: iaa.Sometimes(0.3, aug)
 
 	seq[0] = iaa.Sequential(
 		[
@@ -17,13 +17,22 @@ def load_aug():
 			# don't execute all of them, as that would often be way too strong
 			iaa.SomeOf((0, 5),
 				[
+					iaa.CropAndPad(
+						percent=(-0.2, 0.2),
+						pad_mode=ia.ALL,
+						pad_cval=(0, 255)
+					),
+					iaa.Crop(
+						percent=0.25,
+						keep_size=True
+					),
 					iaa.OneOf([
-						iaa.GaussianBlur((0, 1.0)), # blur images with a sigma between 0 and 2.0
+						iaa.GaussianBlur((0, 0.2)), # blur images with a sigma between 0 and 2.0
 						iaa.AverageBlur(k=(2, 3)), # blur image using local means
-						iaa.MedianBlur(k=(3, 5)), # blur image using local medians
+						iaa.MedianBlur(k=(1, 3)), # blur image using local medians
 					]),
-					iaa.Sharpen(alpha=(0, 1.0), lightness=(0.75, 1.5)), # sharpen images
-					iaa.Emboss(alpha=(0, 1.0), strength=(0, 2.0)), # emboss images
+					iaa.Sharpen(alpha=(0, 0.5), lightness=(0.75, 1.5)), # sharpen images
+					iaa.Emboss(alpha=(0, 0.5), strength=(0, 0.5)), # emboss images
 					# search either for all edges or for directed edges,
 					iaa.AdditiveGaussianNoise(loc=0, scale=(0.0, 0.05*255), per_channel=0.5), # add gaussian noise to images
 					iaa.Add((-10, 10), per_channel=0.5), # change brightness of images (by -10 to 10 of original value)
@@ -32,6 +41,14 @@ def load_aug():
 					# per channel) or change the brightness of subareas
 					iaa.contrast.LinearContrast((0.5, 2.0), per_channel=0.5), # improve or worsen the contrast
 					iaa.Grayscale(alpha=(0.0, 0.5)),
+					iaa.AdditiveLaplaceNoise(scale=0.05*255),
+					iaa.AdditivePoissonNoise(lam=2),
+					iaa.Multiply(mul=(0.5, 1.5)),
+					iaa.Dropout(p=(0.1, 0.2)),
+					iaa.CoarseDropout(p=0.1, size_percent=0.05),
+					iaa.MotionBlur(k=3),
+					iaa.LinearContrast(),
+					iaa.AveragePooling(2)
 				],
 				random_order=True
 			)
@@ -40,11 +57,18 @@ def load_aug():
 	)
 
 
-def augment_img(img):
+def augment_img(image, landmark):
 	if seq[0] is None:
 		load_aug()
-	aug_det = seq[0].to_deterministic() 
-	image_aug = aug_det.augment_image( img )
-	return image_aug
+	image_aug, landmark = seq[0](images=np.array([image]), keypoints=np.array([landmark]))
+	image_aug = image_aug[0]
+	landmark = landmark[0]
+
+	# draw = image_aug.copy()
+	# for i in range(landmark.shape[0]):
+	# 	draw = cv2.circle(draw, (int(landmark[i][0]), int(landmark[i][1])), 2, (0,255,0), 2)
+	# cv2.imshow("draw", draw)
+	# cv2.waitKey(0)
+	return image_aug, landmark
 
 

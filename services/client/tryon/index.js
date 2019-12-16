@@ -98,9 +98,6 @@ socket.on('response', function(response_object){
         return
     }
 
-    console.log(result);
-    
-
     let face = result["detections"][0]
     let imWidth = result["image_size"]["width"];
     let imHeight = result["image_size"]["height"];
@@ -117,7 +114,7 @@ socket.on('response', function(response_object){
     let xRelative = 2 * (x / imWidth) - 1;
     let yRelative = - 2 * (y / imHeight) + 1;
 
-    let faceSize = Math.abs(landmark[1][0] - landmark[0][0]) / imWidth * 2;
+    let faceSize = Math.abs(face["x_max"] - face["x_min"]) / imWidth * 0.5;
 
     let headPose = {
         detected: face["confidence"],
@@ -129,7 +126,6 @@ socket.on('response', function(response_object){
         y: yRelative, // From -1 to 1, from bottom to top
     }
     tryOnScene.update(headPose);
-    console.log(headPose);
-        
+
 
 })
