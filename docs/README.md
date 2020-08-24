@@ -1,6 +1,6 @@
 # Online Battle Ship game
 
-This project is a Battleship Online game system.
+This project is an Online Battleship game site, which is built with ReactJS, Flask and Websocket.
 
 **Main functions:**
 - Play Battle Ship online with friends.
